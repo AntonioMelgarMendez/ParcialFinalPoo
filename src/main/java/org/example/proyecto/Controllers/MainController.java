@@ -1,4 +1,4 @@
-package org.example.parcialpoo;
+package org.example.proyecto.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

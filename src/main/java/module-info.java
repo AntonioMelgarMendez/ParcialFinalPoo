@@ -1,8 +1,10 @@
-module org.example.parcialpoo {
+module org.example.proyecto {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens org.example.parcialpoo to javafx.fxml;
-    exports org.example.parcialpoo;
+    opens org.example.proyecto to javafx.fxml;
+    exports org.example.proyecto;
+    exports org.example.proyecto.Controllers;
+    opens org.example.proyecto.Controllers to javafx.fxml;
 }
