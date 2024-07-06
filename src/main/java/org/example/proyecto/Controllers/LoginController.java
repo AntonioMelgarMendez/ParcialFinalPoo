@@ -64,6 +64,11 @@ public class LoginController {
             if (conn != null) {
                 System.out.println("Connection successful");
                 showAlert("Conexión Exitosa", "Conexión a la base de datos", "Se ha conectado correctamente a la base de datos.");
+                 DataBaseCredentials.getInstance().setUsername(user);
+                 DataBaseCredentials.getInstance().setPassword(pass);
+                 DataBaseCredentials.getInstance().setPort(port);
+                 DataBaseCredentials.getInstance().setUrl(url);
+
                 return true;
             } else {
                 System.out.println("Connection failed");
