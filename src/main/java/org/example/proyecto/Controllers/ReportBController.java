@@ -30,7 +30,7 @@ public class ReportBController {
     private Label totalLabel;
 
     @FXML
-    private void volver(ActionEvent event) {
+    private void Back(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         SceneChanger.changeScene(stage, "/org/example/proyecto/ViewsFXML/Main.fxml");
     }
@@ -47,26 +47,27 @@ public class ReportBController {
     private void calcularGasto() {
         String idClienteText = idCliente.getText();
         String mesString = mesChoiceBox.getValue();
-        String ano = anoChoiceBox.getValue();
+        String year = anoChoiceBox.getValue();
 
-        if (idClienteText.isEmpty() || mesString == null || ano == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Por favor completa todos los campos.");
-            alert.show();
+        if (idClienteText.isEmpty() || mesString == null || year == null) {
+            AlertsManager.showAlert("Campos vacios","Faltan datos","Por favor ingrese todos los compos");
             return;
         }
 
         int idCliente = Integer.parseInt(idClienteText);
-        int anoInt = Integer.parseInt(ano);
-
+        int anoInt = Integer.parseInt(year);
         // Mapeo de nombres de meses a números de mes
         String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
         int mesInt = Arrays.asList(meses).indexOf(mesString) + 1; // Sumar 1 porque los meses en Java comienzan en 1
-
         double totalGasto = 0;
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbSistemaBanco", "root", "yaelgaymer")) {
+        CalcularTotal(idCliente,anoInt,mesInt,totalGasto);
+    }
+    private void CalcularTotal(int idCliente, int anoInt, int mesInt, double totalGasto){
+        try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) {
+            try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
+                ps1.executeUpdate();
+            }
             String query = "SELECT SUM(totalMonto) AS total FROM transaccion WHERE idCliente = ? AND MONTH(fecha_compra) = ? AND YEAR(fecha_compra) = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idCliente);
@@ -77,15 +78,18 @@ public class ReportBController {
             if (resultSet.next()) {
                 totalGasto = resultSet.getDouble("total");
             }
+            if(totalGasto ==0){
+                totalLabel.setText("No hay compras");
+            }
+            else {
+                totalLabel.setText(String.format("%.2f", totalGasto));
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Error al calcular el gasto del cliente.");
-            alert.show();
+            AlertsManager.showAlert("Error calculando el total","Se ha detectado un erro","Ha ocurrido un error "+e.getMessage());
         }
 
-        totalLabel.setText(String.format("%.2f", totalGasto));
     }
 
 

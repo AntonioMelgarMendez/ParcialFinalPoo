@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ReportBController">
    <children>
-      <Button layoutX="356.0" layoutY="15.0" mnemonicParsing="false" onAction="#volver" prefHeight="17.0" prefWidth="67.0" text="volver">
+      <Button layoutX="356.0" layoutY="15.0" mnemonicParsing="false" onAction="#Back" prefHeight="17.0" prefWidth="67.0" text="volver">
          <font>
             <Font size="15.0" />
          </font></Button>
