@@ -75,8 +75,10 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
         Date endDate = Date.valueOf(finDate); // 00038623 Convierte la fecha de fin a tipo Date de SQL
 
         transaccionList = FXCollections.observableArrayList(); // 00038623 Inicializa la lista observable de transacciones
-
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbSistemaBanco", "root", "yaelgaymer")) { // 00038623 Intenta establecer una conexión con la base de datos
+        try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) { // 00038623 Establece una conexión con la base de datos
+            try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00038623 Cambia a la base de datos específica
+                ps1.executeUpdate(); // 00038623 Ejecuta la actualización para usar la base de datos
+            }
             String query = "SELECT * FROM transaccion WHERE idCliente = ? AND fecha_compra BETWEEN ? AND ?"; // 00038623 Define la consulta SQL
             PreparedStatement preparedStatement = connection.prepareStatement(query); // 00038623 Prepara la consulta SQL
             preparedStatement.setInt(1, idCliente); // 00038623 Establece el valor del primer parámetro (ID del cliente)
