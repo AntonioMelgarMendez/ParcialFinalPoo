@@ -1,7 +1,9 @@
 package org.example.proyecto.Controllers.Utils;
 
 import javafx.scene.control.*;
-public class LimpiarDatos {
+import javafx.scene.layout.VBox;
+
+public class CleanData {
     public static void limpiarDatos(TextField textID, ComboBox<String> comboBox, Label total){
         textID.setText("");
         comboBox.setValue(null);
@@ -15,10 +17,11 @@ public class LimpiarDatos {
         tvData.getItems().clear();
     }
 
-    public static void limpiarDatos(TextField textID, TableView<String> tvCredit, TableView<String> tvDebit){
+    public static void limpiarDatos(TextField textID, VBox... VBoxes){
         textID.setText("");
-        tvCredit.getItems().clear();
-        tvDebit.getItems().clear();
+        for (VBox VBox : VBoxes){
+            VBox.getChildren().clear();
+        }
     }
 
     public static void limpiarDatos(ComboBox<String> facilitador, TableView<String> tvData) {
