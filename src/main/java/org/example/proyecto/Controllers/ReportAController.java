@@ -1,117 +1,106 @@
 package org.example.proyecto.Controllers;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 
-public class ReportAController {
+public class ReportAController { // 00038623 Declara la clase ReportAController
 
+    @FXML // 00038623 Anotación FXML para vincular el campo con el componente del FXML
+    private TextField idCliente; // 00038623 Campo para el ID del cliente
     @FXML
-    private TextField idCliente;
+    private DatePicker fechaInicio; // 00038623 Campo para la fecha de inicio
     @FXML
-    private DatePicker fechaInicio;
+    private DatePicker fechaFin; // 00038623 Campo para la fecha de fin
     @FXML
-    private DatePicker fechaFin;
+    private TableView<Transaccion> tableView; // 00038623 Tabla para mostrar transacciones
     @FXML
-    private TableView<Transaccion> tableView;
+    private TableColumn<Transaccion, Integer> columnIdCliente; // 00038623 Columna para el ID del cliente
     @FXML
-    private TableColumn<Transaccion, Integer> columnIdCliente;
+    private TableColumn<Transaccion, Integer> columnIdTransaccion; // 00038623 Columna para el ID de la transacción
     @FXML
-    private TableColumn<Transaccion, Integer> columnIdTransaccion;
+    private TableColumn<Transaccion, Date> columnFechaCompra; // 00038623 Columna para la fecha de compra
     @FXML
-    private TableColumn<Transaccion, Date> columnFechaCompra;
+    private TableColumn<Transaccion, Double> columnTotalMonto; // 00038623 Columna para el monto total
     @FXML
-    private TableColumn<Transaccion, Double> columnTotalMonto;
-    @FXML
-    private TableColumn<Transaccion, String> columnDescripcion;
+    private TableColumn<Transaccion, String> columnDescripcion; // 00038623 Columna para la descripción
 
-    private ObservableList<Transaccion> transaccionList;
+    private ObservableList<Transaccion> transaccionList; // 00038623 Lista observable para manejar las transacciones
 
-    @FXML
+    @FXML // 00038623 Método anotado con FXML para ejecutar al inicializar el controlador
     private void initialize() {
-        // Initialize the TableView columns
-        columnIdCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
-        columnIdTransaccion.setCellValueFactory(new PropertyValueFactory<>("idTransaccion"));
-        columnFechaCompra.setCellValueFactory(new PropertyValueFactory<>("fechaCompra"));
-        columnTotalMonto.setCellValueFactory(new PropertyValueFactory<>("totalMonto"));
-        columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        // Inicializa las columnas de la TableView
+        columnIdCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente")); // 00038623 Mapea la propiedad idCliente a la columna columnIdCliente
+        columnIdTransaccion.setCellValueFactory(new PropertyValueFactory<>("idTransaccion")); // 00038623 Mapea la propiedad idTransaccion a la columna columnIdTransaccion
+        columnFechaCompra.setCellValueFactory(new PropertyValueFactory<>("fechaCompra")); // 00038623 Mapea la propiedad fechaCompra a la columna columnFechaCompra
+        columnTotalMonto.setCellValueFactory(new PropertyValueFactory<>("totalMonto")); // 00038623 Mapea la propiedad totalMonto a la columna columnTotalMonto
+        columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion")); // 00038623 Mapea la propiedad descripcion a la columna columnDescripcion
     }
-    @FXML
+
+    @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de volver
     private void volver(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        SceneChanger.changeScene(stage,"/org/example/proyecto/ViewsFXML/Main.fxml");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // 00038623 Obtiene la ventana actual
+        SceneChanger.changeScene(stage,"/org/example/proyecto/ViewsFXML/Main.fxml"); // 00038623 Cambia la escena a la pantalla principal
     }
-    @FXML
+
+    @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de limpiar
     private void limpiarCampos() {
-        idCliente.clear(); // Limpia el campo de texto del ID del cliente
-        fechaInicio.setValue(null); // Limpia la selección de fecha de inicio
-        fechaFin.setValue(null); // Limpia la selección de fecha de fin
-        tableView.getItems().clear(); // Limpia la tabla de transacciones
-
+        idCliente.clear(); // 00038623 Limpia el campo de texto del ID del cliente
+        fechaInicio.setValue(null); // 00038623 Limpia la selección de fecha de inicio
+        fechaFin.setValue(null); // 00038623 Limpia la selección de fecha de fin
+        tableView.getItems().clear(); // 00038623 Limpia la tabla de transacciones
     }
 
-
-    @FXML
+    @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de generar lista
     private void generateList() {
-        String idClienteText = idCliente.getText();
-        LocalDate inicioDate = fechaInicio.getValue();
-        LocalDate finDate = fechaFin.getValue();
+        String idClienteText = idCliente.getText(); // 00038623 Obtiene el texto del campo ID del cliente
+        LocalDate inicioDate = fechaInicio.getValue(); // 00038623 Obtiene la fecha de inicio seleccionada
+        LocalDate finDate = fechaFin.getValue(); // 00038623 Obtiene la fecha de fin seleccionada
 
-        if (idClienteText.isEmpty() || inicioDate == null || finDate == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("espacios sin llenar");
-            alert.show();
-            return;
+        if (idClienteText.isEmpty() || inicioDate == null || finDate == null) { // 00038623 Verifica si algún campo está vacío
+            Alert alert = new Alert(Alert.AlertType.ERROR); // 00038623 Crea una alerta de error
+            alert.setContentText("espacios sin llenar"); // 00038623 Establece el mensaje de la alerta
+            alert.show(); // 00038623 Muestra la alerta
+            return; // 00038623 Sale del método si hay campos vacíos
         }
 
-        int idCliente = Integer.parseInt(idClienteText);
-        Date startDate = Date.valueOf(inicioDate);
-        Date endDate = Date.valueOf(finDate);
+        int idCliente = Integer.parseInt(idClienteText); // 00038623 Convierte el texto del ID del cliente a entero
+        Date startDate = Date.valueOf(inicioDate); // 00038623 Convierte la fecha de inicio a tipo Date de SQL
+        Date endDate = Date.valueOf(finDate); // 00038623 Convierte la fecha de fin a tipo Date de SQL
 
-        transaccionList = FXCollections.observableArrayList();
+        transaccionList = FXCollections.observableArrayList(); // 00038623 Inicializa la lista observable de transacciones
 
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbSistemaBanco", "root", "yaelgaymer")) {
-            String query = "SELECT * FROM transaccion WHERE idCliente = ? AND fecha_compra BETWEEN ? AND ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, idCliente);
-            preparedStatement.setDate(2, startDate);
-            preparedStatement.setDate(3, endDate);
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbSistemaBanco", "root", "yaelgaymer")) { // 00038623 Intenta establecer una conexión con la base de datos
+            String query = "SELECT * FROM transaccion WHERE idCliente = ? AND fecha_compra BETWEEN ? AND ?"; // 00038623 Define la consulta SQL
+            PreparedStatement preparedStatement = connection.prepareStatement(query); // 00038623 Prepara la consulta SQL
+            preparedStatement.setInt(1, idCliente); // 00038623 Establece el valor del primer parámetro (ID del cliente)
+            preparedStatement.setDate(2, startDate); // 00038623 Establece el valor del segundo parámetro (fecha de inicio)
+            preparedStatement.setDate(3, endDate); // 00038623 Establece el valor del tercer parámetro (fecha de fin)
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int idTransaccion = resultSet.getInt("idTransaccion");
-                Date fechaCompra = resultSet.getDate("fecha_compra");
-                double totalMonto = resultSet.getDouble("totalMonto");
-                String descripcion = resultSet.getString("descripcion");
+            ResultSet resultSet = preparedStatement.executeQuery(); // 00038623 Ejecuta la consulta y obtiene el resultado
+            while (resultSet.next()) { // 00038623 Itera sobre los resultados de la consulta
+                int idTransaccion = resultSet.getInt("idTransaccion"); // 00038623 Obtiene el ID de la transacción
+                Date fechaCompra = resultSet.getDate("fecha_compra"); // 00038623 Obtiene la fecha de compra
+                double totalMonto = resultSet.getDouble("totalMonto"); // 00038623 Obtiene el monto total
+                String descripcion = resultSet.getString("descripcion"); // 00038623 Obtiene la descripción
 
-                Transaccion transaccion = new Transaccion(idTransaccion, fechaCompra, totalMonto, descripcion, idCliente);
-                transaccionList.add(transaccion);
+                Transaccion transaccion = new Transaccion(idTransaccion, fechaCompra, totalMonto, descripcion, idCliente); // 00038623 Crea una nueva instancia de Transaccion
+                transaccionList.add(transaccion); // 00038623 Agrega la transacción a la lista observable
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("no se encuentra en la base de datos");
-            alert.show();
+        } catch (SQLException e) {// 00038623 Captura las excepciones SQL
+            e.printStackTrace();// 00038623 Imprime el stack trace de la excepción
+            Alert alert = new Alert(Alert.AlertType.ERROR);// 00038623 Crea una alerta de error
+            alert.setContentText("no se encuentra en la base de datos"); // 00038623 pone el mensaje de la alerta
+            alert.show();//00038623 muestra el mensaje del error
         }
 
-        tableView.setItems(transaccionList);
+        tableView.setItems(transaccionList); //00038623 pone los datos en la lista transaccionList :)
     }
 }
