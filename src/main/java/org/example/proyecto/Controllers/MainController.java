@@ -37,3 +37,4 @@ public class MainController {
         stage.close(); // 00038623 Cierra la ventana actual
     }
 }
+

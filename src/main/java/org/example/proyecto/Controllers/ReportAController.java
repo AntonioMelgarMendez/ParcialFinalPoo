@@ -12,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
-import org.example.proyecto.Transaccion;
 
 import java.sql.Connection;
 import java.sql.Date;
