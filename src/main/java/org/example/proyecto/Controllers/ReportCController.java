@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import java.sql.*;
 
-import static org.example.proyecto.Controllers.Utils.CleanData.limpiarDatos;
+import static org.example.proyecto.Controllers.Utilities.CleanData.limpiarDatos;
 
 public class ReportCController {    // 00018523 Controlador para buscar las tarjetas asociadas a un usuario
 

@@ -1,27 +1,24 @@
-package org.example.proyecto.Controllers;
+package org.example.proyecto.Controllers.Utilities;
 
 public class DataBaseCredentials {
-    /*00009123 Inicializamos la instancia de las credenciales
-    que se usaran para acceder a la base de datos*/
+    //00009123 Inicializamos la instancia de las credenciales
     private static final DataBaseCredentials instance = new DataBaseCredentials();
-    /*00009123 Definimos todas los campos para poder establecer la conexion*/
+    //00009123 Definimos todas los campos para poder establecer la conexion
     private String username;
     private String password;
     private String port;
     private String url;
     private String Database;
 
-    /*00009123 Ponemos el constructor de la clase oculto para hacerla singleton
-    para evitar duplicidad de credenciales*/
+    //00009123 Ponemos el constructor de la clase oculto para hacerla singleton
     private DataBaseCredentials() {
-        /*00009123 Agregamos valores por defecto al inicializar la clase con el user root,
-        el pass y el puerto por defecto*/
+        //00009123 Agregamos valores por defecto al inicializar la clase
         this.username = "root";
         this.password = "1234";
         this.port = "3306";
-        /*00009123 Construimos la url con el numero de puerto*/
+        //00009123 Construimos la url con el numero de puerto
         this.url = "jdbc:mysql://localhost:" + port;
-        /*00009123 Seleccionamos la base de datos que se usara por defecto*/
+        //00009123 Seleccionamos la base de datos que se usara por defecto
         this.Database = "dbSistemaBanco";
     }
     /*00009123 Implementando el get para acceder a la base de datos actual*/

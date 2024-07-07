@@ -1,4 +1,4 @@
-package org.example.proyecto.Controllers.Utils;
+package org.example.proyecto.Controllers.Utilities;
 
 import javafx.scene.control.*;
 import org.example.proyecto.Controllers.Tarjeta;

@@ -5,6 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.proyecto.Controllers.Utilities.AlertsManager;
+import org.example.proyecto.Controllers.Utilities.DataBaseCredentials;
+import org.example.proyecto.Controllers.Utilities.SaveTXT;
+import org.example.proyecto.Controllers.Utilities.SceneChanger;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -79,7 +84,7 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
             } else { // 00038623 Si hay un total de gasto, lo muestra en la etiqueta
                 totalLabel.setText(String.format("%.2f", totalGasto));
             }
-
+            SaveTXT.SaveBReport(totalLabel.getText(),idCliente,Integer.toString(anoInt),Integer.toString(mesInt));
         } catch (SQLException e) { // 00038623 Captura las excepciones SQL
             e.printStackTrace(); // 00038623 Imprime el stack trace de la excepción
             AlertsManager.showAlert("Error calculando el total", "Se ha detectado un error", "Ha ocurrido un error " + e.getMessage()); // 00038623 Muestra una alerta de error

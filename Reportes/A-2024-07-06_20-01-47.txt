@@ -1,0 +1,9 @@
+Consulta realizada por cliente con ID: 1
+Fecha de inicio: 2024-01-01
+Fecha de fin: 2024-12-31
+Resultados de la consulta:
+-----------------------------------------
+Id_transaccion  Id_cliente FechaCompra Monto Descripcion
+1 1 2024-01-12 13.45 McDonalds 
+6 1 2024-03-28 27.99 RadioShack 
+7 1 2024-02-01 47.99 Excel Automotriz 
