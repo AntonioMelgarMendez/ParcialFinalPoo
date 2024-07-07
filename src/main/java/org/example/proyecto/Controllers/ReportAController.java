@@ -69,9 +69,8 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
         LocalDate finDate = fechaFin.getValue(); // 00038623 Obtiene la fecha de fin seleccionada
 
         if (idClienteText.isEmpty() || inicioDate == null || finDate == null) { // 00038623 Verifica si algún campo está vacío
-            Alert alert = new Alert(Alert.AlertType.ERROR); // 00038623 Crea una alerta de error
-            alert.setContentText("espacios sin llenar"); // 00038623 Establece el mensaje de la alerta
-            alert.show(); // 00038623 Muestra la alerta
+            AlertsManager.showAlert("ERROR","falta informacion","llena todos los campos");// 00038623 Muestra la alerta
+
             return; // 00038623 Sale del método si hay campos vacíos
         }
 
@@ -103,10 +102,9 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
             }
             SaveTXT.SaveAReport(Integer.toString(idCliente),inicioDate,finDate,transaccionList);
         } catch (SQLException e) {// 00038623 Captura las excepciones SQL
-            e.printStackTrace();// 00038623 Imprime el stack trace de la excepción
-            Alert alert = new Alert(Alert.AlertType.ERROR);// 00038623 Crea una alerta de error
-            alert.setContentText("no se encuentra en la base de datos"); // 00038623 pone el mensaje de la alerta
-            alert.show();//00038623 muestra el mensaje del error
+            e.printStackTrace();//00038623 error de excepcion
+            AlertsManager.showAlert("ERROR","ERROR","No se encuentra en la base de datos");// 00038623 Muestra la alerta
+
         }
 
         tableView.setItems(transaccionList); //00038623 pone los datos en la lista transaccionList :)

@@ -1,15 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.proyecto.Controllers.ReportCController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-
-</VBox>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ReportCController">
+   <children>
+      <VBox prefHeight="520.0" prefWidth="880.0">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <children>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="770.0" text="                      Lista de tarjetas asociadas a cliente">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnBack" mnemonicParsing="false" onAction="#onBackAction" prefHeight="40.0" prefWidth="103.0" text="Volver">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="46.0" prefWidth="870.0">
+               <children>
+                  <Label text="ID Cliente: ">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="tfIDclient" prefHeight="25.0" prefWidth="65.0" />
+                  <Button fx:id="btnSearchClient" mnemonicParsing="false" onAction="#onSearchClient" text="Buscar Tarjetas">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="btnCleanData" mnemonicParsing="false" onAction="#onCleanData" text="Limpiar datos">
+                     <HBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <HBox prefHeight="395.0" prefWidth="870.0">
+               <children>
+                  <VBox alignment="TOP_CENTER" prefHeight="375.0" prefWidth="870.0">
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                     </padding>
+                     <children>
+                        <Label alignment="CENTER" text="Tarjetas de Crédito">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </padding>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <VBox fx:id="creditCardContainer" alignment="TOP_CENTER" prefHeight="367.0" prefWidth="866.0" />
+                     </children>
+                  </VBox>
+                   <VBox alignment="TOP_CENTER" prefHeight="375.0" prefWidth="870.0">
+                       <padding>
+                           <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                       </padding>
+                       <children>
+                           <Label alignment="CENTER" text="Tarjetas de Débito">
+                               <VBox.margin>
+                                   <Insets />
+                               </VBox.margin>
+                               <padding>
+                                   <Insets bottom="5.0" left="2.0" right="2.0" top="2.0" />
+                               </padding>
+                               <font>
+                                   <Font size="18.0" />
+                               </font>
+                           </Label>
+                           <VBox fx:id="debitCardContainer" alignment="TOP_CENTER" prefHeight="367.0" prefWidth="866.0" />
+                       </children>
+                   </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</AnchorPane>
