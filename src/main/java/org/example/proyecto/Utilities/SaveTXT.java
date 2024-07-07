@@ -60,11 +60,11 @@ public class SaveTXT {
             //00009123 Recorremos todas las transacciones
             for (Transaccion transaccion : transacciones) {
                 //00009123 Escribimos todos los datos
-                writer.write(transaccion.getIdTransaccion()+" ");
-                writer.write(transaccion.getIdCliente()+" ");
+                writer.write(transaccion.getIdTransaccion()+"                ");
+                writer.write(transaccion.getIdCliente()+"         ");
                 //00009123 Debemos convertir la fecha a un string
-                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter)+" ");
-                writer.write(Double.toString(transaccion.getTotalMonto())+" ");
+                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter)+"   ");
+                writer.write(Double.toString(transaccion.getTotalMonto())+"  ");
                 writer.write(transaccion.getDescripcion()+" ");
                 writer.newLine();
             }

@@ -19,7 +19,7 @@ import static org.example.proyecto.Utilities.SaveTXT.SaveAReport;
 public class ReportAController { // 00038623 Declara la clase ReportAController
 
     @FXML // 00038623 Anotación FXML para vincular el campo con el componente del FXML
-    private TextField idCliente; // 00038623 Campo para el ID del cliente
+    private TextField idCliente; // 00038623 Campo txt para el ID del cliente
     @FXML
     private DatePicker fechaInicio; // 00038623 Campo para la fecha de inicio
     @FXML
@@ -68,7 +68,7 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
         LocalDate finDate = fechaFin.getValue(); // 00038623 Obtiene la fecha de fin seleccionada
 
         if (idClienteText.isEmpty() || inicioDate == null || finDate == null) { // 00038623 Verifica si algún campo está vacío
-            AlertsManager.showAlert("ERROR","falta informacion","llena todos los campos");// 00038623 Muestra la alerta
+            AlertsManager.showAlert("ERROR","falta informacion","llena todos los campos");// 00038623 Muestra la alerta que falat informacion
 
             return; // 00038623 Sale del método si hay campos vacíos
         }
@@ -78,8 +78,8 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
         Date endDate = Date.valueOf(finDate); // 00038623 Convierte la fecha de fin a tipo Date de SQL
 
         transaccionList = FXCollections.observableArrayList(); // 00038623 Inicializa la lista observable de transacciones
-        try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) { // 00038623 Establece una conexión con la base de datos
-            try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00038623 Cambia a la base de datos específica
+        try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) { // 00038623 Establece una conexión con la base de datos con la clase de DataBaseCredentials
+            try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00038623 Cambia a la base de datos específica con la clase de DataBaseCredentials
                 ps1.executeUpdate(); // 00038623 Ejecuta la actualización para usar la base de datos
             }
             String query = "SELECT * FROM transaccion WHERE idCliente = ? AND fecha_compra BETWEEN ? AND ?"; // 00038623 Define la consulta SQL
@@ -99,7 +99,7 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
                 transaccionList.add(transaccion); // 00038623 Agrega la transacción a la lista observable
 
             }
-            SaveAReport(Integer.toString(idCliente),inicioDate,finDate,transaccionList);
+            SaveAReport(Integer.toString(idCliente),inicioDate,finDate,transaccionList); // 00038623 guarda los datos con las clase saveTXT
         } catch (SQLException e) {// 00038623 Captura las excepciones SQL
             e.printStackTrace();//00038623 error de excepcion
             AlertsManager.showAlert("ERROR","ERROR","No se encuentra en la base de datos");// 00038623 Muestra la alerta
