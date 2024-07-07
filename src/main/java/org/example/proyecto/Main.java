@@ -11,7 +11,7 @@ public class Main extends Application { //00038623 Declara la clase Main que ext
     @Override // 00038623 Sobrescribe el método start de la clase Application
     public void start(Stage stage) throws IOException { // 00038623 Define el método start que recibe un Stage y lanza IOException
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ViewsFXML/ReportC.fxml")); // 00038623 Crea una instancia de FXMLLoader y carga el archivo FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ViewsFXML/Login.fxml")); // 00038623 Crea una instancia de FXMLLoader y carga el archivo FXML
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720); // 00038623 Crea una nueva escena con el contenido del archivo FXML y establece el tamaño
         stage.setTitle("Login Menu"); // 00038623 Establece el título de la ventana
         stage.setScene(scene); // 00038623 Establece la escena en el escenario (Stage)
