@@ -105,7 +105,7 @@ public class ReportCController {    // 00018523 Controlador para buscar las tarj
                 }
 
                 conn.close(); // 00018523 Cierra la connexion a la base de datos
-                SaveCReport(tfIDclient.getText(), cardList);
+                SaveCReport(tfIDclient.getText(), cardList); // 00018523 Llama a la función para escribir en un "txt" los registros
             } catch (SQLException e) { // 00018523 Guarda si se ejecuta un error con la base de datos
                 e.printStackTrace(); // 00018523 Imprime la especificación del error
             }

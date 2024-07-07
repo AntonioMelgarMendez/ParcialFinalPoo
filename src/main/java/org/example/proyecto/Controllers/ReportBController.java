@@ -37,7 +37,7 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
 
     @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de limpiar
     private void limpiarCampos() {
-        limpiarDatos(idCliente, totalLabel, mesChoiceBox, anoChoiceBox);
+        limpiarDatos(idCliente, totalLabel, mesChoiceBox, anoChoiceBox); // 00038623 Llama a la funcion para limpiar datos
     }
 
     @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de calcular gasto
