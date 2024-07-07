@@ -16,6 +16,8 @@ import org.example.proyecto.Utilities.SceneChanger;
 import java.sql.*;
 
 import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
+import static org.example.proyecto.Utilities.SaveTXT.SaveAReport;
+import static org.example.proyecto.Utilities.SaveTXT.SaveCReport;
 
 public class ReportCController {    // 00018523 Controlador para buscar las tarjetas asociadas a un usuario
 
@@ -75,8 +77,15 @@ public class ReportCController {    // 00018523 Controlador para buscar las tarj
         ObservableList<Tarjeta> cardList = FXCollections.observableArrayList(); // 00018523 Es una lista observable que cambia sus datos para la visualización de la tabla
 
         String data = tfIDclient.getText(); // 00018523 Guarda en una variable los datos escritos en el TextField
+
         if (!data.matches("\\d*")) { // 00018523 Verifica que los valores insertados en el TextField solo sean numéricos
-            AlertsManager.showAlert("ERROR","Información Errónea","Ocupa solo datos numéricos.");// 00018523 Muestra una alerta al usuario
+            AlertsManager.showAlert("ERROR","Información Errónea","Ocupa solo datos numéricos."); // 00018523 Muestra una alerta al usuario
+            tfIDclient.setText(""); // 00018523 Deja vacío el TextField
+            flag = false; // 00018523 Asigna como falso la bandera
+        }
+
+        if (data.isEmpty()) { // 00018523 Verifica que el TextField no este vacío
+            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el ID del cliente."); // 00018523 Muestra una alerta al usuario
             flag = false; // 00018523 Asigna como falso la bandera
         }
 
@@ -96,6 +105,7 @@ public class ReportCController {    // 00018523 Controlador para buscar las tarj
                 }
 
                 conn.close(); // 00018523 Cierra la connexion a la base de datos
+                SaveCReport(tfIDclient.getText(), cardList); // 00018523 Llama a la función para escribir en un "txt" los registros
             } catch (SQLException e) { // 00018523 Guarda si se ejecuta un error con la base de datos
                 e.printStackTrace(); // 00018523 Imprime la especificación del error
             }

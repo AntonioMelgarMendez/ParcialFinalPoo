@@ -1,4 +1,5 @@
 package org.example.proyecto.Utilities;
+import org.example.proyecto.Tables.Tarjeta;
 import org.example.proyecto.Tables.Transaccion;
 
 import java.io.BufferedWriter;
@@ -10,6 +11,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SaveTXT {
@@ -110,6 +112,89 @@ public class SaveTXT {
         } catch (IOException e) {
             //00009123 Imprimimos en caso de que haya un problema
             System.err.println("Error al guardar datos en el archivo: " + e.getMessage());
+        }
+    }
+
+    public static void SaveCReport(String idCliente, List<Tarjeta> tarjetas) { // 00018523 Método que imprimirá los datos de la consulta para el Reporte C
+        Path projectPath = Paths.get("").toAbsolutePath(); // 00009123 Se obtiene el path actual
+        Path path = projectPath.resolve(relativePath); //00009123 Se le agrega la carpeta a la dirección actual
+
+        try { // 00009123 Se intenta crear la carpeta
+            Files.createDirectories(path); // 00009123 Si no existe la carpeta, la creamos
+        } catch (IOException e) { // 00009123 Agarra un error si ha fallado la creación de la carpeta
+            System.err.println("Error al crear el directorio: " + e.getMessage()); // 00009123 Muestra un error en la consola
+            return; // 00009123 El método deja de ejecutarse
+        }
+
+        LocalDateTime now = LocalDateTime.now(); // 00009123 Se obtiene la fecha actual
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"); // 00009123 Creamos un formatter para poder formatear las horas y pasarlas a String
+
+        String formattedDateTime = now.format(formatter); // 00009123 Formateamos la fecha actual
+
+        String fileName = path.resolve("C-" + formattedDateTime + ".txt").toString(); // 00009123 Definimos el nombre del archivo
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) { // 00009123 Intentamos escribir datos en el archivo
+            writer.write("Consulta realizada por cliente con ID: " + idCliente); // 00009123 Escribimos quien hizo la consulta
+            writer.newLine(); // 00009123 Pasa a la siguiente línea
+            writer.write("Resultados de la consulta:"); // 00009123 Escribe en el archivo
+            writer.newLine(); // 00009123 Pasa a la siguiente línea
+            writer.write("-----------------------------------------"); // 00009123 Escribe en el archivo
+            writer.newLine(); // 00009123 Pasa a la siguiente línea
+
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //00009123 Creamos un DateTimeFormatter para formatear la fecha de la transacción
+            writer.newLine(); // 00009123 Pasa a la siguiente línea
+
+            List<String> creditCards = new ArrayList<>(); // 00018523 Se crea una lista para el guardado de las tarjetas de crédito
+            List<String> debitCards = new ArrayList<>(); // 00018523 Se crea una lista para el guardado de las tarjetas de débito
+
+            for (Tarjeta tarjeta : tarjetas) { // 00018523 Recorremos todas las tarjetas
+                String numTarjeta = tarjeta.getNumTarjeta(); // 00018523 Guarda el número de la tarjeta en una variable;
+                char[] censoredCard = numTarjeta.toCharArray(); // 00018523 Crea una lista de caracteres a partir del número de la tarjeta
+                String numMostrado = ""; // 00018523 Inicializa una variable que será la que censura los primeros 12 dígitos de la tarjeta
+
+                if (!numTarjeta.isEmpty()) { // 00018523 Verifica que el string de la tarjeta no este vacío
+                    numMostrado = "XXXX XXXX XXXX " + censoredCard[12] + censoredCard[13] + censoredCard[14] + censoredCard[15]; // 00018523 Guarda en numMostrado la tarjeta con la censura aplicada
+                }
+
+                if (tarjeta.getTipoTarjeta().equals("C")) { // 00018523 Si el tipo de tarjeta es C (Crédito) se ejecuta lo siguiente
+                    creditCards.add(numMostrado); // 00018523 Agrega la tarjeta a la lista de tarjetas de Crédito
+                } else if (tarjeta.getTipoTarjeta().equals("D")) { // 00018523 Si el tipo de tarjeta es D (Débito) se ejecuta lo siguiente
+                    debitCards.add(numMostrado); // 00018523 Agrega la tarjeta a la lista de tarjetas de Débito
+                }
+            }
+
+            writer.write("Tarjetas de Crédito:"); // 00018523 Escribe en el archivo
+            writer.newLine(); // 00018523 Pasa a la siguiente línea
+            if (!creditCards.isEmpty()) { // 00018523 Verifica que la lista de tarjetas de crédito no este vacía
+                for (String card : creditCards) { // 00018523 Recorre todos los elementos de la lista de tarjetas de crédito
+                    writer.write("\t" + card); // 00018523 Escribe en el archivo la tarjeta con la censura aplicada
+                    writer.newLine(); // 00018523 Pasa a la siguiente línea
+                }
+            } else { // 00018523 Si la lista está vacía, ejecuta lo siguiente
+                writer.write("\tN/A"); // 00018523 Escribe en el archivo "N/A" (No hay tarjetas)
+                writer.newLine(); // 00018523 Pasa a la siguiente línea
+            }
+
+            writer.newLine(); // 00018523 Pasa a la siguiente línea
+
+
+            writer.write("Tarjetas de Débito:"); // 00018523 Escribe en el archivo
+            writer.newLine(); // 00018523 Pasa a la siguiente línea
+            if (!debitCards.isEmpty()) { // 00018523 Verifica que la lista de tarjetas de débito no este vacía
+                for (String card : debitCards) { // 00018523 Recorre todos los elementos de la lista de tarjetas de débito
+                    writer.write("\t" + card); // 00018523 Escribe en el archivo la tarjeta con la censura aplicada
+                    writer.newLine(); // 00018523 Pasa a la siguiente línea
+                }
+            } else { // 00018523 Si la lista está vacía, ejecuta lo siguiente
+                writer.write("\tN/A"); // 00018523 Escribe en el archivo "N/A" (No hay tarjetas)
+                writer.newLine(); // 00018523 Pasa a la siguiente línea
+            }
+            writer.newLine(); // 00018523 Pasa a la siguiente línea
+
+            System.out.println("Consulta guardada en: " + fileName); //00009123 Se imprime en la consola que se creo con éxito el archivo
+        } catch (IOException e) { // 00009123 Agarra un error si ha fallado la creación de la carpeta
+            System.err.println("Error al guardar datos en el archivo: " + e.getMessage()); // 00009123 Imprimimos el error en caso de que no se pudo guardar
         }
     }
 }

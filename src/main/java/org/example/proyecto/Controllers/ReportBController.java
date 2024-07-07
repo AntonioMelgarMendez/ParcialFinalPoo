@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
 import static org.example.proyecto.Utilities.SaveTXT.SaveBReport;
 
 public class ReportBController { // 00038623 Declara la clase ReportBController
@@ -36,10 +37,7 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
 
     @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de limpiar
     private void limpiarCampos() {
-        idCliente.clear(); // 00038623 Limpia el campo de texto del ID del cliente
-        mesChoiceBox.getSelectionModel().clearSelection(); // 00038623 Limpia la selección de mes
-        anoChoiceBox.getSelectionModel().clearSelection(); // 00038623 Limpia la selección de año
-        totalLabel.setText("0"); // 00038623 Reinicia el texto de la etiqueta total
+        limpiarDatos(idCliente, totalLabel, mesChoiceBox, anoChoiceBox); // 00038623 Llama a la funcion para limpiar datos
     }
 
     @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de calcular gasto
