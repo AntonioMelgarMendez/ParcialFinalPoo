@@ -13,6 +13,9 @@ import org.example.proyecto.Utilities.*;
 import java.sql.*;
 import java.time.LocalDate;
 
+import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
+import static org.example.proyecto.Utilities.SaveTXT.SaveAReport;
+
 public class ReportAController { // 00038623 Declara la clase ReportAController
 
     @FXML // 00038623 Anotación FXML para vincular el campo con el componente del FXML
@@ -54,10 +57,8 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
 
     @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de limpiar
     private void limpiarCampos() {
-        idCliente.clear(); // 00038623 Limpia el campo de texto del ID del cliente
-        fechaInicio.setValue(null); // 00038623 Limpia la selección de fecha de inicio
-        fechaFin.setValue(null); // 00038623 Limpia la selección de fecha de fin
-        tableView.getItems().clear(); // 00038623 Limpia la tabla de transacciones
+        limpiarDatos(idCliente, fechaInicio, fechaFin, tableView); // 00038623 Llama a la función estática de la clase CleanData
+
     }
 
     @FXML // 00038623 Método anotado con FXML para ejecutar al hacer clic en el botón de generar lista
@@ -98,7 +99,7 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
                 transaccionList.add(transaccion); // 00038623 Agrega la transacción a la lista observable
 
             }
-            SaveTXT.SaveAReport(Integer.toString(idCliente),inicioDate,finDate,transaccionList);
+            SaveAReport(Integer.toString(idCliente),inicioDate,finDate,transaccionList);
         } catch (SQLException e) {// 00038623 Captura las excepciones SQL
             e.printStackTrace();//00038623 error de excepcion
             AlertsManager.showAlert("ERROR","ERROR","No se encuentra en la base de datos");// 00038623 Muestra la alerta

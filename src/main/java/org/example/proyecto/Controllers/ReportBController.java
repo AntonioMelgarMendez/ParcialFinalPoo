@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.example.proyecto.Utilities.SaveTXT.SaveBReport;
+
 public class ReportBController { // 00038623 Declara la clase ReportBController
 
     @FXML // 00038623 Anotación FXML para vincular el campo con el componente del FXML
@@ -84,7 +86,7 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
             } else { // 00038623 Si hay un total de gasto, lo muestra en la etiqueta
                 totalLabel.setText(String.format("%.2f", totalGasto));
             }
-            SaveTXT.SaveBReport(totalLabel.getText(),idCliente,Integer.toString(anoInt),Integer.toString(mesInt));
+            SaveBReport(totalLabel.getText(),idCliente,Integer.toString(anoInt),Integer.toString(mesInt));
         } catch (SQLException e) { // 00038623 Captura las excepciones SQL
             e.printStackTrace(); // 00038623 Imprime el stack trace de la excepción
             AlertsManager.showAlert("Error calculando el total", "Se ha detectado un error", "Ha ocurrido un error " + e.getMessage()); // 00038623 Muestra una alerta de error
