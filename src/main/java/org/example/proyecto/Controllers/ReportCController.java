@@ -8,7 +8,7 @@ import javafx.scene.layout.VBox;
 import java.sql.*;
 
 import static javafx.scene.layout.VBox.setMargin;
-import static org.example.proyecto.Controllers.Utils.CleanData.limpiarDatos;
+import static org.example.proyecto.Controllers.Utilities.CleanData.limpiarDatos;
 
 public class ReportCController {
 

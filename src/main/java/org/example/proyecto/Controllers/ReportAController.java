@@ -7,10 +7,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
-import org.example.proyecto.Controllers.Utilities.DataBaseCredentials;
-import org.example.proyecto.Controllers.Utilities.SaveTXT;
-import org.example.proyecto.Controllers.Utilities.SceneChanger;
-import org.example.proyecto.Controllers.Utilities.Transaccion;
+import org.example.proyecto.Controllers.Utilities.*;
 
 import java.sql.*;
 import java.time.LocalDate;
