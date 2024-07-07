@@ -20,7 +20,7 @@ import static org.example.proyecto.Utilities.SaveTXT.SaveBReport;
 public class ReportBController { // 00038623 Declara la clase ReportBController
 
     @FXML // 00038623 Anotación FXML para vincular el campo con el componente del FXML
-    private TextField idCliente; // 00038623 Campotxt para el ID del cliente
+    private TextField idCliente; // 00038623 Campo para el ID del cliente
     @FXML
     private ChoiceBox<String> mesChoiceBox; // 00038623 Caja de selección para el mes
     @FXML
@@ -56,6 +56,7 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
         int idCliente = Integer.parseInt(idClienteText); // 00038623 Convierte el texto del ID del cliente a entero
         int anoInt = Integer.parseInt(year); // 00038623 Convierte el año a entero
 
+        // Mapeo de nombres de meses a números de mes
         String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                 "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"}; // 00038623 Arreglo de nombres de meses
         int mesInt = Arrays.asList(meses).indexOf(mesString) + 1; // 00038623 Obtiene el índice del mes y le suma 1 porque los meses en Java comienzan en 1
@@ -65,8 +66,8 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
     }
 
     private void CalcularTotal(int idCliente, int anoInt, int mesInt, double totalGasto) { // 00038623 Método para calcular el total de gasto
-        try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) { // 00038623 Establece una conexión con la base de datos con la clase de DataBaseCredentials
-            try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00038623 Cambia a la base de datos específica con la clase de DataBaseCredentials
+        try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) { // 00038623 Establece una conexión con la base de datos
+            try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00038623 Cambia a la base de datos específica
                 ps1.executeUpdate(); // 00038623 Ejecuta la actualización para usar la base de datos
             }
             String query = "SELECT SUM(totalMonto) AS total FROM transaccion WHERE idCliente = ? AND MONTH(fecha_compra) = ? AND YEAR(fecha_compra) = ?"; // 00038623 Define la consulta SQL
@@ -81,11 +82,11 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
             }
 
             if (totalGasto == 0) { // 00038623 Si el total es 0, muestra un mensaje indicando que no hay compras
-                totalLabel.setText("No hay compras"); //pone en el label que no tiene compras ese mes
+                totalLabel.setText("No hay compras");
             } else { // 00038623 Si hay un total de gasto, lo muestra en la etiqueta
-                totalLabel.setText(String.format("%.2f", totalGasto)); //muestre el gasto del mes
+                totalLabel.setText(String.format("%.2f", totalGasto));
             }
-            SaveBReport(totalLabel.getText(),idCliente,Integer.toString(anoInt),Integer.toString(mesInt)); // 00038623 guarda los datos con las clase saveTXT
+            SaveBReport(totalLabel.getText(),idCliente,Integer.toString(anoInt),Integer.toString(mesInt));
         } catch (SQLException e) { // 00038623 Captura las excepciones SQL
             e.printStackTrace(); // 00038623 Imprime el stack trace de la excepción
             AlertsManager.showAlert("Error calculando el total", "Se ha detectado un error", "Ha ocurrido un error " + e.getMessage()); // 00038623 Muestra una alerta de error
@@ -102,7 +103,7 @@ public class ReportBController { // 00038623 Declara la clase ReportBController
         int year = LocalDate.now().getYear(); // 00038623 Obtiene el año actual
         List<String> anos = FXCollections.observableArrayList(); // 00038623 Crea una lista observable para los años
         for (int i = 0; i < 10; i++) { // 00038623 Agrega los últimos 10 años a la lista
-            anos.add(String.valueOf(year - i)); //los añade y les resta 1 por cada ves que los añade
+            anos.add(String.valueOf(year - i));
         }
         anoChoiceBox.setItems(FXCollections.observableArrayList(anos)); // 00038623 Establece las opciones de año en la caja de selección
     }
