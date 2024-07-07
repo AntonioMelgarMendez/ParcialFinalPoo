@@ -38,7 +38,7 @@ public class SaveTXT {
         //00009123 Formateamos la fecha actual
         String formattedDateTime = now.format(formatter);
         //00009123 Definimos el nombre del archivo
-        String fileName = path.resolve("A-" + formattedDateTime + ".txt").toString();
+        String fileName = path.resolve("Reporte-A-" + formattedDateTime + ".txt").toString();
         //00009123 Intentamos escribir datos en el archivo
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             //00009123 Escribimos quien hizo la consulta
@@ -55,19 +55,19 @@ public class SaveTXT {
             writer.write("-----------------------------------------");
             writer.newLine();
             //00009123 Mostramos los campos
-            writer.write("Id_transaccion  Id_cliente FechaCompra Monto Descripcion");
+            writer.write("Id_transaccion\tId_cliente\tFechaCompra\tMonto\tDescripcion");
             //00009123 Creamos un DateTimeFormatter para formatear la fecha de la transaccion
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             writer.newLine();
             //00009123 Recorremos todas las transacciones
             for (Transaccion transaccion : transacciones) {
                 //00009123 Escribimos todos los datos
-                writer.write(transaccion.getIdTransaccion()+"                ");
-                writer.write(transaccion.getIdCliente()+"         ");
+                writer.write(transaccion.getIdTransaccion()+"\t\t");
+                writer.write(transaccion.getIdCliente()+"\t\t");
                 //00009123 Debemos convertir la fecha a un string
-                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter)+"   ");
-                writer.write(Double.toString(transaccion.getTotalMonto())+"  ");
-                writer.write(transaccion.getDescripcion()+" ");
+                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter)+"\t");
+                writer.write(Double.toString(transaccion.getTotalMonto())+"\t");
+                writer.write(transaccion.getDescripcion());
                 writer.newLine();
             }
             //00009123 Imprimimos el archivo creado
@@ -94,7 +94,7 @@ public class SaveTXT {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         String formattedDateTime = now.format(formatter);
         //00009123 Le colocamos la direccion para que sea de tipo B
-        String fileName = path.resolve("B-" + formattedDateTime + ".txt").toString();
+        String fileName = path.resolve("Reporte-B-" + formattedDateTime + ".txt").toString();
         //00009123 Intentamos crear el archivo
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             //00009123 Colocamos el id del cliente
@@ -132,7 +132,7 @@ public class SaveTXT {
 
         String formattedDateTime = now.format(formatter); // 00009123 Formateamos la fecha actual
 
-        String fileName = path.resolve("C-" + formattedDateTime + ".txt").toString(); // 00009123 Definimos el nombre del archivo
+        String fileName = path.resolve("Reporte-C-" + formattedDateTime + ".txt").toString(); // 00009123 Definimos el nombre del archivo
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) { // 00009123 Intentamos escribir datos en el archivo
             writer.write("Consulta realizada por cliente con ID: " + idCliente); // 00009123 Escribimos quien hizo la consulta
