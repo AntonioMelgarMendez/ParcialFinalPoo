@@ -1,7 +1,7 @@
 package org.example.proyecto.Controllers.Utilities;
 
 import javafx.scene.control.*;
-import org.example.proyecto.Controllers.Tarjeta;
+import org.example.proyecto.Controllers.Tables.Tarjeta;
 
 public class CleanData { // 00018523 Esta clase resume todos los métodos para limpiar datos que se ocuparan en todos los reportes
     public static void limpiarDatos(TextField textID, ComboBox<String> comboBox, Label total){ // 00018523 Borrara los datos de los contenedores: TextField, ComboBox y Label

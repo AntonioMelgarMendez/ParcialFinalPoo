@@ -1,4 +1,4 @@
-package org.example.proyecto.Controllers.Utilities;
+package org.example.proyecto.Controllers.Tables;
 
 import java.sql.Date;
 import java.time.temporal.TemporalAccessor;
