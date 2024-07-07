@@ -1,0 +1,10 @@
+Consulta realizada por cliente con ID: 9
+Resultados de la consulta:
+-----------------------------------------
+
+Tarjetas de Crédito:
+	N/A
+
+Tarjetas de Débito:
+	N/A
+

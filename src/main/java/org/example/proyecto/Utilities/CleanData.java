@@ -5,10 +5,11 @@ import org.example.proyecto.Tables.Tarjeta;
 import org.example.proyecto.Tables.Transaccion;
 
 public class CleanData { // 00018523 Esta clase resume todos los métodos para limpiar datos que se ocuparan en todos los reportes
-    public static void limpiarDatos(TextField textID, ComboBox<String> comboBox, Label total){ // 00018523 Borrara los datos de los contenedores: TextField, ComboBox y Label
+    public static void limpiarDatos(TextField textID, Label total, ChoiceBox<String> choiceBox1, ChoiceBox<String> choiceBox2){ // 00018523 Borrara los datos de los contenedores: TextField, ComboBox y Label
         textID.setText(""); // 00018523 Asigna como carácter nulo el TextField de la ID a buscar
-        comboBox.setValue(null); // 00018523 Asigna como valor predeterminado nulo al ComboBox
-        total.setText("Total: 0.00"); // 00018523 Asigna el valor del label a 0
+        total.setText("0.00"); // 00018523 Asigna el valor del label a 0
+        choiceBox1.setValue(null); // 00018523 Asigna como nulo el choiceBox1
+        choiceBox2.setValue(null); // 00018523 Asigna como nulo el choiceBox2
     }
 
     public static void limpiarDatos(TextField textID, DatePicker fromDate, DatePicker toDate, TableView<Transaccion> tvData){ // 00018523 Borrara los datos de los contenedores: TextField, DatePicker y TableView
