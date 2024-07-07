@@ -1,8 +1,12 @@
 package org.example.proyecto.Controllers;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.sql.*;
@@ -22,17 +26,45 @@ public class ReportCController {
     private Button btnCleanData;
 
     @FXML
-    private VBox creditCardContainer;
+    private TableView<Tarjeta> tbShowCards;
 
     @FXML
-    private VBox debitCardContainer;
+    private TableColumn<Tarjeta, String> tbcCardNumber;
+
+    @FXML
+    private TableColumn<Tarjeta, String> tbcCardType;
+
+    @FXML
+    private void initialize() {
+        tbcCardType.setCellValueFactory(cellData -> {
+            String tipoTarjeta = cellData.getValue().getTipoTarjeta();
+            String tipoMostrado;
+
+            if (tipoTarjeta.equals("C")){
+                tipoMostrado = "Crédito";
+            } else if (tipoTarjeta.equals("D")){
+                tipoMostrado = "Débito";
+            } else {
+                tipoMostrado = "N/A";
+            }
+
+            return new SimpleStringProperty(tipoMostrado);
+        });
+
+        tbcCardNumber.setCellValueFactory(cellData -> {
+            String numTarjeta = cellData.getValue().getNumTarjeta();
+            char[] censoredCard = numTarjeta.toCharArray();
+            String numMostrado = "XXXX XXXX XXXX " + censoredCard[12] + censoredCard[13] + censoredCard[14] + censoredCard[15];
+            return new SimpleStringProperty(numMostrado);
+        });
+
+        tbShowCards.setPlaceholder(new Label("No hay tarjetas asociadas a este usuario"));
+    }
 
     @FXML
     public void onSearchClient(){
         boolean flag = true;
-
-        creditCardContainer.getChildren().clear();
-        debitCardContainer.getChildren().clear();
+        ObservableList<Tarjeta> cardList = FXCollections.observableArrayList();
 
         String data = tfIDclient.getText();
         if (!data.matches("\\d*")) {
@@ -48,57 +80,31 @@ public class ReportCController {
                         "admin123"
                 );
 
-                PreparedStatement ps = conn.prepareStatement("select c.idCliente as IDCliente, t.numTarjeta as numTarjeta, t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta from Tarjeta t inner join Cliente c on t.idCliente = c.idCliente where c.idCliente = ?;");
+                PreparedStatement ps = conn.prepareStatement("select c.idCliente as IDCliente, t.numTarjeta as numTarjeta, t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta from tarjeta t inner join cliente c on t.idCliente = c.idCliente where c.idCliente = ?;");
                 ps.setInt(1, Integer.parseInt(tfIDclient.getText()));
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {
-                    Label lblCreditNumber = new Label();
-
-                    String creditCard = rs.getString("numTarjeta");
-                    char[] censoredCreditCard = creditCard.toCharArray();
-                    String censoredCard = "XXXX XXXX XXXX " + censoredCreditCard[12] + censoredCreditCard[13] + censoredCreditCard[14] + censoredCreditCard[15];
-
-                    lblCreditNumber.setText(censoredCard);
-                    lblCreditNumber.setStyle("-fx-font-size: 16px");
-
-                    if (!rs.getString("TipoTarjeta").isEmpty()) {
-                        if (rs.getString("TipoTarjeta").equals("C")) {
-                            setMargin(lblCreditNumber, new Insets(0, 0, 5, 0));
-                            creditCardContainer.getChildren().add(lblCreditNumber);
-                        } else if (rs.getString("TipoTarjeta").equals("D")) {
-                            setMargin(lblCreditNumber, new Insets(0, 0, 5, 0));
-                            debitCardContainer.getChildren().add(lblCreditNumber);
-                        }
-                    }
+                    Tarjeta tarjeta = new Tarjeta(rs.getString("numTarjeta"), rs.getString("Facilitador"), rs.getString("TipoTarjeta"), rs.getInt("IDCliente"));
+                    cardList.add(tarjeta);
                 }
 
                 conn.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+
+            tbShowCards.setItems(cardList);
+        } else {
+            cardList.clear();
+            tbShowCards.setItems(cardList);
         }
 
-        Label lblNothingCredit = new Label();
-        Label lblNothingDebit = new Label();
-        lblNothingCredit.setText("N/A");
-        lblNothingDebit.setText("N/A");
-        String style = "-fx-font-size: 16px; -fx-text-fill: red;";
-        lblNothingCredit.setStyle(style);
-        lblNothingDebit.setStyle(style);
-
-        if (creditCardContainer.getChildren().isEmpty()) {
-            creditCardContainer.getChildren().add(lblNothingCredit);
-        }
-
-        if (debitCardContainer.getChildren().isEmpty()){
-            debitCardContainer.getChildren().add(lblNothingDebit);
-        }
     }
 
     @FXML
     public void onCleanData(){
-        limpiarDatos(tfIDclient, creditCardContainer, debitCardContainer);
+
     }
 
     @FXML

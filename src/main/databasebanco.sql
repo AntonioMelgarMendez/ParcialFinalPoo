@@ -41,7 +41,7 @@ insert into Tarjeta(numTarjeta, facilitador, idCliente, tipoTarjeta) values (678
 insert into Tarjeta(numTarjeta, facilitador, idCliente, tipoTarjeta) values (7890123456789012, 'AmericanExpress', 1, 'D');
 insert into Tarjeta(numTarjeta, facilitador, idCliente, tipoTarjeta) values (8901234567890123, 'MasterCard', 3, 'C');
 insert into Tarjeta(numTarjeta, facilitador, idCliente, tipoTarjeta) values (9012345678901234, 'AmericanExpress', 5, 'C');
-insert into Tarjeta(numTarjeta, facilitador, idCliente, tipoTarjeta) values (0123456789012345, 'MasterCard', 5, 'C');
+insert into Tarjeta(numTarjeta, facilitador, idCliente, tipoTarjeta) values (1234567890123450, 'MasterCard', 5, 'C');
 
 insert into Transaccion(idTransaccion, fecha_compra, totalMonto, descripcion, idCliente) values (1, '2024-01-12', 13.45, 'McDonalds', 1);
 insert into Transaccion(idTransaccion, fecha_compra, totalMonto, descripcion, idCliente) values (2, '2024-05-21', 32.79, 'Jugueton', 2);
