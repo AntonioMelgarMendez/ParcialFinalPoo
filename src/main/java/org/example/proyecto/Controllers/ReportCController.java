@@ -3,9 +3,15 @@ package org.example.proyecto.Controllers;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import org.example.proyecto.Tables.Tarjeta;
+import org.example.proyecto.Utilities.AlertsManager;
+import org.example.proyecto.Utilities.DataBaseCredentials;
+import org.example.proyecto.Utilities.SceneChanger;
 
 import java.sql.*;
 
@@ -70,17 +76,15 @@ public class ReportCController {    // 00018523 Controlador para buscar las tarj
 
         String data = tfIDclient.getText(); // 00018523 Guarda en una variable los datos escritos en el TextField
         if (!data.matches("\\d*")) { // 00018523 Verifica que los valores insertados en el TextField solo sean numéricos
-            tfIDclient.setText(""); // 00018523 Asigna como vacío el TextField
+            AlertsManager.showAlert("ERROR","Información Errónea","Ocupa solo datos numéricos.");// 00018523 Muestra una alerta al usuario
             flag = false; // 00018523 Asigna como falso la bandera
         }
 
         if (flag) { // 00018523 Verifica que la bandera siga como verdadera o cambia basándose en el if anterior
-            try { // 00018523 Intenta realizar el siguiente bloque de código
-                Connection conn = DriverManager.getConnection( // 00018523 Crea la conexión a la base de datos
-                        "jdbc:mysql://localhost:3306/dbSistemaBanco", // 00018523 Busca el nombre de la base de datos
-                        "root", // 00018523 Asigna el usuario con el que se accede a la base de datos
-                        "admin123" // 00018523 Asigna la contraseña con la que se accede a la base de datos
-                );
+            try (Connection conn = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())){ // 00018523 Realiza la conexión a la base de datos
+                try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00018523 Cambia a la base de datos específica
+                    ps1.executeUpdate(); // 00018523 Ejecuta la actualización para usar la base de datos
+                }
 
                 PreparedStatement ps = conn.prepareStatement("select c.idCliente as IDCliente, t.numTarjeta as numTarjeta, t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta from tarjeta t inner join cliente c on t.idCliente = c.idCliente where c.idCliente = ?;"); // 00018523 Prepara una consulta a la base de datos
                 ps.setInt(1, Integer.parseInt(data)); // 00018523 Designa el valor "?" de la consulta anterior, basándose en lo digitado en el TextField
@@ -110,7 +114,8 @@ public class ReportCController {    // 00018523 Controlador para buscar las tarj
     }
 
     @FXML
-    public void onBackAction(){ // 00018523 Este método se ejecutará cuando se presione el botón btnBack
-
+    public void onBackAction(ActionEvent event){ // 00018523 Este método se ejecutará cuando se presione el botón btnBack
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // 00018523 Obtiene la ventana actual
+        SceneChanger.changeScene(stage,"/org/example/proyecto/ViewsFXML/Main.fxml"); // 00018523 Cambia la escena a la pantalla principal
     }
 }
