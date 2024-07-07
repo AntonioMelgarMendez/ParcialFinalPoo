@@ -1,4 +1,4 @@
-package org.example.proyecto.Controllers.Tables;
+package org.example.proyecto.Tables;
 
 public class Tarjeta { // 00018523 Clase asociada a la tabla "tarjeta" de la base de datos
     private String numTarjeta; // 00018523 Número de la tarjeta

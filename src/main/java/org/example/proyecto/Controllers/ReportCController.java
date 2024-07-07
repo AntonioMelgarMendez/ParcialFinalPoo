@@ -5,11 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.example.proyecto.Controllers.Tables.Tarjeta;
+import org.example.proyecto.Tables.Tarjeta;
 
 import java.sql.*;
 
-import static org.example.proyecto.Controllers.Utilities.CleanData.limpiarDatos;
+import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
 
 public class ReportCController {    // 00018523 Controlador para buscar las tarjetas asociadas a un usuario
 

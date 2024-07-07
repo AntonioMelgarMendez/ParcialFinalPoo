@@ -1,11 +1,11 @@
-package org.example.proyecto.Controllers.Utilities;
+package org.example.proyecto.Utilities;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import static org.example.proyecto.Controllers.Utilities.AlertsManager.showAlert;
+import static org.example.proyecto.Utilities.AlertsManager.showAlert;
 
 //00009123 Clase para manejar el cambio de escena
 public class SceneChanger {

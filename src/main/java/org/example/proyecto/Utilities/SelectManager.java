@@ -1,4 +1,4 @@
-package org.example.proyecto.Controllers.Utilities;
+package org.example.proyecto.Utilities;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

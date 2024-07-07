@@ -1,7 +1,6 @@
-package org.example.proyecto.Controllers.Tables;
+package org.example.proyecto.Tables;
 
 import java.sql.Date;
-import java.time.temporal.TemporalAccessor;
 
 public class Transaccion {
 

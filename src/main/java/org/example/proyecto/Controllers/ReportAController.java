@@ -7,8 +7,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
-import org.example.proyecto.Controllers.Tables.Transaccion;
-import org.example.proyecto.Controllers.Utilities.*;
+import org.example.proyecto.Tables.Transaccion;
+import org.example.proyecto.Utilities.*;
 
 import java.sql.*;
 import java.time.LocalDate;

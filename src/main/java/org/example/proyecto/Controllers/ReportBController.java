@@ -5,10 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.proyecto.Controllers.Utilities.AlertsManager;
-import org.example.proyecto.Controllers.Utilities.DataBaseCredentials;
-import org.example.proyecto.Controllers.Utilities.SaveTXT;
-import org.example.proyecto.Controllers.Utilities.SceneChanger;
+import org.example.proyecto.Utilities.AlertsManager;
+import org.example.proyecto.Utilities.DataBaseCredentials;
+import org.example.proyecto.Utilities.SaveTXT;
+import org.example.proyecto.Utilities.SceneChanger;
 
 import java.sql.*;
 import java.time.LocalDate;
