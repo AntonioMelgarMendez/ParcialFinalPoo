@@ -1,4 +1,4 @@
-package org.example.proyecto.Controllers.Utilities;
+package org.example.proyecto.Utilities;
 
 public class DataBaseCredentials {
     //00009123 Inicializamos la instancia de las credenciales

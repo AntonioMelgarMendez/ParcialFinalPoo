@@ -6,14 +6,14 @@ import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.proyecto.Controllers.Utilities.DataBaseCredentials;
-import org.example.proyecto.Controllers.Utilities.SceneChanger;
+import org.example.proyecto.Utilities.DataBaseCredentials;
+import org.example.proyecto.Utilities.SceneChanger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static org.example.proyecto.Controllers.Utilities.AlertsManager.showAlert;
+import static org.example.proyecto.Utilities.AlertsManager.showAlert;
 public class LoginController {
     //00009123 Campo para insertar el user
     @FXML

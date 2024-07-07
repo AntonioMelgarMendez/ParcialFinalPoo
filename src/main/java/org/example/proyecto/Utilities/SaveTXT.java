@@ -1,5 +1,5 @@
-package org.example.proyecto.Controllers.Utilities;
-import org.example.proyecto.Controllers.Tables.Transaccion;
+package org.example.proyecto.Utilities;
+import org.example.proyecto.Tables.Transaccion;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
