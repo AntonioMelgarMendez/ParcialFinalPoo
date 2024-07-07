@@ -6,4 +6,6 @@ module org.example.proyecto {
     exports org.example.proyecto;
     exports org.example.proyecto.Controllers;
     opens org.example.proyecto.Controllers to javafx.fxml;
+    exports org.example.proyecto.Controllers.Utilities;
+    opens org.example.proyecto.Controllers.Utilities to javafx.fxml;
 }

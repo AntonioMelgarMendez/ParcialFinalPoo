@@ -7,6 +7,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import org.example.proyecto.Controllers.Utilities.DataBaseCredentials;
+import org.example.proyecto.Controllers.Utilities.SaveTXT;
+import org.example.proyecto.Controllers.Utilities.SceneChanger;
+import org.example.proyecto.Controllers.Utilities.Transaccion;
+
 import java.sql.*;
 import java.time.LocalDate;
 
@@ -94,8 +99,9 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
 
                 Transaccion transaccion = new Transaccion(idTransaccion, fechaCompra, totalMonto, descripcion, idCliente); // 00038623 Crea una nueva instancia de Transaccion
                 transaccionList.add(transaccion); // 00038623 Agrega la transacción a la lista observable
-            }
 
+            }
+            SaveTXT.SaveAReport(Integer.toString(idCliente),inicioDate,finDate,transaccionList);
         } catch (SQLException e) {// 00038623 Captura las excepciones SQL
             e.printStackTrace();// 00038623 Imprime el stack trace de la excepción
             Alert alert = new Alert(Alert.AlertType.ERROR);// 00038623 Crea una alerta de error
@@ -104,5 +110,6 @@ public class ReportAController { // 00038623 Declara la clase ReportAController
         }
 
         tableView.setItems(transaccionList); //00038623 pone los datos en la lista transaccionList :)
+
     }
 }

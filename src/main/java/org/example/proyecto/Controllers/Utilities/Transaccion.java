@@ -1,6 +1,8 @@
-package org.example.proyecto.Controllers;
+package org.example.proyecto.Controllers.Utilities;
 
 import java.sql.Date;
+import java.time.temporal.TemporalAccessor;
+
 public class Transaccion {
 
     private int idTransaccion; // 00038623 Define un campo privado para almacenar el ID de la transacción

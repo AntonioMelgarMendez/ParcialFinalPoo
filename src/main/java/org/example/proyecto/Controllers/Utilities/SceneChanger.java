@@ -1,14 +1,13 @@
-package org.example.proyecto.Controllers;
+package org.example.proyecto.Controllers.Utilities;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import static org.example.proyecto.Controllers.AlertsManager.showAlert;
+import static org.example.proyecto.Controllers.Utilities.AlertsManager.showAlert;
 
-/*00009123 Clase para cambiar de escena de forma facil,
- tiene metodos estaticos para que se pueda acceder desde cualquier lado*/
+//00009123 Clase para manejar el cambio de escena
 public class SceneChanger {
     //00009123 Metodo para cambiar de escena con el stage y el fxml al que se desea cambiar
     public static void changeScene(Stage stage, String fxmlPath) {

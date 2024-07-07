@@ -1,17 +1,16 @@
-package org.example.proyecto.Controllers;
+package org.example.proyecto.Controllers.Utilities;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 // 00009123 Clase para renderizar datos
 public class SelectManager {
-    /* 00009123 Método para seleccionar contenido de la base de datos,
-     utiliza un arreglo de arreglos para trabajarlo como una matriz
-     */
+    //00009123 Método para seleccionar contenido de la base de datos
     public List<List<String>> selectContent(String query) {
         //00009123 Lista de lista que actuara como matriz
         List<List<String>> resultList = new ArrayList<>();
@@ -73,9 +72,7 @@ public class SelectManager {
             final int colIndex = i;
             //00009123 Crea una nueva columna en el TableView con el nombre de la columna correspondiente
             TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames.get(i));
-            /*00009123 Establece el valor de la celda para cada fila de esta columna
-            SimpleStringProperty es utilizado para almacenar el valor de la celda
-            param.getValue().get(colIndex) obtiene el valor de la columna en la fila actual*/
+            //00009123 Establece el valor de la celda para cada fila de esta columna
             column.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(colIndex)));
 
             //00009123 Añade la columna creada al TableView
