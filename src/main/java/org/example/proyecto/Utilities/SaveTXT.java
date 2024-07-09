@@ -171,7 +171,7 @@ public class SaveTXT {
     }
 
     // 00083823: Este método guarda un reporte de transacciones en un archivo de texto.
-    public static void SaveDReport(int idCliente, List<TarjetaXTransaccion> transacciones, String relativePath) {
+    public static void SaveDReport(int idCliente, List<TarjetaXTransaccion> transacciones) {
         // 00083823: Obtiene la ruta absoluta del proyecto
         Path projectPath = Paths.get("").toAbsolutePath();
         // 00083823: Resuelve la ruta relativa proporcionada

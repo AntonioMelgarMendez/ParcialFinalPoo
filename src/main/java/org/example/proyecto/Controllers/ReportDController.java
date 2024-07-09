@@ -105,7 +105,7 @@ public class ReportDController {
 
             if (!dataList.isEmpty()) {
                 int idCliente = dataList.get(0).getIdCliente();  // 00083823 Obtiene el ID del cliente de la primera entrada en la lista.
-                SaveTXT.SaveDReport(idCliente, dataList, "reports");  // 00083823 Guarda el reporte en un archivo de texto.
+                SaveTXT.SaveDReport(idCliente, dataList);  // 00083823 Guarda el reporte en un archivo de texto.
             }
 
         } catch (SQLException e) {
