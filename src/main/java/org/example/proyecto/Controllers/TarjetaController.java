@@ -1,20 +1,23 @@
 package org.example.proyecto.Controllers;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.example.proyecto.Tables.Tarjeta;
 import org.example.proyecto.Tables.Transaccion;
 import org.example.proyecto.Utilities.AlertsManager;
 import org.example.proyecto.Utilities.DataBaseCredentials;
+import org.example.proyecto.Utilities.SceneChanger;
 
 import java.sql.*;
 import java.util.Arrays;
@@ -22,6 +25,7 @@ import java.util.List;
 
 import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
 import static org.example.proyecto.Utilities.SaveTXT.SaveAReport;
+import static org.example.proyecto.Utilities.SaveTXT.SaveCReport;
 
 public class TarjetaController {
     @FXML
@@ -140,7 +144,7 @@ public class TarjetaController {
         String cardTypeString = String.valueOf(cardType.getText().charAt(0));
         System.out.println(cardTypeString);
         String clientIDString = ClientID.getText();
-
+        System.out.println(cardFacilitador);
         if (flag){
             try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) {
                 try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
@@ -171,7 +175,87 @@ public class TarjetaController {
     @FXML
     public void onReadAction(){
         container.getChildren().clear();
+        HBox lblContainer = new HBox();
+        HBox tableContainer = new HBox();
+        ObservableList<Tarjeta> cardList = FXCollections.observableArrayList(); // 00018523 Es una lista observable que cambia sus datos para la visualización de la tabla
 
+        Label lblHeader = new Label("Datos en la tabla Tarjeta");
+        lblHeader.setStyle("-fx-font-size: 16px");
+
+        TableView<Tarjeta> tvData = new TableView<>();
+        TableColumn<Tarjeta, String> tbcCardNumber = new TableColumn<>("Número de Tarjeta");
+        TableColumn<Tarjeta, String> tbcCardFacilitador = new TableColumn<>("Facilitador");
+        TableColumn<Tarjeta, String> tbcCardType = new TableColumn<>("Tipo");
+        TableColumn<Tarjeta, Integer> tbcCardIDClient = new TableColumn<>("ID Cliente");
+
+        tbcCardNumber.setCellValueFactory(cellData -> {
+            String numTarjeta = cellData.getValue().getNumTarjeta(); 
+            char[] censoredCard = numTarjeta.toCharArray(); 
+            String numMostrado;
+
+            if (!numTarjeta.isEmpty()){
+                numMostrado = "XXXX XXXX XXXX " + censoredCard[12] + censoredCard[13] + censoredCard[14] + censoredCard[15];
+            } else {
+                numMostrado = "N/A";
+            }
+            return new SimpleStringProperty(numMostrado);
+        });
+
+        tbcCardFacilitador.setCellValueFactory(new PropertyValueFactory<>("facilitador"));
+
+        tbcCardType.setCellValueFactory(cellData -> {
+            String cardType = cellData.getValue().getTipoTarjeta();
+            String showType;
+
+            if (cardType.equals("C")){
+                showType = "Crédito";
+            } else if (cardType.equals("D")){
+                showType = "Débito";
+            } else {
+                showType = "N/A";
+            }
+            return new SimpleStringProperty(showType);
+        });
+
+        tbcCardIDClient.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
+
+        tvData.getColumns().add(tbcCardNumber);
+        tvData.getColumns().add(tbcCardFacilitador);
+        tvData.getColumns().add(tbcCardType);
+        tvData.getColumns().add(tbcCardIDClient);
+
+        tbcCardNumber.setPrefWidth(200);
+        tbcCardFacilitador.setPrefWidth(200);
+        tbcCardType.setPrefWidth(100);
+        tbcCardIDClient.setPrefWidth(100);
+        tvData.setPrefWidth(600);
+
+        lblContainer.getChildren().add(lblHeader);
+        lblContainer.setAlignment(Pos.TOP_CENTER);
+        tableContainer.setPrefWidth(600);
+        tableContainer.setAlignment(Pos.TOP_CENTER);
+        tableContainer.getChildren().add(tvData);
+        tvData.setPlaceholder(new Label("No hay tarjetas en la base de datos"));
+
+        try (Connection conn = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())){
+            try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
+                ps1.executeUpdate();
+            }
+
+            PreparedStatement ps = conn.prepareStatement("select t.numTarjeta as numTarjeta, t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta, t.idCliente as IDCliente from tarjeta t;");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Tarjeta tarjeta = new Tarjeta(rs.getString("numTarjeta"), rs.getString("Facilitador"), rs.getString("TipoTarjeta"), rs.getInt("IDCliente"));
+                cardList.add(tarjeta);
+            }
+
+            conn.close();
+            tvData.setItems(cardList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        container.getChildren().addAll(lblContainer, tableContainer);
     }
 
     @FXML
@@ -182,5 +266,10 @@ public class TarjetaController {
     @FXML
     public void onDeleteAction(){
         container.getChildren().clear();
+    }
+
+    public void onBackButton(ActionEvent event){ // 00018523 Este método se ejecutará cuando se presione el botón btnBack
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // 00018523 Obtiene la ventana actual
+        SceneChanger.changeScene(stage,"/org/example/proyecto/ViewsFXML/Main.fxml"); // 00018523 Cambia la escena a la pantalla principal
     }
 }
