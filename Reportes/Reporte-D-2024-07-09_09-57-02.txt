@@ -1,0 +1,7 @@
+Consulta realizada por cliente con ID: AmericanExpress
+Resultados de la consulta:
+-----------------------------------------
+ID_Cliente	Nombre	Apellido	Cantidad_Compras	Total_Gastado
+1	Darlyn	Donis	6	178.86	
+3	Yael	Herrera	1	24999.99	
+5	Gabriel	Aguilar	1	3.75	

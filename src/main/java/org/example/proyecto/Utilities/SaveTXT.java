@@ -224,7 +224,7 @@ public class SaveTXT {
         // 00083823 Intentamos crear el archivo
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             // 00009123 Colocamos el id del cliente
-            writer.write("Consulta realizada por cliente con ID: " + idCliente);
+            writer.write("Consulta realizada por cliente con facilitador: " + idCliente);
             writer.newLine();
             writer.write("Resultados de la consulta:");
             writer.newLine();
@@ -246,7 +246,7 @@ public class SaveTXT {
                 writer.newLine();
             }
 
-            // 00083823Imprimimos el archivo creado
+            // 00083823 Imprimimos el archivo creado
             System.out.println("Consulta guardada en: " + fileName);
         } catch (IOException e) {
             // 00083823 Imprimimos el error en caso de que no se pudo guardar
