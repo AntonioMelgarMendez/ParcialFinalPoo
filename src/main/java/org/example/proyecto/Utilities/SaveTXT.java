@@ -170,24 +170,33 @@ public class SaveTXT {
         }
     }
 
+    // 00083823: Este método guarda un reporte de transacciones en un archivo de texto.
     public static void SaveDReport(int idCliente, List<TarjetaXTransaccion> transacciones, String relativePath) {
+        // 00083823: Obtiene la ruta absoluta del proyecto
         Path projectPath = Paths.get("").toAbsolutePath();
+        // 00083823: Resuelve la ruta relativa proporcionada
         Path path = projectPath.resolve(relativePath);
 
         try {
+            // 00083823: Crea directorios si no existen en la ruta especificada
             Files.createDirectories(path);
         } catch (IOException e) {
+            // 00083823: Maneja errores al crear directorios
             System.err.println("Error al crear el directorio: " + e.getMessage());
             return;
         }
 
+        // 00083823: Obtiene la fecha y hora actual
         LocalDateTime now = LocalDateTime.now();
+        // 00083823: Formatea la fecha y hora en un formato específico
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         String formattedDateTime = now.format(formatter);
 
+        // 00083823: Construye el nombre del archivo con la fecha y hora formateadas
         String fileName = path.resolve("Reporte-D-" + formattedDateTime + ".txt").toString();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            // 00083823: Escribe la cabecera del reporte
             writer.write("Consulta realizada por cliente con facilitador: " + idCliente);
             writer.newLine();
             writer.write("Resultados de la consulta:");
@@ -195,22 +204,27 @@ public class SaveTXT {
             writer.write("-----------------------------------------");
             writer.newLine();
 
+            // 00083823: Escribe la cabecera de las columnas
             writer.write("ID_Cliente\tid_Transaccion\tfacilitador\tCantidad_Compras\tTotal_Gastado");
             writer.newLine();
 
+            // 00083823: Escribe cada transacción en el archivo
             for (TarjetaXTransaccion transaccion : transacciones) {
-                writer.write(transaccion.getIdCliente() + "\t");
-                writer.write(transaccion.getIdTransaccion() + "\t");
-                writer.write(transaccion.getFacilitador() + "\t");
-                writer.write(transaccion.getCantidadCompras() + "\t");
+                // 00083823: Escribe los datos de cada transacción separados por tabulaciones
+                writer.write(transaccion.getIdCliente() + "            \t");
+                writer.write(transaccion.getIdTransaccion() + "         \t");
+                writer.write(transaccion.getFacilitador() + "        \t");
+                writer.write(transaccion.getCantidadCompras() + "             \t");
                 writer.write(transaccion.getTotalMonto() + "\t");
                 writer.newLine();
             }
 
+            // 00083823: Muestra la ubicación donde se guardó el archivo
             System.out.println("Consulta guardada en: " + fileName);
-        } catch (IOException e) {
+        } catch (IOException e) { // 00083823: captura la exception
+            // 00083823: Maneja errores al escribir en el archivo
             System.err.println("Error al guardar datos en el archivo: " + e.getMessage());
         }
-
     }
+
 }
