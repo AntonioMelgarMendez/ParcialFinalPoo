@@ -1,6 +1,0 @@
-Consulta realizada por cliente con ID: Visa
-Resultados de la consulta:
------------------------------------------
-ID_Cliente	Nombre	Apellido	Cantidad_Compras	Total_Gastado
-2	Daniel	Mendez	2	42.78	
-5	Gabriel	Aguilar	1	3.75	

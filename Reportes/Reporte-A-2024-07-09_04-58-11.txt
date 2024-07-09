@@ -1,7 +1,0 @@
-Consulta realizada por cliente con ID: 1
-Fecha de inicio: 2024-01-01
-Fecha de fin: 2024-01-13
-Resultados de la consulta:
------------------------------------------
-Id_transaccion	Id_cliente	FechaCompra	Monto	Descripcion
-1		1		2024-01-12	13.45	McDonalds
