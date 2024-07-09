@@ -345,17 +345,46 @@ public class TarjetaController {
                     ps1.executeUpdate();
                 }
 
+                String oldFacilitador = "";
+                String oldCardType = "";
                 PreparedStatement ps = connection.prepareStatement("update tarjeta set facilitador = ?, tipoTarjeta = ? where numTarjeta = ?;");
-
                 ps.setString(1, cardFacilitador);
                 ps.setString(2, cardTypeString);
                 ps.setLong(3, Long.parseLong(cardNumberString));
+
+                PreparedStatement psSelect = connection.prepareStatement("select t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta from tarjeta t where numTarjeta = ?;");
+                psSelect.setLong(1, Long.parseLong(cardNumberString));
+                ResultSet rs = psSelect.executeQuery();
+                while (rs.next()) {
+                    oldFacilitador = rs.getString("Facilitador");
+                    oldCardType = rs.getString("TipoTarjeta");
+
+                }
+
                 int result = ps.executeUpdate();
 
                 if (result == 0){
                     AlertsManager.showAlert("ERROR","Error al ingresar datos","No se pudo registrar los datos a la base de datos");
                 } else if (result > 0) {
-                    AlertsManager.showAlert("DATOS Actualizados","¡Completado con exito!","Los datos fueron actualizados correctamente");
+                    if (oldCardType.equals("C")){
+                        oldCardType = "Crédito";
+                    } else if (oldCardType.equals("D")){
+                        oldCardType = "Débito";
+                    }
+
+                    if (cardTypeString.equals("C")){
+                        cardTypeString = "Crédito";
+                    } else if (cardTypeString.equals("D")){
+                        cardTypeString = "Débito";
+                    }
+
+                    AlertsManager.showAlert(
+                            "DATOS Actualizados",
+                            "¡Completado con exito!",
+                            "Los datos fueron actualizados correctamente:\n" +
+                            oldFacilitador + " -> " + cardFacilitador + "\n" +
+                            oldCardType + " -> " + cardTypeString + "\n"
+                    );
                 }
 
             } catch (SQLException e) {
@@ -368,6 +397,7 @@ public class TarjetaController {
     @FXML
     public void onDeleteAction(){
         container.getChildren().clear();
+
     }
 
     public void onBackButton(ActionEvent event){ // 00018523 Este método se ejecutará cuando se presione el botón btnBack
