@@ -9,6 +9,14 @@ public class Cliente { // 00083823 Clase que representa a un cliente.
     private int cantidadCompras; // 00083823 Atributo que almacena la cantidad de compras realizadas por el cliente.
     private double totalGastado; // 00083823 Atributo que almacena el total gastado por el cliente.
 
+    public Cliente(int idCliente, String nombre, String apellido, String direccion, String telefono) { // 00083823 Constructor que inicializa todos los atributos de la clase Cliente.
+        this.idCliente = idCliente; // 00083823 Inicializa el ID del cliente.
+        this.nombre = nombre; // 00083823 Inicializa el nombre del cliente.
+        this.apellido = apellido; // 00083823 Inicializa el apellido del cliente.
+        this.direccion = direccion;// 00009123 Inicializamos la direccion
+        this.telefono = telefono;// 00009123 Inicializamos el numero de telefono
+    }
+
     public Cliente(int idCliente, String nombre, String apellido, String direccion, String telefono, int cantidadCompras, double totalGastado) { // 00083823 Constructor que inicializa todos los atributos de la clase Cliente.
         this.idCliente = idCliente; // 00083823 Inicializa el ID del cliente.
         this.nombre = nombre; // 00083823 Inicializa el nombre del cliente.
