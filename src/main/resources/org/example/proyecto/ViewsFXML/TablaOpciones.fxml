@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.CrudController">
+   <children>
+      <Button layoutX="142.0" layoutY="136.0" mnemonicParsing="false" onAction="#transaccion" prefHeight="40.0" prefWidth="129.0" text="Transaccion">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Label layoutX="114.0" layoutY="58.0" prefHeight="40.0" prefWidth="345.0" text="Elige la tabla para modificarla">
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Label>
+      <Button layoutX="215.0" layoutY="200.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="129.0" text="Tarjeta">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="287.0" layoutY="136.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="129.0" text="Cliente">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="222.0" layoutY="331.0" mnemonicParsing="false" onAction="#volver" prefHeight="40.0" prefWidth="129.0" text="volver">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
