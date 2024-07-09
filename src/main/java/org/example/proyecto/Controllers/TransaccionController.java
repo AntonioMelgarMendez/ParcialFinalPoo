@@ -29,9 +29,6 @@ public class TransaccionController implements Initializable {
     @FXML private TableColumn<Transaccion, Date> fechaCompraCol;
     @FXML private TableColumn<Transaccion, Double> totalMontoCol;
     @FXML private TableColumn<Transaccion, String> descripcionCol;
-
-    private Connection connection;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DataBaseCredentials.getInstance().connectDatabase();  // 00038623 Llama al método para conectar a la base de datos.
@@ -51,7 +48,7 @@ public class TransaccionController implements Initializable {
     @FXML
     private void insertarTransaccion(ActionEvent event) {
         if (validarInputs()) {
-            try (PreparedStatement statement = connection.prepareStatement(
+            try (PreparedStatement statement =  DataBaseCredentials.getInstance().getConnection().prepareStatement(
                     "INSERT INTO transaccion (idTransaccion, idCliente, fecha_compra, totalMonto, descripcion) VALUES (?, ?, ?, ?, ?)")) {
                 statement.setInt(1, Integer.parseInt(idTransaccionFieldInsert.getText()));  // 00038623 Asigna el ID de transacción desde el campo de texto.
                 statement.setInt(2, Integer.parseInt(idClienteField.getText()));  // 00038623 Asigna el ID de cliente desde el campo de texto.
@@ -69,7 +66,7 @@ public class TransaccionController implements Initializable {
     @FXML
     private void modificarTransaccion(ActionEvent event) { //00038623 funcion para el boton de modificar
         if (validarInputs()) {
-            try (PreparedStatement statement = connection.prepareStatement(
+            try (PreparedStatement statement = DataBaseCredentials.getInstance().getConnection().prepareStatement(
                     "UPDATE transaccion SET idCliente = ?, fecha_compra = ?, totalMonto = ?, descripcion = ? WHERE idTransaccion = ?")) {
                 statement.setInt(1, Integer.parseInt(idClienteField.getText()));  // 00038623 Asigna el nuevo ID de cliente desde el campo de texto.
                 statement.setDate(2, Date.valueOf(fechaCompraPickerInsert.getValue()));  // 00038623 Asigna la nueva fecha de compra desde el selector de fecha.
@@ -86,7 +83,7 @@ public class TransaccionController implements Initializable {
 
     @FXML
     private void eliminarTransaccion(ActionEvent event) { // 00038623 funcion para el boton de eliminar
-        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM transaccion WHERE idTransaccion = ?")) {
+        try (PreparedStatement statement = DataBaseCredentials.getInstance().getConnection().prepareStatement("DELETE FROM transaccion WHERE idTransaccion = ?")) {
             statement.setInt(1, Integer.parseInt(idTransaccionFieldInsert.getText()));  // 00038623 Asigna el ID de transacción para identificar la fila a eliminar.
             statement.executeUpdate();  // 00038623 Ejecuta la eliminación en la base de datos.
             mostrarTabla(null);  // 00038623 Actualiza la tabla en la interfaz gráfica.
@@ -100,7 +97,7 @@ public class TransaccionController implements Initializable {
         try {
             tableView.getItems().clear();  // 00038623 Limpia los elementos actuales en la tabla.
             String sql = "SELECT * FROM transaccion";  // 00038623 Consulta SQL para seleccionar todos los registros de la tabla transaccion.
-            Statement statement = connection.createStatement();
+            Statement statement = DataBaseCredentials.getInstance().getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);  // 00038623 Ejecuta la consulta y obtiene el conjunto de resultados.
 
             while (resultSet.next()) {

@@ -2,7 +2,6 @@ package org.example.proyecto.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -10,15 +9,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.proyecto.Tables.Cliente;
-import org.example.proyecto.Tables.Transaccion;
 import org.example.proyecto.Utilities.AlertsManager;
 import org.example.proyecto.Utilities.DataBaseCredentials;
 import org.example.proyecto.Utilities.SceneChanger;
-import org.example.proyecto.Utilities.SelectManager;
-
-import java.net.URL;
 import java.sql.*;
-import java.util.ResourceBundle;
+
 
 public class ClienteController{
 
@@ -34,53 +29,77 @@ public class ClienteController{
     @FXML private TableColumn<Cliente, String> TelefonoCol;
     @FXML private TableColumn<Cliente, String> ApellidoCol;
     public void initialize(){
-        DataBaseCredentials.getInstance().connectDatabase();
-        initializeTable();
+        DataBaseCredentials.getInstance().connectDatabase();// 00009123 Conectamos a la base de datos
+        initializeTable();// 00009123 Inicializamos los valores de la tabla
+    }
+    private boolean validateIdCliente() {// 00009123 Comprobamos si el id cliente es un numeor
+        if (idCliente.getText().isEmpty() || !idCliente.getText().matches("\\d+")) {
+            AlertsManager.showAlert("Validación", "Error de validación", "El ID del cliente debe ser un número entero.");// 00009123 Mostramos una alerta anunciando que el formato no es correcto
+            return false;// 00009123 Retornamos false
+        }
+        return true;// 00009123 Retornamos true en caso de que si sea valido
+    }
+
+    private boolean validateFields() {// 00009123 Comprobamos los demas campos
+        if (!validateIdCliente()) return false;// 00009123 Retornamos false si la comprobacion del id no es correcta
+        if (Nombre.getText().isEmpty() || apellido.getText().isEmpty() || Direccion.getText().isEmpty() || telefono.getText().isEmpty()) {// 00009123 Comprobamos si algun campo es vacio
+            AlertsManager.showAlert("Validación", "Error de validación", "Todos los campos deben estar completos.");// 00009123 Mostramos una alerta de error
+            return false;
+        }
+
+        if (!telefono.getText().matches("\\d{8}")) {// 00009123 Comprobamos si el telefono tiene una longitud de 8
+            AlertsManager.showAlert("Validación", "Error de validación", "El número de teléfono debe tener 8 dígitos.");// 00009123 Mostramos alerta con error
+            return false;
+        }
+
+        return true;// 00009123 Retornamos true en caso de que funcione
     }
     @FXML
-    private void deleteClient(){
-        try (PreparedStatement statement = DataBaseCredentials.getInstance().getConnection().prepareStatement("DELETE FROM cliente WHERE idCliente = ?")) {
-            statement.setInt(1, Integer.parseInt(idCliente.getText()));  // 00038623 Asigna el ID de transacción para identificar la fila a eliminar.
-            statement.executeUpdate();  // 00038623 Ejecuta la eliminación en la base de datos.
-            mostrartabla(); // 00038623 Actualiza la tabla en la interfaz gráfica.
+    private void deleteClient(){// 00009123 Funcion para borrar a un cliente
+        if(!validateIdCliente()) return;// 00009123 Si el id no esta en formato correcto paramos
+        try (PreparedStatement statement = DataBaseCredentials.getInstance().getConnection().prepareStatement("DELETE FROM cliente WHERE idCliente = ?")) {// 00009123 Cargamos el stament para seleccionar todo
+            statement.setInt(1, Integer.parseInt(idCliente.getText()));  // 00009123 Asigna el ID de cliente para identificar la fila a eliminar.
+            statement.executeUpdate();  // 00009123 Ejecuta la eliminación en la base de datos.
+            mostrartabla(); // 00009123 Actualiza la tabla en la interfaz gráfica.
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());// 00009123 Muestra un mensaje de error
         }
     }
     @FXML
-    private void updateClient(){
+    private void updateClient(){// 00009123 Actualiza los datos del cliente
+        if(!validateFields()) return;// 00009123 Termina la ejecucion si los campos no son validos
         try (PreparedStatement statement = DataBaseCredentials.getInstance().getConnection().prepareStatement(
-                "UPDATE Cliente SET idCliente = ?, nombre = ?, apellido = ?, direccion = ?,telefono=? WHERE idCliente = ?")) {
-            statement.setInt(1, Integer.parseInt(idCliente.getText()));  // 00038623 Asigna el nuevo ID de cliente desde el campo de texto.
-            statement.setString(2, (Nombre.getText()));  // 00038623 Asigna el nuevo ID de cliente desde el campo de texto.
-            statement.setString(3, (apellido.getText()));
-            statement.setString(4, (Direccion.getText()));
-            statement.setString(5, (telefono.getText()));
-            statement.setInt(6, Integer.parseInt(idCliente.getText()));  // 00038623 Asigna el nuevo ID de cliente desde el campo de texto.
-            statement.executeUpdate();  // 00038623 Ejecuta la actualización en la base de datos.
-            mostrartabla();
+                "UPDATE Cliente SET  nombre = ?, apellido = ?, direccion = ?,telefono=? WHERE idCliente = ?")) {// 00009123 Prepara el query para actualizar los datos
+            statement.setString(1, (Nombre.getText()));  // 00009123 Asigna el nuevo nombre de cliente desde el campo de texto.
+            statement.setString(2, (apellido.getText()));// 00009123 Asigna el nuevo apellido de cliente desde el campo de texto.
+            statement.setString(3, (Direccion.getText()));// 00009123 Asigna la nueva direccion de cliente desde el campo de texto.
+            statement.setString(4, (telefono.getText()));// 00009123 Asigna el nuevo numero de telefono del cliente desde el campo de texto.
+            statement.setInt(5, Integer.parseInt(idCliente.getText()));  // 00009123 Asigna el id de cliente a buscar
+            statement.executeUpdate();  // 00009123 Ejecuta la actualización en la base de datos.
+            mostrartabla();//00009123 Actualizamos la tabla
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());//00009123 Muestra un mensaje de error
         }
 
     }
     @FXML
-    private void insertClient(){
+    private void insertClient(){// 00009123 Inserta un nuevo cliente
+        if(!validateFields()) return;// 00009123 Termina la ejecucion en caso de que los campos no esten correctos
         try (PreparedStatement statement = DataBaseCredentials.getInstance().getConnection().prepareStatement(
-                "INSERT INTO cliente (idCliente, nombre, apellido, direccion, telefono) VALUES (?, ?, ?, ?, ?)")) {
-            statement.setInt(1, Integer.parseInt(idCliente.getText()));  // 00038623 Asigna el ID de transacción desde el campo de texto.
-            statement.setString(2, (Nombre.getText()));  // 00038623 Asigna el ID de cliente desde el campo de texto.
-            statement.setString(3, (apellido.getText()));
-            statement.setString(4, (Direccion.getText()));
-            statement.setString(5, (telefono.getText()));
-            statement.executeUpdate();  // 00038623 Ejecuta la inserción de datos en la base de datos.
-            mostrartabla();
+                "INSERT INTO cliente (idCliente, nombre, apellido, direccion, telefono) VALUES (?, ?, ?, ?, ?)")) {//00009123 Prepara la query a ejecutar
+            statement.setInt(1, Integer.parseInt(idCliente.getText()));  // 00009123 Asigna el ID de cliente desde el campo de texto.
+            statement.setString(2, (Nombre.getText()));  // 00009123 Asigna el nombre de cliente desde el campo de texto.
+            statement.setString(3, (apellido.getText()));// 00009123 Asigna el apellido de cliente desde el campo de texto.
+            statement.setString(4, (Direccion.getText()));// 00009123 Asigna la direccion del cliente desde el campo de texto.
+            statement.setString(5, (telefono.getText()));// 00009123 Asigna el telefono del cliente desde el campo de texto.
+            statement.executeUpdate();  // 00009123 Ejecuta la inserción de datos en la base de datos.
+            mostrartabla();//00009123 Actualizamos la tabla
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());//00009123 Mostramos un mensaje de error
         }
     }
     @FXML
-    private void mostrartabla(){
+    private void mostrartabla(){//00009123 Muestra todos los elementos de la tabla
         try {
             tableView.getItems().clear();  // 00009123 Limpiamos todos los elementos actuales en la tabla.
             String sql = "SELECT * FROM cliente";  // 00009123 Consultamos todos los registros de la tabla transaccion.
