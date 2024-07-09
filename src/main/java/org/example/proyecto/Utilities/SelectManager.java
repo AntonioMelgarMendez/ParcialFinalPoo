@@ -60,7 +60,7 @@ public class SelectManager {
         }
 
     }
-    public void showQueryResultsInTableView(String query, TableView<ObservableList<String>> tableView) { //00009123 Le pasamos la query y la tabla donde debe poner los resultados
+    public  void showQueryResultsInTableView(String query, TableView<ObservableList<String>> tableView) { //00009123 Le pasamos la query y la tabla donde debe poner los resultados
         List<List<String>> matrix = selectContent(query);//00009123 Obtiene los datos de la base de datos
         renderTableView(tableView, matrix); //00009123 Renderiza el TableView con los datos obtenidos
     }

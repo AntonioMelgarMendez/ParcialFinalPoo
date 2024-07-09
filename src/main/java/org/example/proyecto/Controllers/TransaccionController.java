@@ -34,26 +34,10 @@ public class TransaccionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connectDatabase();  // 00038623 Llama al método para conectar a la base de datos.
+        DataBaseCredentials.getInstance().connectDatabase();  // 00038623 Llama al método para conectar a la base de datos.
         initializeTable();  //00038623 Llama al método para inicializar la tabla en la interfaz gráfica.
     }
 
-    private void connectDatabase() {
-        try {
-            connection = DriverManager.getConnection(
-                    DataBaseCredentials.getInstance().getUrl(),  // 00038623 Obtiene la URL de conexión desde las credenciales.
-                    DataBaseCredentials.getInstance().getUsername(),  // 00038623 Obtiene el nombre de usuario de las credenciales.
-                    DataBaseCredentials.getInstance().getPassword()  // 00038623 Obtiene la contraseña de las credenciales.
-            );
-            // Selecciona la base de datos
-            try (Statement stmt = connection.createStatement()) { //00038623 try catch para conectar a la base de datos en caso que no haya
-                stmt.execute("USE " + DataBaseCredentials.getInstance().getDatabase());  // 00038623 Selecciona la base de datos especificada en las credenciales.
-                System.out.println("Tabla on");  // 00038623 Imprime un mensaje de confirmación en la consola.
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void initializeTable() {
         idTransaccionCol.setCellValueFactory(new PropertyValueFactory<>("idTransaccion"));  // 00038623 Asigna el valor de la propiedad para la columna de ID de transacción.

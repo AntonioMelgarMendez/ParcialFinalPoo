@@ -5,12 +5,20 @@ public class Cliente {
     private String apellido;// 00009123 Apellido del cliente
     private String direccion;// 00009123 Dirreccion del cliente
     private String telefono;// 00009123 Telefono del cliente
-
-    public Cliente(String nombre, String apellido, String direccion, String telefono) {// 00009123 Construimos el cliente con nombre, apellido, direccion y telefono
+    private int idCliente;
+    public Cliente(int idCliente,String nombre, String apellido, String direccion, String telefono) {// 00009123 Construimos el cliente con nombre, apellido, direccion y telefono
+        this.idCliente=idCliente;// 00009123 Inicializamos el id cliente
         this.nombre = nombre;// 00009123 Inicializamos el nombre
         this.apellido = apellido;// 00009123 Inicializamos el apellido
         this.direccion = direccion;// 00009123 Inicializamos la direccion
         this.telefono = telefono;// 00009123 Inicializamos el numero de telefono
+    }
+    public int getIdCliente() {// 00009123 Retornamos el id
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {// 00009123 Seteamos el id
+        this.idCliente = idCliente;
     }
 
     public String getNombre() {// 00009123 Retornamos el nombre
