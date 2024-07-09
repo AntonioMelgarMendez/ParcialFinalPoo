@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.Node;
 import javafx.stage.Stage;
+import org.example.proyecto.Utilities.AlertsManager;
 import org.example.proyecto.Utilities.DataBaseCredentials;
 import org.example.proyecto.Utilities.SceneChanger;
 import org.example.proyecto.Tables.Transaccion;
@@ -47,6 +48,7 @@ public class TransaccionController implements Initializable {
             // Selecciona la base de datos
             try (Statement stmt = connection.createStatement()) {
                 stmt.execute("USE " + DataBaseCredentials.getInstance().getDatabase());
+                System.out.println("Tabla on");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,6 +62,7 @@ public class TransaccionController implements Initializable {
         totalMontoCol.setCellValueFactory(new PropertyValueFactory<>("totalMonto"));
         descripcionCol.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
     }
+
 
     @FXML
     private void insertarTransaccion(ActionEvent event) {
@@ -119,7 +122,7 @@ public class TransaccionController implements Initializable {
             while (resultSet.next()) {
                 Transaccion transaccion = new Transaccion(
                         resultSet.getInt("idTransaccion"),
-                        resultSet.getDate("fechaCompra"),
+                        resultSet.getDate("fecha_compra"),
                         resultSet.getDouble("totalMonto"),
                         resultSet.getString("descripcion"),
                         resultSet.getInt("idCliente")
@@ -150,7 +153,7 @@ public class TransaccionController implements Initializable {
         if (idTransaccionFieldInsert.getText().isEmpty() || idClienteField.getText().isEmpty() ||
                 fechaCompraPickerInsert.getValue() == null || totalMontoField.getText().isEmpty() ||
                 descripcionField.getText().isEmpty()) {
-            showAlert("Campos vacíos", "Todos los campos son obligatorios.");
+            AlertsManager.showAlert("Campos vacíos", "Todos los campos son obligatorios.","Los campos estan vacios");
             return false;
         }
         try {
@@ -158,17 +161,11 @@ public class TransaccionController implements Initializable {
             Integer.parseInt(idClienteField.getText());
             Double.parseDouble(totalMontoField.getText());
         } catch (NumberFormatException e) {
-            showAlert("Formato inválido", "Asegúrate de que los campos numéricos tengan el formato correcto.");
+            AlertsManager.showAlert("Formato inválido", "Asegúrate de que los campos numéricos tengan el formato correcto.","Los numeros no tienen el formato correcto");
             return false;
         }
         return true;
     }
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 }
