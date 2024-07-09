@@ -256,134 +256,134 @@ public class TarjetaController { // 00018523 Clase que permitira insertar, ver, 
     }
 
     @FXML
-    public void onUpdateAction(){
-        container.getChildren().clear();
-        HBox CardNumberContainer = new HBox();
-        Label lblIDCliente = new Label("Ingrese el número de la tarjeta a actualizar: ");
-        TextField tfCardNumber = new TextField();
-        CardNumberContainer.setAlignment(Pos.TOP_CENTER);
-        CardNumberContainer.setPadding(insetsHBox);
-        CardNumberContainer.getChildren().addAll(lblIDCliente, tfCardNumber);
+    public void onUpdateAction(){ // 00018523 Metodo que se ejecutara cuando se presione btnUpdate
+        container.getChildren().clear(); // 00018523 Limpia el contenedor principal
+        HBox CardNumberContainer = new HBox(); // 00018523 Contenedor para poner informacion del numero de tarjeta
+        Label lblIDCliente = new Label("Ingrese el número de la tarjeta a actualizar: "); // 00018523 Crea un label con informacion de lo que hara el usuario
+        TextField tfCardNumber = new TextField(); // 00018523 Crea un TextField para que el usuario ingrese los datos
+        CardNumberContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Asigna el alignment para el contenedor del numero de tarjeta
+        CardNumberContainer.setPadding(insetsHBox); // 00018523 Agrega padding al contenedor del numero de tarjeta
+        CardNumberContainer.getChildren().addAll(lblIDCliente, tfCardNumber); // 00018523 Agrega al contenedor de numero de tarjeta: Label y TextField
 
-        HBox FacilitadorContainer = new HBox();
-        Label lblFacilitador = new Label("Escoja el facilitador nuevo: ");
-        ComboBox<String> cbxFacilitador = new ComboBox<>();
-        List<String> facilitadores = Arrays.asList("MasterCard", "Visa", "AmericanExpress");
-        cbxFacilitador.setItems(FXCollections.observableArrayList(facilitadores));
-        FacilitadorContainer.setAlignment(Pos.TOP_CENTER);
-        FacilitadorContainer.setPadding(insetsHBox);
-        FacilitadorContainer.getChildren().addAll(lblFacilitador, cbxFacilitador);
+        HBox FacilitadorContainer = new HBox(); // 00018523 Contenedor para poner informacion del Facilitador
+        Label lblFacilitador = new Label("Escoja el facilitador nuevo: "); // 00018523 Crea un label para indicarle al usuario lo que tiene que hacer
+        ComboBox<String> cbxFacilitador = new ComboBox<>(); // 00018523 Crea un nuevo ComboBox
+        List<String> facilitadores = Arrays.asList("MasterCard", "Visa", "AmericanExpress"); // 00018523 Crea una lista con los valores que se asignaran al ComboBBox
+        cbxFacilitador.setItems(FXCollections.observableArrayList(facilitadores)); // 00018523 Asigna al ComboBox la lista de valores
+        FacilitadorContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Asigna al contenedor un alignment
+        FacilitadorContainer.setPadding(insetsHBox); // 00018523 Asigna al contenedor un padding
+        FacilitadorContainer.getChildren().addAll(lblFacilitador, cbxFacilitador); // 00018523 Agrega al contenedor del ComboBox el Label y el ComboBox
 
-        HBox TypeContainer = new HBox();
-        Label lblType = new Label("Escoja el tipo de tarjeta nuevo: ");
-        RadioButton rdCredit = new RadioButton("Crédito");
-        RadioButton rdDebit = new RadioButton("Débito");
-        ToggleGroup tgType = new ToggleGroup();
-        rdCredit.setPadding(insetsChildren);
-        rdDebit.setPadding(insetsChildren);
-        rdCredit.setToggleGroup(tgType);
-        rdDebit.setToggleGroup(tgType);
-        TypeContainer.setPadding(insetsHBox);
-        TypeContainer.setAlignment(Pos.TOP_CENTER);
-        TypeContainer.getChildren().addAll(lblType, rdCredit, rdDebit);
+        HBox TypeContainer = new HBox(); // 00018523 Contenedor donde se inserteran los datos del tipo de tarjeta
+        Label lblType = new Label("Escoja el tipo de tarjeta nuevo: "); // 00018523 Label para infromar al usuario lo que tiene que seleccionar
+        RadioButton rdCredit = new RadioButton("Crédito"); // 00018523 RadioButton para que el usuario seleccione la opción de Crédito
+        RadioButton rdDebit = new RadioButton("Débito"); // 00018523 RadioButton para que el usuario seleccione la opción de Débito
+        ToggleGroup tgType = new ToggleGroup(); // 00018523 Grupo de opciones para encapsular los dos RadioButtons anteriores
+        rdCredit.setPadding(insetsChildren); // 00018523 Padding para Radio Button
+        rdDebit.setPadding(insetsChildren); // 00018523 Padding para Radio Button
+        rdCredit.setToggleGroup(tgType); // 00018523 Se le asigna un grupo al RadioButton Crédito
+        rdDebit.setToggleGroup(tgType); // 00018523 Se le asigna un grupo al RadioButton Débito
+        TypeContainer.setPadding(insetsHBox); // 00018523 Se le aplica un padding al contenedor de los RadioButtons
+        TypeContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Se le aplica un alignment al contenedor
+        TypeContainer.getChildren().addAll(lblType, rdCredit, rdDebit); // 00018523 Se le inserta el Label y los RadioButtons al contenedor
 
-        HBox ButtonContainer = new HBox();
-        Button btnClean = new Button("Limpiar datos");
-        Button btnSend = new Button("Actualizar datos");
-        btnClean.setPadding(insetsButtons);
-        btnSend.setPadding(insetsButtons);
-        ButtonContainer.setAlignment(Pos.TOP_CENTER);
-        ButtonContainer.setPadding(insetsHBox);
-        ButtonContainer.getChildren().addAll(btnClean, btnSend);
-        HBox.setMargin(btnClean, new Insets(5));
-        HBox.setMargin(btnSend, new Insets(5));
 
-        btnClean.setOnAction(e -> limpiarDatos(tfCardNumber, cbxFacilitador, rdCredit, rdDebit));
-        btnSend.setOnAction(e -> updateData(tfCardNumber, cbxFacilitador, (RadioButton) tgType.getSelectedToggle()));
-        container.getChildren().addAll(CardNumberContainer, FacilitadorContainer, TypeContainer, ButtonContainer);
+        HBox ButtonContainer = new HBox(); // 00018523 Contenedor para poner los botones
+        Button btnClean = new Button("Limpiar datos"); // 00018523 Se crea un botón para limpiar datos en los campos
+        Button btnSend = new Button("Actualizar datos");// 00018523 Se crea un botón para actualizar los datos a la tabla de datos
+        btnClean.setPadding(insetsButtons); // 00018523 Se le agrega padding al boton
+        btnSend.setPadding(insetsButtons); // 00018523 Se le agrega padding al boton
+        ButtonContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Se le agrega un alignment al contenedor para los botones
+        ButtonContainer.setPadding(insetsHBox); // 00018523 Se le agrega un padding al contenedor
+        ButtonContainer.getChildren().addAll(btnClean, btnSend); // 00018523 Se agrega al contenedor los dos botones para limpiar y actualizar
+        HBox.setMargin(btnClean, new Insets(5)); // 00018523 Se le agrega un margen al boton de Limpiar
+        HBox.setMargin(btnSend, new Insets(5)); // 00018523 Se le agrega un margen al boton de Actualizar datos
+
+        btnClean.setOnAction(e -> limpiarDatos(tfCardNumber, cbxFacilitador, rdCredit, rdDebit)); // 00018523 Se define lo que hara el boton cuando se presione, En este caso llama a una funcion para limpiar datos en la clase CleanData
+        btnSend.setOnAction(e -> updateData(tfCardNumber, cbxFacilitador, (RadioButton) tgType.getSelectedToggle())); // 00018523 Se define lo que hara el boton cuando se presione, En este caso llama a una funcion para actualizar datos a la base de datos
+        container.getChildren().addAll(CardNumberContainer, FacilitadorContainer, TypeContainer, ButtonContainer); // 00018523 Agrega al contenedor principal los contenedores creados anteriormente
     }
 
-    private void updateData(TextField cardNumber, ComboBox<String> facilitador, RadioButton cardType) {
-        boolean flag = true;
-        if (!cardNumber.getText().matches("\\d*")){
-            AlertsManager.showAlert("ERROR","Información Errónea","Ocupa solo datos numéricos.");
-            cardNumber.setText("");
-            flag = false;
+    private void updateData(TextField cardNumber, ComboBox<String> facilitador, RadioButton cardType) { // 00018523 Se actualiza los datos a la base de datos en base a la información ingresada anteriormente
+        boolean flag = true; // 00018523 Asigna una bandera para que no haya errores al ingresar datos a la base de datos
+        if (!cardNumber.getText().matches("\\d*")){ // 00018523 Verifica que en el textfield solo haya datos númericos
+            AlertsManager.showAlert("ERROR","Información Errónea","Ocupa solo datos numéricos."); // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            cardNumber.setText(""); // 00018523 Asigna el TextField a nulo
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
 
-        } else if (cardNumber.getText().isEmpty()){
-            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el número de la tarjeta de crédito");
-            flag = false;
+        } else if (cardNumber.getText().isEmpty()){ // 00018523 Verifica si el TextField esta vacío
+            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el número de la tarjeta de crédito");  // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
 
-        } else if (cardNumber.getText().length() != 16){
-            AlertsManager.showAlert("ERROR","Cantidad de caracteres errónea","Número de la tarjeta tiene que ser de 16");
-            flag = false;
+        } else if (cardNumber.getText().length() != 16){ // 00018523 Verifica que la cantidad de caracteres sea de exactamente de 16
+            AlertsManager.showAlert("ERROR","Cantidad de caracteres errónea","Número de la tarjeta tiene que ser de 16"); // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
         }
 
-        if (facilitador.getValue() == null){
-            AlertsManager.showAlert("ERROR","Campo sin llenar","Seleccione un facilitador");
-            flag = false;
+        if (facilitador.getValue() == null){ // 00018523 Verifica que se haya seleccionado un facilitador en el ComboBox
+            AlertsManager.showAlert("ERROR","Campo sin llenar","Seleccione un facilitador"); // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
         }
 
-        if (cardType.getText() == null || cardType.getText().isEmpty()){
-            AlertsManager.showAlert("ERROR","Campo sin llenar","Seleccione un tipo de tarjeta");
-            flag = false;
+        if (cardType.getText() == null || cardType.getText().isEmpty()){ // 00018523 Verifica que se haya seleccionado un tipo de tarjeta en los RadiButtons
+            AlertsManager.showAlert("ERROR","Campo sin llenar","Seleccione un tipo de tarjeta"); // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
         }
 
 
-        String cardNumberString = cardNumber.getText();
-        String cardFacilitador = facilitador.getValue();
-        String cardTypeString = String.valueOf(cardType.getText().charAt(0));
+        String cardNumberString = cardNumber.getText(); // 00018523 Asigna a una variable lo ingresado en el TextField del número de la tarjeta
+        String cardFacilitador = facilitador.getValue(); // 00018523 Asigna a una variable lo ingresado en el ComboBox de el facilitador
+        String cardTypeString = String.valueOf(cardType.getText().charAt(0)); // 00018523 Asigna a una variable el primer caracter de la selección de los RadioButtons (C o D)
 
         if (flag){
-            try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) {
-                try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
-                    ps1.executeUpdate();
+            try (Connection conn = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())){ // 00018523 Realiza la conexión a la base de datos
+                try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00018523 Cambia a la base de datos específica
+                    ps1.executeUpdate(); // 00018523 Ejecuta la actualización para usar la base de datos
                 }
 
-                String oldFacilitador = "";
-                String oldCardType = "";
-                PreparedStatement ps = connection.prepareStatement("update tarjeta set facilitador = ?, tipoTarjeta = ? where numTarjeta = ?;");
-                ps.setString(1, cardFacilitador);
-                ps.setString(2, cardTypeString);
-                ps.setLong(3, Long.parseLong(cardNumberString));
+                String oldFacilitador = ""; // 00018523 Inicializa una variable donde se guardara el facilitador que estaba en la base de datos
+                String oldCardType = ""; // 00018523 Inicializa una variable donde se guardara el tipo de tarjeta que estaba en la base de datos
+                PreparedStatement ps = conn.prepareStatement("update tarjeta set facilitador = ?, tipoTarjeta = ? where numTarjeta = ?;"); // 00018523 Ejecuta la query para actualizar los datos en la base de datos
+                ps.setString(1, cardFacilitador); // 00018523 Asigna el primer ? al nuevo facilitador
+                ps.setString(2, cardTypeString); // 00018523 Asigna el segundo ? al nuevo tipo de tarjeta
+                ps.setLong(3, Long.parseLong(cardNumberString)); // 00018523 Asigna el tercer ? al numero de tarjeta a cambiar
 
-                PreparedStatement psSelect = connection.prepareStatement("select t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta from tarjeta t where numTarjeta = ?;");
-                psSelect.setLong(1, Long.parseLong(cardNumberString));
-                ResultSet rs = psSelect.executeQuery();
-                while (rs.next()) {
-                    oldFacilitador = rs.getString("Facilitador");
-                    oldCardType = rs.getString("TipoTarjeta");
+                PreparedStatement psSelect = conn.prepareStatement("select t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta from tarjeta t where numTarjeta = ?;"); // 00018523 Ejecuta la query para ver los datos que estaban en la base de datos
+                psSelect.setLong(1, Long.parseLong(cardNumberString)); // 00018523 Asigna al primer ? del select a el numero de tarjeta digitado
+                ResultSet rs = psSelect.executeQuery(); // 00018523 Ejecuta la consulta, y guarda el resultado de esta en un ResultSet
+                while (rs.next()) { // 00018523 Mientras la consulta tenga datos (Filas)
+                    oldFacilitador = rs.getString("Facilitador"); // 00018523 Asigna el viejo facilitador al encontrado en la base de datos
+                    oldCardType = rs.getString("TipoTarjeta"); // 00018523 Asigna el viejo tipo de tarjeta al encontrado en la base de datos
 
+                    if (oldCardType.equals("C")){ // 00018523 Si el tipo de tarjeta viejo es igual a C, ejecuta lo siguiente
+                        oldCardType = "Crédito"; // 00018523 Designa el tipo de tarjeta a ´Crédito´
+                    } else if (oldCardType.equals("D")){ // 00018523 Si el tipo de tarjeta viejo es igual a D, ejecuta lo siguiente
+                        oldCardType = "Débito"; // 00018523 Designa el tipo de tarjeta a ´Débito´
+                    }
                 }
 
-                int result = ps.executeUpdate();
-                if (result == 0){
-                    AlertsManager.showAlert("ERROR","Error al ingresar datos","No se pudo registrar los datos a la base de datos");
-                } else if (result > 0) {
-                    if (oldCardType.equals("C")){
-                        oldCardType = "Crédito";
-                    } else if (oldCardType.equals("D")){
-                        oldCardType = "Débito";
+                int result = ps.executeUpdate();// 00018523 Ejecuta y guarda en una variable la cantidad de filas afectadas en la ejecucion del query
+                if (result == 0){ // 00018523 Si el numero de filas afectadas es cero, hace lo siguiente
+                    AlertsManager.showAlert("ERROR","Error al ingresar datos","No se pudo registrar los datos a la base de datos"); // 00018523 Muestra una alerta al usuario, "No se pudo ingresar los datos"
+                } else if (result > 0) { // 00018523 Si las filas afectadas son mayor a cero
+
+                    if (cardTypeString.equals("C")){ // 00018523 Si el tipo de tarjeta viejo es nuevo a C, ejecuta lo siguiente
+                        oldCardType = "Crédito"; // 00018523 Designa el tipo de tarjeta a ´Crédito´
+                    } else if (cardTypeString.equals("D")) { // 00018523 Si el tipo de tarjeta nuevo es igual a D, ejecuta lo siguiente
+                        cardTypeString = "Débito";  // 00018523 Designa el tipo de tarjeta a ´Débito´
                     }
 
-                    if (cardTypeString.equals("C")){
-                        cardTypeString = "Crédito";
-                    } else if (cardTypeString.equals("D")){
-                        cardTypeString = "Débito";
-                    }
-
-                    AlertsManager.showAlert(
-                            "DATOS Actualizados",
-                            "¡Completado con exito!",
-                            "Los datos fueron actualizados correctamente:\n" +
-                            oldFacilitador + " -> " + cardFacilitador + "\n" +
-                            oldCardType + " -> " + cardTypeString + "\n"
+                    AlertsManager.showAlert( // 00018523 Muestra una alerta al usuario
+                            "DATOS Actualizados", // 00018523 Designa el titulo de la ventana
+                            "¡Completado con exito!", // 00018523 Designa el titulo adentro de la ventana
+                            "Los datos fueron actualizados correctamente:\n" + // 00018523 Muestra un mensaje como cuerpo
+                            oldFacilitador + " -> " + cardFacilitador + "\n" + // 00018523 De que a que se cambio el facilitador
+                            oldCardType + " -> " + cardTypeString + "\n" // 00018523 De que a que se cambio el tipo de tarjeta
                     );
                 }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-                AlertsManager.showAlert("ERROR","Error en la base de datos","La base de datos tuvo un error, vuelva a intentarlo");
+            } catch (SQLException e) { // 00018523 Atrapa si hay una excepcion en labase de datos
+                e.printStackTrace(); // 00018523 Imprime el error en la consola
+                AlertsManager.showAlert("ERROR","Error en la base de datos","La base de datos tuvo un error, vuelva a intentarlo"); // 00018523 Muestra una alerta al usuario, si la conexion a la base de datos tuvo errores
             }
         }
     }
