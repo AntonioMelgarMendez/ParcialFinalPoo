@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.proyecto.Tables.Tarjeta;
-import org.example.proyecto.Tables.Transaccion;
 import org.example.proyecto.Utilities.AlertsManager;
 import org.example.proyecto.Utilities.DataBaseCredentials;
 import org.example.proyecto.Utilities.SceneChanger;
@@ -22,11 +21,7 @@ import org.example.proyecto.Utilities.SceneChanger;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.LongFunction;
-
 import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
-import static org.example.proyecto.Utilities.SaveTXT.SaveAReport;
-import static org.example.proyecto.Utilities.SaveTXT.SaveCReport;
 
 public class TarjetaController {
     @FXML
@@ -233,8 +228,10 @@ public class TarjetaController {
 
         lblContainer.getChildren().add(lblHeader);
         lblContainer.setAlignment(Pos.TOP_CENTER);
+        lblContainer.setPadding(insetsHBox);
         tableContainer.setPrefWidth(600);
         tableContainer.setAlignment(Pos.TOP_CENTER);
+        tableContainer.setPadding(insetsHBox);
         tableContainer.getChildren().add(tvData);
         tvData.setPlaceholder(new Label("No hay tarjetas en la base de datos"));
 
@@ -308,7 +305,6 @@ public class TarjetaController {
     }
 
     private void updateData(TextField cardNumber, ComboBox<String> facilitador, RadioButton cardType) {
-        //TODO AJIDFDHFIJSNDFAIJNJVEFIANJVAFISICNJDVAFIC
         boolean flag = true;
         if (!cardNumber.getText().matches("\\d*")){
             AlertsManager.showAlert("ERROR","Información Errónea","Ocupa solo datos numéricos.");
@@ -362,7 +358,6 @@ public class TarjetaController {
                 }
 
                 int result = ps.executeUpdate();
-
                 if (result == 0){
                     AlertsManager.showAlert("ERROR","Error al ingresar datos","No se pudo registrar los datos a la base de datos");
                 } else if (result > 0) {
@@ -397,7 +392,65 @@ public class TarjetaController {
     @FXML
     public void onDeleteAction(){
         container.getChildren().clear();
+        HBox dataContainer = new HBox();
+        Label lblCardNumber = new Label("Ingrese el numero de la tarjeta que quiere eliminar: ");
+        TextField tfCardNumber = new TextField();
+        dataContainer.setAlignment(Pos.TOP_CENTER);
+        dataContainer.setPadding(insetsHBox);
 
+        HBox buttonContainer = new HBox();
+        Button btnClean = new Button("Limpiar datos");
+        Button btnDelete = new Button("Eliminar datos");
+        btnClean.setPadding(insetsHBox);
+        btnDelete.setPadding(insetsHBox);
+        buttonContainer.setAlignment(Pos.TOP_CENTER);
+        HBox.setMargin(btnClean, new Insets(5));
+        HBox.setMargin(btnDelete, new Insets(5));
+        buttonContainer.setPadding(insetsHBox);
+
+        btnClean.setOnAction(e -> limpiarDatos(tfCardNumber));
+        btnDelete.setOnAction(e -> deleteData(tfCardNumber));
+
+        dataContainer.getChildren().addAll(lblCardNumber, tfCardNumber);
+        buttonContainer.getChildren().addAll(btnClean, btnDelete);
+        container.getChildren().addAll(dataContainer, buttonContainer);
+    }
+
+    public void deleteData(TextField tfCardNumber){
+        boolean flag = true;
+        if (tfCardNumber.getText().isEmpty()){
+            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el número de la tarjeta de crédito");
+        } else if (tfCardNumber.getText().isEmpty()){
+            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el número de la tarjeta de crédito");
+            flag = false;
+
+        } else if (tfCardNumber.getText().length() != 16){
+            AlertsManager.showAlert("ERROR","Cantidad de caracteres errónea","Número de la tarjeta tiene que ser de 16");
+            flag = false;
+        }
+
+        if (flag){
+            try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) {
+                try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
+                    ps1.executeUpdate();
+                }
+
+                PreparedStatement ps = connection.prepareStatement("delete from tarjeta where numTarjeta = ?;");
+
+                ps.setLong(1, Long.parseLong(tfCardNumber.getText()));
+                int result = ps.executeUpdate();
+
+                if (result == 0){
+                    AlertsManager.showAlert("ERROR","Error al ingresar datos","No se pudo registrar los datos a la base de datos");
+                } else if (result > 0) {
+                    AlertsManager.showAlert("DATOS ELIMINADOS","¡Datos eliminados con éxito!","Los datos fueron eliminados correctamente");
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                AlertsManager.showAlert("ERROR","Error en la base de datos","La base de datos tuvo un error, vuelva a intentarlo");
+            }
+        }
     }
 
     public void onBackButton(ActionEvent event){ // 00018523 Este método se ejecutará cuando se presione el botón btnBack

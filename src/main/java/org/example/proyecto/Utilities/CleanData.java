@@ -45,4 +45,8 @@ public class CleanData { // 00018523 Esta clase resume todos los métodos para l
             rdButton.setSelected(false);
         }
     }
+
+    public static void limpiarDatos(TextField textField1) { // 00018523 Eliminará los datos de los siguientes contenedores: ComboBox, TableView
+        textField1.setText("");
+    }
 }

@@ -11,7 +11,7 @@ public class MainController {
     @FXML
     private void reportea(ActionEvent event) { // 00038623 Define el método para manejar el evento del botón Reporte A
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // 00038623 Obtiene la ventana actual desde el evento de acción
-        SceneChanger.changeScene(stage,"/org/example/proyecto/ViewsFXML/TablaTarjeta.fxml"); // 00038623 Cambia la escena a ReportA.fxml
+        SceneChanger.changeScene(stage,"/org/example/proyecto/ViewsFXML/ReportA.fxml"); // 00038623 Cambia la escena a ReportA.fxml
     }
 
     @FXML
