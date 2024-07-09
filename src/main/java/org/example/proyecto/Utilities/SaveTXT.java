@@ -199,58 +199,46 @@ public class SaveTXT {
         }
     }
 
-    public static void SaveDReport(String idCliente, List<Cliente> clientes) {
-        // 00083823 Obtenemos el path actual
-        Path projectPath = Paths.get("").toAbsolutePath();
-        Path path = projectPath.resolve(relativePath);
+    public static void SaveDReport(String idCliente, List<Cliente> clientes) { // 00083823 Método estático para guardar el reporte en un archivo de texto
+        Path projectPath = Paths.get("").toAbsolutePath(); // 00083823 Obtiene el path actual
+        Path path = projectPath.resolve(relativePath); // 00083823 Resuelve la ruta completa para el archivo
 
-        // 00083823 Intentamos crear el folder
-        try {
-            Files.createDirectories(path);
-        } catch (IOException e) {
-            // 00083823 Terminamos la funcion en caso de que haya un problema
-            System.err.println("Error al crear el directorio: " + e.getMessage());
-            return;
+        try { // 00083823 Intentamos crear el directorio donde se guardará el archivo
+            Files.createDirectories(path); // 00083823  Crea el directorio si no existe
+        } catch (IOException e) { // 00083823 Captura cualquier excepción de entrada/salida
+            System.err.println("Error al crear el directorio: " + e.getMessage()); // 00083823 Imprime un mensaje de error
+            return; // 00083823 Sale del método en caso de error
         }
 
-        // 00083823 Formatear la fecha y hora actual para el nombre del archivo
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        String formattedDateTime = now.format(formatter);
+        LocalDateTime now = LocalDateTime.now(); // 00083823 Obtiene la fecha y hora actual
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"); // 00083823 Define el formato de fecha y hora
+        String formattedDateTime = now.format(formatter); // 00083823 Formatea la fecha y hora actual
 
-        // 00083823 Le colocamos la direccion para que sea de tipo D
-        String fileName = path.resolve("Reporte-D-" + formattedDateTime + ".txt").toString();
+        String fileName = path.resolve("Reporte-D-" + formattedDateTime + ".txt").toString(); // 00083823 Define el nombre del archivo incluyendo la fecha y hora formateada
 
-        // 00083823 Intentamos crear el archivo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            // 00009123 Colocamos el id del cliente
-            writer.write("Consulta realizada por cliente con facilitador: " + idCliente);
-            writer.newLine();
-            writer.write("Resultados de la consulta:");
-            writer.newLine();
-            writer.write("-----------------------------------------");
-            writer.newLine();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) { // 00083823 Intentamos crear el archivo y escribir los datos
+            writer.write("Consulta realizada por cliente con facilitador: " + idCliente); // 00083823 Escribe el encabezado del reporte
+            writer.newLine(); // 00083823 Escribe una nueva línea
+            writer.write("Resultados de la consulta:"); // 00083823 Escribe el encabezado del reporte
+            writer.newLine(); // 00083823 Escribe una nueva línea
+            writer.write("-----------------------------------------"); // 00083823 Separación estética
+            writer.newLine(); // 00083823 Escribe una nueva línea
 
-            // 00083823 Mostramos los campos
-            writer.write("ID_Cliente\tNombre\tApellido\tCantidad_Compras\tTotal_Gastado");
-            writer.newLine();
+            writer.write("ID_Cliente\tNombre\tApellido\tCantidad_Compras\tTotal_Gastado"); // 00083823 Escribe los nombres de las columnas
+            writer.newLine(); // 00083823 Escribe una nueva línea
 
-            // 00083823 Recorremos todos los clientes
-            for (Cliente cliente : clientes) {
+            for (Cliente cliente : clientes) { // 00083823 Recorre todos los clientes y escribe sus datos
                 // 00009123 Escribimos todos los datos del cliente
-                writer.write(cliente.getIdCliente() + "\t");
-                writer.write(cliente.getNombre() + "\t");
-                writer.write(cliente.getApellido() + "\t");
-                writer.write(cliente.getCantidadCompras() + "\t");
-                writer.write(cliente.getTotalGastado() + "\t");
-                writer.newLine();
+                writer.write(cliente.getIdCliente() + "\t"); // 00083823 Escribe el ID del cliente
+                writer.write(cliente.getNombre() + "\t"); // 00083823 Escribe el Nombre del cliente
+                writer.write(cliente.getApellido() + "\t"); // 00083823 Escribe el Apellido del cliente
+                writer.write(cliente.getCantidadCompras() + "\t"); // 00083823 Escribe la Cantidad de Compras del cliente
+                writer.write(cliente.getTotalGastado() + "\t"); // 00083823 Escribe el total gastado por el cliente
+                writer.newLine(); // 00083823 Escribe una nueva línea
             }
-
-            // 00083823 Imprimimos el archivo creado
-            System.out.println("Consulta guardada en: " + fileName);
-        } catch (IOException e) {
-            // 00083823 Imprimimos el error en caso de que no se pudo guardar
-            System.err.println("Error al guardar datos en el archivo: " + e.getMessage());
+            System.out.println("Consulta guardada en: " + fileName); // 00083823 Imprime el mensaje indicando que el archivo ha sido creado
+        } catch (IOException e) { // 00083823 Captura cualquier excepción de entrada/salida
+            System.err.println("Error al guardar datos en el archivo: " + e.getMessage()); // 00083823 Imprimimos el error en caso de que no se pudo guardar
         }
     }
 
