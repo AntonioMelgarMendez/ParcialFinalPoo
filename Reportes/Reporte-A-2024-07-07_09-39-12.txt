@@ -1,0 +1,7 @@
+Consulta realizada por cliente con ID: 5
+Fecha de inicio: 2024-01-01
+Fecha de fin: 2024-12-31
+Resultados de la consulta:
+-----------------------------------------
+Id_transaccion  Id_cliente FechaCompra Monto Descripcion
+4                5         2024-11-07   3.75  Uber 

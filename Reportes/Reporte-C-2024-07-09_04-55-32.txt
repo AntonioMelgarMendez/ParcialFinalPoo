@@ -1,0 +1,10 @@
+Consulta realizada por cliente con ID: 4
+Resultados de la consulta:
+-----------------------------------------
+
+Tarjetas de Crédito:
+	XXXX XXXX XXXX 6789
+
+Tarjetas de Débito:
+	N/A
+
