@@ -35,12 +35,6 @@ public class ReportDController {
     private TableColumn<TarjetaXTransaccion, Integer> tbidCliente;  // 00083823 Define la columna para el ID del cliente.
 
     @FXML
-    private TableColumn<TarjetaXTransaccion, Integer> tbidTransaccion;  // 00083823 Define la columna para el ID de la transacción.
-
-    @FXML
-    private TableColumn<TarjetaXTransaccion, String> tbFacilitador;  // 00083823 Define la columna para el facilitador.
-
-    @FXML
     private TableColumn<TarjetaXTransaccion, Integer> tbCantCompras;  // 00083823 Define la columna para la cantidad de compras.
 
     @FXML
@@ -51,8 +45,6 @@ public class ReportDController {
         comboBoxFacilitador.setItems(FXCollections.observableArrayList("Visa", "MasterCard", "AmericanExpress"));  // 00083823 Inicializa el ComboBox con opciones predefinidas.
 
         tbidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));  // 00083823 Asigna la propiedad de valor para la columna de ID de cliente.
-        tbidTransaccion.setCellValueFactory(new PropertyValueFactory<>("idTransaccion"));  // 00083823 Asigna la propiedad de valor para la columna de ID de transacción.
-        tbFacilitador.setCellValueFactory(new PropertyValueFactory<>("facilitador"));  // 00083823 Asigna la propiedad de valor para la columna de facilitador.
         tbCantCompras.setCellValueFactory(new PropertyValueFactory<>("cantidadCompras"));  // 00083823 Asigna la propiedad de valor para la columna de cantidad de compras.
         tbTotal.setCellValueFactory(new PropertyValueFactory<>("totalMonto"));  // 00083823 Asigna la propiedad de valor para la columna de total.
 
@@ -77,14 +69,14 @@ public class ReportDController {
                 ps1.executeUpdate();  // 00083823 Ejecuta la declaración para seleccionar la base de datos.
             }
 
-            String query = "SELECT c.idCliente AS 'ID Cliente', t.idTransaccion AS 'ID Transaccion', " +  // 00083823 Consulta SQL para obtener datos específicos de transacciones.
-                    "tr.facilitador AS 'Facilitador', COUNT(t.idTransaccion) AS 'Cantidad de Compras', " +
-                    "SUM(t.totalMonto) AS 'Total' " +
+            String query = "SELECT c.idCliente AS IDCliente," + // 00083823 Consulta SQL para obtener datos específicos de transacciones.
+                    "       COUNT(t.idTransaccion) AS CantidadCompras," +
+                    "       SUM(t.totalMonto) AS Total " +
                     "FROM transaccion t " +
                     "INNER JOIN cliente c ON t.idCliente = c.idCliente " +
                     "INNER JOIN tarjeta tr ON c.idCliente = tr.idCliente " +
-                    "WHERE tr.facilitador = ? " +
-                    "GROUP BY c.idCliente, t.idTransaccion, tr.facilitador";
+                    "WHERE tr.facilitador = ?" +
+                    "GROUP BY c.idCliente";
 
             PreparedStatement ps2 = conn.prepareStatement(query);  // 00083823 Prepara la consulta SQL.
             ps2.setString(1, facilitador);  // 00083823 Establece el facilitador como parámetro en la consulta preparada.
@@ -92,10 +84,8 @@ public class ReportDController {
 
             while (rs.next()) {
                 TarjetaXTransaccion clienteTransaccion = new TarjetaXTransaccion(  // 00083823 Crea objetos TarjetaXTransaccion con los resultados obtenidos.
-                        rs.getInt("ID Cliente"),  // 00083823 Obtiene el ID de cliente del resultado.
-                        rs.getInt("ID Transaccion"),  // 00083823 Obtiene el ID de transacción del resultado.
-                        rs.getString("Facilitador"),  // 00083823 Obtiene el facilitador del resultado.
-                        rs.getInt("Cantidad de Compras"),  // 00083823 Obtiene la cantidad de compras del resultado.
+                        rs.getInt("IDCliente"),  // 00083823 Obtiene el ID de cliente del resultado.
+                        rs.getInt("CantidadCompras"),  // 00083823 Obtiene el ID de transacción del resultado.
                         rs.getDouble("Total")  // 00083823 Obtiene el total del resultado.
                 );
                 dataList.add(clienteTransaccion);  // 00083823 Agrega el objeto a la lista observable.
@@ -104,8 +94,8 @@ public class ReportDController {
             tbMostrarDatos.setItems(dataList);  // 00083823 Asigna los datos a mostrar en la TableView.
 
             if (!dataList.isEmpty()) {
-                int idCliente = dataList.get(0).getIdCliente();  // 00083823 Obtiene el ID del cliente de la primera entrada en la lista.
-                SaveTXT.SaveDReport(idCliente, dataList);  // 00083823 Guarda el reporte en un archivo de texto.
+                String facilitadorFinal = comboBoxFacilitador.getValue();  // 00083823 Obtiene el ID del cliente de la primera entrada en la lista.
+                SaveTXT.SaveDReport(facilitadorFinal, dataList);  // 00083823 Guarda el reporte en un archivo de texto.
             }
 
         } catch (SQLException e) {

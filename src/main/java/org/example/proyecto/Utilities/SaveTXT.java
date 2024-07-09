@@ -171,7 +171,7 @@ public class SaveTXT {
     }
 
     // 00083823: Este método guarda un reporte de transacciones en un archivo de texto.
-    public static void SaveDReport(int idCliente, List<TarjetaXTransaccion> transacciones) {
+    public static void SaveDReport(String facilitador, List<TarjetaXTransaccion> transacciones) {
         // 00083823: Obtiene la ruta absoluta del proyecto
         Path projectPath = Paths.get("").toAbsolutePath();
         // 00083823: Resuelve la ruta relativa proporcionada
@@ -197,7 +197,7 @@ public class SaveTXT {
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             // 00083823: Escribe la cabecera del reporte
-            writer.write("Consulta realizada por cliente con facilitador: " + idCliente);
+            writer.write("Consulta con facilitador: " + facilitador);
             writer.newLine();
             writer.write("Resultados de la consulta:");
             writer.newLine();
@@ -205,15 +205,13 @@ public class SaveTXT {
             writer.newLine();
 
             // 00083823: Escribe la cabecera de las columnas
-            writer.write("ID_Cliente\tid_Transaccion\tfacilitador\tCantidad_Compras\tTotal_Gastado");
+            writer.write("ID_Cliente\tCantidad_Compras\tTotal_Gastado");
             writer.newLine();
 
             // 00083823: Escribe cada transacción en el archivo
             for (TarjetaXTransaccion transaccion : transacciones) {
                 // 00083823: Escribe los datos de cada transacción separados por tabulaciones
                 writer.write(transaccion.getIdCliente() + "            \t");
-                writer.write(transaccion.getIdTransaccion() + "         \t");
-                writer.write(transaccion.getFacilitador() + "        \t");
                 writer.write(transaccion.getCantidadCompras() + "             \t");
                 writer.write(transaccion.getTotalMonto() + "\t");
                 writer.newLine();

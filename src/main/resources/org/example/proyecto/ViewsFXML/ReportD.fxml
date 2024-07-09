@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="593.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ReportDController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="600.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ReportDController">
     <children>
         <AnchorPane layoutX="5.0" layoutY="4.0" prefHeight="391.0" prefWidth="584.0" style="-fx-background-color: #ffffff;">
             <children>
-                <VBox layoutX="-2.0" prefHeight="70.0" prefWidth="580.0">
+                <VBox layoutX="-2.0" prefHeight="400.0" prefWidth="593.0">
                     <children>
                         <Label alignment="CENTER" prefHeight="70.0" prefWidth="580.0" text="TRANSACCIONES HECHAS POR FACILITADOR " textAlignment="CENTER">
                             <font>
@@ -19,22 +19,44 @@
                                 <Insets bottom="10.0" left="100.0" right="100.0" top="10.0" />
                             </padding>
                         </Label>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                            <Label text="Facilitador: " />
+                            <ComboBox fx:id="comboBoxFacilitador" prefWidth="150.0">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                            <Button mnemonicParsing="false" onAction="#onBuscar" text="Buscar">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                            <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#onLimpiar" text="Limpiar">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#onVolver" text="Volver">
+                           <HBox.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="281.0" prefWidth="580.0">
+                     <children>
+                            <TableView fx:id="tbMostrarDatos" prefHeight="209.0" prefWidth="310.0">
+                                <columns>
+                                    <TableColumn fx:id="tbidCliente" prefWidth="75.0" text="ID Cliente" />
+                                    <TableColumn fx:id="tbCantCompras" prefWidth="135.0" text="Cantidad de Compras" />
+                                    <TableColumn fx:id="tbTotal" prefWidth="100.0" text="Total" />
+                                </columns>
+                            </TableView>
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
-                <Button fx:id="btnLimpiar" layoutX="401.0" layoutY="97.0" mnemonicParsing="false" onAction="#onLimpiar" text="Limpiar" />
-                <Button fx:id="btnSalir" layoutX="468.0" layoutY="97.0" mnemonicParsing="false" onAction="#onVolver" text="Volver" />
-                <TableView fx:id="tbMostrarDatos" layoutX="52.0" layoutY="153.0" prefHeight="209.0" prefWidth="455.0">
-                    <columns>
-                        <TableColumn fx:id="tbidCliente" prefWidth="75.0" text="ID Cliente" />
-                        <TableColumn fx:id="tbidTransaccion" prefWidth="100.0" text="ID Transaccion" />
-                        <TableColumn fx:id="tbFacilitador" prefWidth="77.0" text="Facilitador" />
-                        <TableColumn fx:id="tbCantCompras" prefWidth="135.0" text="Cantidad de Compras" />
-                        <TableColumn fx:id="tbTotal" prefWidth="66.0" text="Total" />
-                    </columns>
-                </TableView>
-                <Label layoutX="77.0" layoutY="101.0" text="Facilitador: " />
-                <ComboBox fx:id="comboBoxFacilitador" layoutX="138.0" layoutY="97.0" prefWidth="150.0" />
-                <Button layoutX="331.0" layoutY="97.0" mnemonicParsing="false" onAction="#onBuscar" text="Buscar" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="-10.0" top="10.0" />
