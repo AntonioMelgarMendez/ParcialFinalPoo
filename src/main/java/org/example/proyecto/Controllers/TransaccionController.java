@@ -34,21 +34,21 @@ public class TransaccionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connectDatabase();
-        initializeTable();
+        connectDatabase();  // 00038623 Llama al método para conectar a la base de datos.
+        initializeTable();  //00038623 Llama al método para inicializar la tabla en la interfaz gráfica.
     }
 
     private void connectDatabase() {
         try {
             connection = DriverManager.getConnection(
-                    DataBaseCredentials.getInstance().getUrl(),
-                    DataBaseCredentials.getInstance().getUsername(),
-                    DataBaseCredentials.getInstance().getPassword()
+                    DataBaseCredentials.getInstance().getUrl(),  // 00038623 Obtiene la URL de conexión desde las credenciales.
+                    DataBaseCredentials.getInstance().getUsername(),  // 00038623 Obtiene el nombre de usuario de las credenciales.
+                    DataBaseCredentials.getInstance().getPassword()  // 00038623 Obtiene la contraseña de las credenciales.
             );
             // Selecciona la base de datos
-            try (Statement stmt = connection.createStatement()) {
-                stmt.execute("USE " + DataBaseCredentials.getInstance().getDatabase());
-                System.out.println("Tabla on");
+            try (Statement stmt = connection.createStatement()) { //00038623 try catch para conectar a la base de datos en caso que no haya
+                stmt.execute("USE " + DataBaseCredentials.getInstance().getDatabase());  // 00038623 Selecciona la base de datos especificada en las credenciales.
+                System.out.println("Tabla on");  // 00038623 Imprime un mensaje de confirmación en la consola.
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,26 +56,26 @@ public class TransaccionController implements Initializable {
     }
 
     private void initializeTable() {
-        idTransaccionCol.setCellValueFactory(new PropertyValueFactory<>("idTransaccion"));
-        idClienteCol.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
-        fechaCompraCol.setCellValueFactory(new PropertyValueFactory<>("fechaCompra"));
-        totalMontoCol.setCellValueFactory(new PropertyValueFactory<>("totalMonto"));
-        descripcionCol.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        idTransaccionCol.setCellValueFactory(new PropertyValueFactory<>("idTransaccion"));  // 00038623 Asigna el valor de la propiedad para la columna de ID de transacción.
+        idClienteCol.setCellValueFactory(new PropertyValueFactory<>("idCliente"));  // 00038623 Asigna el valor de la propiedad para la columna de ID de cliente.
+        fechaCompraCol.setCellValueFactory(new PropertyValueFactory<>("fechaCompra"));  // 00038623 Asigna el valor de la propiedad para la columna de fecha de compra.
+        totalMontoCol.setCellValueFactory(new PropertyValueFactory<>("totalMonto"));  // 00038623 Asigna el valor de la propiedad para la columna de monto total.
+        descripcionCol.setCellValueFactory(new PropertyValueFactory<>("descripcion"));  // 00038623 Asigna el valor de la propiedad para la columna de descripción.
     }
 
 
     @FXML
     private void insertarTransaccion(ActionEvent event) {
-        if (validateInputs()) {
+        if (validarInputs()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO transaccion (idTransaccion, idCliente, fecha_compra, totalMonto, descripcion) VALUES (?, ?, ?, ?, ?)")) {
-                statement.setInt(1, Integer.parseInt(idTransaccionFieldInsert.getText()));
-                statement.setInt(2, Integer.parseInt(idClienteField.getText()));
-                statement.setDate(3, Date.valueOf(fechaCompraPickerInsert.getValue()));
-                statement.setDouble(4, Double.parseDouble(totalMontoField.getText()));
-                statement.setString(5, descripcionField.getText());
-                statement.executeUpdate();
-                mostrarTabla(null);
+                statement.setInt(1, Integer.parseInt(idTransaccionFieldInsert.getText()));  // 00038623 Asigna el ID de transacción desde el campo de texto.
+                statement.setInt(2, Integer.parseInt(idClienteField.getText()));  // 00038623 Asigna el ID de cliente desde el campo de texto.
+                statement.setDate(3, Date.valueOf(fechaCompraPickerInsert.getValue()));  // 00038623 Asigna la fecha de compra desde el selector de fecha.
+                statement.setDouble(4, Double.parseDouble(totalMontoField.getText()));  // 00038623 Asigna el monto total desde el campo de texto.
+                statement.setString(5, descripcionField.getText());  // 00038623 Asigna la descripción desde el campo de texto.
+                statement.executeUpdate();  // 00038623 Ejecuta la inserción de datos en la base de datos.
+                mostrarTabla(null);  // 00038623 Actualiza la tabla en la interfaz gráfica.
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -83,17 +83,17 @@ public class TransaccionController implements Initializable {
     }
 
     @FXML
-    private void modificarTransaccion(ActionEvent event) {
-        if (validateInputs()) {
+    private void modificarTransaccion(ActionEvent event) { //00038623 funcion para el boton de modificar
+        if (validarInputs()) {
             try (PreparedStatement statement = connection.prepareStatement(
                     "UPDATE transaccion SET idCliente = ?, fecha_compra = ?, totalMonto = ?, descripcion = ? WHERE idTransaccion = ?")) {
-                statement.setInt(1, Integer.parseInt(idClienteField.getText()));
-                statement.setDate(2, Date.valueOf(fechaCompraPickerInsert.getValue()));
-                statement.setDouble(3, Double.parseDouble(totalMontoField.getText()));
-                statement.setString(4, descripcionField.getText());
-                statement.setInt(5, Integer.parseInt(idTransaccionFieldInsert.getText()));
-                statement.executeUpdate();
-                mostrarTabla(null);
+                statement.setInt(1, Integer.parseInt(idClienteField.getText()));  // 00038623 Asigna el nuevo ID de cliente desde el campo de texto.
+                statement.setDate(2, Date.valueOf(fechaCompraPickerInsert.getValue()));  // 00038623 Asigna la nueva fecha de compra desde el selector de fecha.
+                statement.setDouble(3, Double.parseDouble(totalMontoField.getText()));  // 00038623 Asigna el nuevo monto total desde el campo de texto.
+                statement.setString(4, descripcionField.getText());  // 00038623 Asigna la nueva descripción desde el campo de texto.
+                statement.setInt(5, Integer.parseInt(idTransaccionFieldInsert.getText()));  // 00038623 Asigna el ID de transacción para identificar la fila a actualizar.
+                statement.executeUpdate();  // 00038623 Ejecuta la actualización en la base de datos.
+                mostrarTabla(null);  // 00038623 Actualiza la tabla en la interfaz gráfica.
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -101,33 +101,33 @@ public class TransaccionController implements Initializable {
     }
 
     @FXML
-    private void eliminarTransaccion(ActionEvent event) {
+    private void eliminarTransaccion(ActionEvent event) { // 00038623 funcion para el boton de eliminar
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM transaccion WHERE idTransaccion = ?")) {
-            statement.setInt(1, Integer.parseInt(idTransaccionFieldInsert.getText()));
-            statement.executeUpdate();
-            mostrarTabla(null);
+            statement.setInt(1, Integer.parseInt(idTransaccionFieldInsert.getText()));  // 00038623 Asigna el ID de transacción para identificar la fila a eliminar.
+            statement.executeUpdate();  // 00038623 Ejecuta la eliminación en la base de datos.
+            mostrarTabla(null);  // 00038623 Actualiza la tabla en la interfaz gráfica.
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void mostrarTabla(ActionEvent event) {
+    private void mostrarTabla(ActionEvent event) { //00038623 funcion para mostrar la tabla de la BD
         try {
-            tableView.getItems().clear();
-            String sql = "SELECT * FROM transaccion";
+            tableView.getItems().clear();  // 00038623 Limpia los elementos actuales en la tabla.
+            String sql = "SELECT * FROM transaccion";  // 00038623 Consulta SQL para seleccionar todos los registros de la tabla transaccion.
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery(sql);  // 00038623 Ejecuta la consulta y obtiene el conjunto de resultados.
 
             while (resultSet.next()) {
                 Transaccion transaccion = new Transaccion(
-                        resultSet.getInt("idTransaccion"),
-                        resultSet.getDate("fecha_compra"),
-                        resultSet.getDouble("totalMonto"),
-                        resultSet.getString("descripcion"),
-                        resultSet.getInt("idCliente")
+                        resultSet.getInt("idTransaccion"),  // 00038623 Obtiene el ID de transacción del resultado.
+                        resultSet.getDate("fecha_compra"),  // 00038623 Obtiene la fecha de compra del resultado.
+                        resultSet.getDouble("totalMonto"),  // 00038623 Obtiene el monto total del resultado.
+                        resultSet.getString("descripcion"),  // 00038623 Obtiene la descripción del resultado.
+                        resultSet.getInt("idCliente")  // 00038623 Obtiene el ID de cliente del resultado.
                 );
-                tableView.getItems().add(transaccion);
+                tableView.getItems().add(transaccion);  // 00038623 Agrega la transacción a la tabla en la interfaz gráfica.
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -135,37 +135,35 @@ public class TransaccionController implements Initializable {
     }
 
     @FXML
-    private void limpiarCampos(ActionEvent event) {
-        idTransaccionFieldInsert.clear();
-        idClienteField.clear();
-        fechaCompraPickerInsert.setValue(null);
-        totalMontoField.clear();
-        descripcionField.clear();
+    private void limpiarCampos(ActionEvent event) { //0038623 funcion para el boton para limpiar los campos
+        idTransaccionFieldInsert.clear();  // 00038623 Limpia el campo de ID de transacción.
+        idClienteField.clear();  // 00038623 Limpia el campo de ID de cliente.
+        fechaCompraPickerInsert.setValue(null);  // 00038623 Borra la fecha seleccionada en el selector de fecha.
+        totalMontoField.clear();  // 00038623 Limpia el campo de monto total.
+        descripcionField.clear();  // 00038623 Limpia el campo de descripción.
     }
 
     @FXML
-    private void volver(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        SceneChanger.changeScene(stage, "/org/example/proyecto/ViewsFXML/Main.fxml");
+    private void volver(ActionEvent event) { //00038623 funcion para volver al menu de opciones para modificar las tablas
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();  // 00038623 Obtiene la ventana actual desde el evento.
+        SceneChanger.changeScene(stage, "/org/example/proyecto/ViewsFXML/Main.fxml");  // 00038623 Cambia a la escena principal.
     }
 
-    private boolean validateInputs() {
+    private boolean validarInputs() { // 00038623 funcion para validar que los campos esten vacios o llenos
         if (idTransaccionFieldInsert.getText().isEmpty() || idClienteField.getText().isEmpty() ||
                 fechaCompraPickerInsert.getValue() == null || totalMontoField.getText().isEmpty() ||
-                descripcionField.getText().isEmpty()) {
-            AlertsManager.showAlert("Campos vacíos", "Todos los campos son obligatorios.","Los campos estan vacios");
-            return false;
+                descripcionField.getText().isEmpty()) { //00038623 verifica si tienen algun espacio vacio
+            AlertsManager.showAlert("Campos vacíos", "Todos los campos son obligatorios.","Los campos estan vacios");  // 00038623 Muestra una alerta si hay campos vacíos.
+            return false; //00038623 retorna falso y retorna la alerta
         }
         try {
-            Integer.parseInt(idTransaccionFieldInsert.getText());
-            Integer.parseInt(idClienteField.getText());
-            Double.parseDouble(totalMontoField.getText());
-        } catch (NumberFormatException e) {
-            AlertsManager.showAlert("Formato inválido", "Asegúrate de que los campos numéricos tengan el formato correcto.","Los numeros no tienen el formato correcto");
-            return false;
+            Integer.parseInt(idTransaccionFieldInsert.getText());  // 00038623 Intenta convertir el ID de transacción a entero.
+            Integer.parseInt(idClienteField.getText());  // 00038623 Intenta convertir el ID de cliente a entero.
+            Double.parseDouble(totalMontoField.getText());  // 00038623 Intenta convertir el monto total a double.
+        } catch (NumberFormatException e) { //00038623 verifica si el formato es valido 
+            AlertsManager.showAlert("Formato inválido", "Asegúrate de que los campos numéricos tengan el formato correcto.","Los numeros no tienen el formato correcto");  // 00038623 Muestra una alerta si los formatos numéricos no son válidos.
+            return false;//00038623 retorna falso y retorna la alerta
         }
         return true;
     }
-
-
 }
