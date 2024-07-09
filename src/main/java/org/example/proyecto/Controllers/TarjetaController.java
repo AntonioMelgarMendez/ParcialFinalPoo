@@ -168,91 +168,91 @@ public class TarjetaController { // 00018523 Clase que permitira insertar, ver, 
     }
 
     @FXML
-    public void onReadAction(){
-        container.getChildren().clear();
-        HBox lblContainer = new HBox();
-        HBox tableContainer = new HBox();
+    public void onReadAction(){ // 00018523 Método que se ejecutara cuando se presion el btnRead
+        container.getChildren().clear(); // 00018523 Limpia lo que haya en el container
+        HBox lblContainer = new HBox(); // 00018523 Crea un contenedor para poner el label
+        HBox tableContainer = new HBox(); // 00018523 Crea un contenedor para poner la tabla con los datos
         ObservableList<Tarjeta> cardList = FXCollections.observableArrayList(); // 00018523 Es una lista observable que cambia sus datos para la visualización de la tabla
 
-        Label lblHeader = new Label("Datos en la tabla Tarjeta");
-        lblHeader.setStyle("-fx-font-size: 16px");
+        Label lblHeader = new Label("Datos en la tabla Tarjeta"); // 00018523 Crea un label como titulo de la tabla
+        lblHeader.setStyle("-fx-font-size: 16px"); // 00018523 Cambia el tamaño del texto del label
 
-        TableView<Tarjeta> tvData = new TableView<>();
-        TableColumn<Tarjeta, String> tbcCardNumber = new TableColumn<>("Número de Tarjeta");
-        TableColumn<Tarjeta, String> tbcCardFacilitador = new TableColumn<>("Facilitador");
-        TableColumn<Tarjeta, String> tbcCardType = new TableColumn<>("Tipo");
-        TableColumn<Tarjeta, Integer> tbcCardIDClient = new TableColumn<>("ID Cliente");
+        TableView<Tarjeta> tvData = new TableView<>(); // 00018523 Crea una tabla para visualizar los datos
+        TableColumn<Tarjeta, String> tbcCardNumber = new TableColumn<>("Número de Tarjeta"); // 00018523 Crea una columna, y especifica el nombre Número de Tarjeta
+        TableColumn<Tarjeta, String> tbcCardFacilitador = new TableColumn<>("Facilitador"); // 00018523 Crea una columna, y especifica el nombre Facilitador
+        TableColumn<Tarjeta, String> tbcCardType = new TableColumn<>("Tipo"); // 00018523 Crea una columna, y especifica el nombre Tipo
+        TableColumn<Tarjeta, Integer> tbcCardIDClient = new TableColumn<>("ID Cliente"); // 00018523 Crea una columna, y especifica el nombre ID Cliente
 
-        tbcCardNumber.setCellValueFactory(cellData -> {
-            String numTarjeta = cellData.getValue().getNumTarjeta(); 
-            char[] censoredCard = numTarjeta.toCharArray(); 
-            String numMostrado;
+        tbcCardNumber.setCellValueFactory(cellData -> { // 00018523 Establece el valor de la celda del número de la tarjeta
+            String numTarjeta = cellData.getValue().getNumTarjeta(); // 00018523 Guarda como string el número de la tarjeta
+            char[] censoredCard = numTarjeta.toCharArray(); // 00018523 Inicializa una cadena de caracteres a partir del número de la tarjeta
+            String numMostrado; // 00018523 Inicializa una variable para censurar el número de la tarjeta
 
-            if (!numTarjeta.isEmpty()){
-                numMostrado = "XXXX XXXX XXXX " + censoredCard[12] + censoredCard[13] + censoredCard[14] + censoredCard[15];
-            } else {
-                numMostrado = "N/A";
+            if (!numTarjeta.isEmpty()){ // 00018523 Verifica si el string del número de la tarjeta tiene caracteres
+                numMostrado = "XXXX XXXX XXXX " + censoredCard[12] + censoredCard[13] + censoredCard[14] + censoredCard[15]; // 00018523 Establece la variable numMostrado a una censura de los primeros 12 carácteres, dejando visibles los últimos 4
+            } else { // 00018523 Si el string del número de la tarjeta está vacío, se ejecuta el bloque a continuación
+                numMostrado = "N/A"; // 00018523 Establece la variable numMostrado a "N/A" (Sin Tarjeta)
             }
-            return new SimpleStringProperty(numMostrado);
+            return new SimpleStringProperty(numMostrado); // 00018523 Retorna el dato a renderizar en la columna del número de la tarjeta, en base a los casos anteriores
         });
 
-        tbcCardFacilitador.setCellValueFactory(new PropertyValueFactory<>("facilitador"));
+        tbcCardFacilitador.setCellValueFactory(new PropertyValueFactory<>("facilitador")); // 00018523 Inicializa los datos que se pondran en la columna, con el nombre del atributo en la clase Tarjeta
 
-        tbcCardType.setCellValueFactory(cellData -> {
-            String cardType = cellData.getValue().getTipoTarjeta();
-            String showType;
+        tbcCardType.setCellValueFactory(cellData -> { // 00018523 Establece el valor de la celda de los tipos de tarjeta
+            String cardType = cellData.getValue().getTipoTarjeta(); // 00018523 Guarda como string el tipo de tarjeta
+            String showType; // 00018523 Inicializa una variable para especificar el tipo de tarjeta
 
-            if (cardType.equals("C")){
-                showType = "Crédito";
-            } else if (cardType.equals("D")){
-                showType = "Débito";
-            } else {
-                showType = "N/A";
+            if (cardType.equals("C")){ // 00018523 Si el tipo de tarjeta es C, se ejecuta el bloque a continuación
+                showType = "Crédito"; // 00018523 Establece la variable showType a "Crédito"
+            } else if (cardType.equals("D")){ // 00018523 Si el tipo de tarjeta es D, se ejecuta el bloque a continuación
+                showType = "Débito"; // 00018523 Establece la variable showType a "Débito"
+            } else { // 00018523 Si no se cumple ninguna de las condiciones anteriores, se ejecuta el bloque a continuación
+                showType = "N/A"; // 00018523 Establece la variable showType a "N/A" (Sin tarjeta)
             }
-            return new SimpleStringProperty(showType);
+            return new SimpleStringProperty(showType); // 00018523 Retorna el dato a renderizar en la columna del tipo de tarjeta, en base a los casos anteriores
         });
 
-        tbcCardIDClient.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
+        tbcCardIDClient.setCellValueFactory(new PropertyValueFactory<>("idCliente")); // 00018523 Inicializa los datos que se pondran en la columna, con el nombre del atributo en la clase Tarjeta
 
-        tvData.getColumns().add(tbcCardNumber);
-        tvData.getColumns().add(tbcCardFacilitador);
-        tvData.getColumns().add(tbcCardType);
-        tvData.getColumns().add(tbcCardIDClient);
+        tvData.getColumns().add(tbcCardNumber); // 00018523 Añade la columna al TableView
+        tvData.getColumns().add(tbcCardFacilitador); // 00018523 Añade la columna al TableView
+        tvData.getColumns().add(tbcCardType); // 00018523 Añade la columna al TableView
+        tvData.getColumns().add(tbcCardIDClient); // 00018523 Añade la columna al TableView
 
-        tbcCardNumber.setPrefWidth(200);
-        tbcCardFacilitador.setPrefWidth(200);
-        tbcCardType.setPrefWidth(100);
-        tbcCardIDClient.setPrefWidth(100);
-        tvData.setPrefWidth(600);
+        tbcCardNumber.setPrefWidth(200); // 00018523 Especifica el ancho de la columna
+        tbcCardFacilitador.setPrefWidth(200); // 00018523 Especifica el ancho de la columna
+        tbcCardType.setPrefWidth(100); // 00018523 Especifica el ancho de la columna
+        tbcCardIDClient.setPrefWidth(100); // 00018523 Especifica el ancho de la columna
+        tvData.setPrefWidth(600); // 00018523 Especifica el ancho del TableView
 
-        lblContainer.getChildren().add(lblHeader);
-        lblContainer.setAlignment(Pos.TOP_CENTER);
-        lblContainer.setPadding(insetsHBox);
-        tableContainer.setPrefWidth(600);
-        tableContainer.setAlignment(Pos.TOP_CENTER);
-        tableContainer.setPadding(insetsHBox);
-        tableContainer.getChildren().add(tvData);
-        tvData.setPlaceholder(new Label("No hay tarjetas en la base de datos"));
+        lblContainer.getChildren().add(lblHeader); // 00018523 Agrega al contenedor del Label, el label creado
+        lblContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Designa el alignment del contenedor
+        lblContainer.setPadding(insetsHBox); // 00018523 Designa el padding del contenedor
+        tableContainer.setPrefWidth(600); // 00018523 Designa el ancho del contenedor para la tabla
+        tableContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Designa el alignment del contenedor para la tabla
+        tableContainer.setPadding(insetsHBox); // 00018523 Le agrega un padding al contenedor de la tabla
+        tableContainer.getChildren().add(tvData); // 00018523 Agrega al contenedor de la tabla, el TableView
+        tvData.setPlaceholder(new Label("No hay tarjetas en la base de datos")); // 00018523 Deja un mensaje si en la tabla no hay datos
 
-        try (Connection conn = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())){
-            try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
-                ps1.executeUpdate();
+        try (Connection conn = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())){ // 00018523 Realiza la conexión a la base de datos
+            try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00018523 Cambia a la base de datos específica
+                ps1.executeUpdate(); // 00018523 Ejecuta la actualización para usar la base de datos
             }
 
-            PreparedStatement ps = conn.prepareStatement("select t.numTarjeta as numTarjeta, t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta, t.idCliente as IDCliente from tarjeta t;");
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Tarjeta tarjeta = new Tarjeta(rs.getString("numTarjeta"), rs.getString("Facilitador"), rs.getString("TipoTarjeta"), rs.getInt("IDCliente"));
-                cardList.add(tarjeta);
+            PreparedStatement ps = conn.prepareStatement("select t.numTarjeta as numTarjeta, t.facilitador as Facilitador, t.tipoTarjeta as TipoTarjeta, t.idCliente as IDCliente from tarjeta t;"); // 00018523 Ejecuta la query para ver los datos en la base de datos
+            ResultSet rs = ps.executeQuery(); // 00018523 Ejecuta la consulta, y guarda el resultado de esta en un ResultSet
+            while (rs.next()) { // 00018523 Mientras la consulta tenga datos (Filas)
+                Tarjeta tarjeta = new Tarjeta(rs.getString("numTarjeta"), rs.getString("Facilitador"), rs.getString("TipoTarjeta"), rs.getInt("IDCliente")); // 00018523 Crea un nuevo objeto tarjeta con los datos de la fila actual
+                cardList.add(tarjeta); // 00018523 Añade a la lista, el objeto tipo Tarjeta
             }
 
-            conn.close();
-            tvData.setItems(cardList);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            conn.close(); // 00018523 Cierra la conexión
+            tvData.setItems(cardList); // 00018523 Añade todos los elementos de la lista al TableView
+        } catch (SQLException e) { // 00018523 Atrapa si hay una excepcion en labase de datos
+            e.printStackTrace(); // 00018523 Imprime el error en la consola
         }
 
-        container.getChildren().addAll(lblContainer, tableContainer);
+        container.getChildren().addAll(lblContainer, tableContainer); // 00018523 Añade el titulo (Label) y la tabla con los datos (TableView) al contenedor principal
     }
 
     @FXML
