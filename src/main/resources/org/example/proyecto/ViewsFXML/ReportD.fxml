@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="593.0" style="-fx-background-color: #000000;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ReportDController">
     <children>
-        <AnchorPane layoutX="5.0" layoutY="4.0" onDragDetected="#onBuscar" prefHeight="391.0" prefWidth="584.0" style="-fx-background-color: #ffffff;">
+        <AnchorPane layoutX="5.0" layoutY="4.0" prefHeight="391.0" prefWidth="584.0" style="-fx-background-color: #ffffff;">
             <children>
                 <VBox layoutX="-2.0" prefHeight="70.0" prefWidth="580.0">
                     <children>
@@ -33,8 +33,8 @@
                     </columns>
                 </TableView>
                 <Label layoutX="77.0" layoutY="101.0" text="Facilitador: " />
-            <ChoiceBox fx:id="comboBoxFacilitador" layoutX="138.0" layoutY="97.0" prefWidth="150.0" />
-            <Button layoutX="331.0" layoutY="97.0" mnemonicParsing="false" text="buscar" />
+                <ComboBox fx:id="comboBoxFacilitador" layoutX="138.0" layoutY="97.0" prefWidth="150.0" />
+                <Button layoutX="331.0" layoutY="97.0" mnemonicParsing="false" onAction="#onBuscar" text="Buscar" />
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="-10.0" top="10.0" />

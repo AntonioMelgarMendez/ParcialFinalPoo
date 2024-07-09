@@ -6,8 +6,6 @@ public class Cliente { // 00083823 Clase que representa a un cliente.
     private String apellido; // 00083823 Atributo que almacena el apellido del cliente.
     private String direccion;// 00009123 Dirreccion del cliente
     private String telefono;// 00009123 Telefono del cliente
-
-
     public Cliente(int idCliente, String nombre, String apellido, String direccion, String telefono) { // 00083823 Constructor que inicializa todos los atributos de la clase Cliente.
         this.idCliente = idCliente; // 00083823 Inicializa el ID del cliente.
         this.nombre = nombre; // 00083823 Inicializa el nombre del cliente.

@@ -10,17 +10,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.proyecto.Tables.TarjetaXTransaccion;
 import org.example.proyecto.Utilities.DataBaseCredentials;
+import org.example.proyecto.Utilities.SaveTXT;
 import org.example.proyecto.Utilities.SceneChanger;
-import static org.example.proyecto.Utilities.SaveTXT.SaveCReport;
-
 import java.sql.*;
-import java.util.Arrays;
-import java.util.List;
 
 public class ReportDController {
 
     @FXML
-    private ChoiceBox<String> comboBoxFacilitador;
+    private ComboBox<String> comboBoxFacilitador;
+
+    @FXML
+    private Button btnBuscar;
+
+    @FXML
+    private Button btnLimpiar;
+
+    @FXML
+    private Button btnSalir;
 
     @FXML
     private TableView<TarjetaXTransaccion> tbMostrarDatos;
@@ -41,86 +47,65 @@ public class ReportDController {
     private TableColumn<TarjetaXTransaccion, Double> tbTotal;
 
     @FXML
-    private Button btnLimpiar;
-
-    @FXML
-    private Button btnBuscar;
-
-    @FXML
-    private Button btnSalir;
-
-    // Initialize the database connection
-    private Connection connection;
-
-    public ReportDController() {
-        try {
-            connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     public void initialize() {
-        List<String> marcas = Arrays.asList("Visa", "MasterCard", "AmericanExpress");
-        comboBoxFacilitador.setItems(FXCollections.observableArrayList(marcas));
-        loadFacilitadores();
-        setupTableColumns();
-    }
+        comboBoxFacilitador.setItems(FXCollections.observableArrayList("Visa", "MasterCard", "AmericanExpress"));
 
-    private void loadFacilitadores() {
-        try {
-            String query = "SELECT DISTINCT facilitador FROM tarjeta";
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                comboBoxFacilitador.getItems().add(rs.getString("facilitador"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setupTableColumns() {
         tbidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
         tbidTransaccion.setCellValueFactory(new PropertyValueFactory<>("idTransaccion"));
         tbFacilitador.setCellValueFactory(new PropertyValueFactory<>("facilitador"));
         tbCantCompras.setCellValueFactory(new PropertyValueFactory<>("cantidadCompras"));
         tbTotal.setCellValueFactory(new PropertyValueFactory<>("totalMonto"));
+
+        tbMostrarDatos.setPlaceholder(new Label("No hay datos para mostrar"));
     }
 
     @FXML
-    void onBuscar(ActionEvent event) {
-        String selectedFacilitador = comboBoxFacilitador.getSelectionModel().getSelectedItem();
-        if (selectedFacilitador != null) {
-            loadTransacciones(selectedFacilitador);
+    public void onBuscar() {
+        String facilitador = comboBoxFacilitador.getValue();
+        if (facilitador == null || facilitador.isEmpty()) {
+            showAlert("ERROR", "Facilitador no seleccionado", "Por favor, seleccione un facilitador.");
+            return;
         }
-    }
 
-    private void loadTransacciones(String facilitador) {
-        ObservableList<TarjetaXTransaccion> transacciones = FXCollections.observableArrayList();
-        try {
-            String query = "SELECT c.idCliente, t.idTransaccion, ta.facilitador, COUNT(t.idTransaccion) AS cantidadCompras, SUM(t.totalMonto) AS totalMonto " +
-                    "FROM cliente c " +
-                    "JOIN tarjeta ta ON c.idCliente = ta.idCliente " +
-                    "JOIN transaccion t ON c.idCliente = t.idCliente " +
-                    "WHERE ta.facilitador = ? " +
-                    "GROUP BY c.idCliente, t.idTransaccion, ta.facilitador";
-            PreparedStatement pstmt = connection.prepareStatement(query);
-            pstmt.setString(1, facilitador);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                TarjetaXTransaccion transaccion = new TarjetaXTransaccion(
-                        rs.getInt("idCliente"),
-                        rs.getInt("idTransaccion"),
-                        rs.getString("facilitador"),
-                        rs.getInt("cantidadCompras"),
-                        rs.getDouble("totalMonto")
-                );
-                transacciones.add(transaccion);
+        ObservableList<TarjetaXTransaccion> dataList = FXCollections.observableArrayList();
+        try (Connection conn = DriverManager.getConnection(
+                DataBaseCredentials.getInstance().getUrl(),
+                DataBaseCredentials.getInstance().getUsername(),
+                DataBaseCredentials.getInstance().getPassword())) {
+
+            try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
+                ps1.executeUpdate();
             }
-            tbMostrarDatos.setItems(transacciones);
-            //SaveCReport(,transacciones);
+            String query = "SELECT c.idCliente AS 'ID Cliente', t.idTransaccion AS 'ID Transaccion', " +
+                    "tr.facilitador AS 'Facilitador', COUNT(t.idTransaccion) AS 'Cantidad de Compras', " +
+                    "SUM(t.totalMonto) AS 'Total' " +
+                    "FROM transaccion t " +
+                    "INNER JOIN cliente c ON t.idCliente = c.idCliente " +
+                    "INNER JOIN tarjeta tr ON c.idCliente = tr.idCliente " +
+                    "WHERE tr.facilitador = ? " +
+                    "GROUP BY c.idCliente, t.idTransaccion, tr.facilitador";
+
+            PreparedStatement ps2 = conn.prepareStatement(query);
+            ps2.setString(1, facilitador);
+            ResultSet rs = ps2.executeQuery();
+
+            while (rs.next()) {
+                TarjetaXTransaccion clienteTransaccion = new TarjetaXTransaccion(
+                        rs.getInt("ID Cliente"),
+                        rs.getInt("ID Transaccion"),
+                        rs.getString("Facilitador"),
+                        rs.getInt("Cantidad de Compras"),
+                        rs.getDouble("Total")
+                );
+                dataList.add(clienteTransaccion);
+            }
+
+            tbMostrarDatos.setItems(dataList);
+
+            if (!dataList.isEmpty()) {
+                int idCliente = dataList.get(0).getIdCliente();
+                SaveTXT.SaveDReport(idCliente, dataList, "reports");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -128,14 +113,22 @@ public class ReportDController {
     }
 
     @FXML
-    void onLimpiar(ActionEvent event) {
-        comboBoxFacilitador.getSelectionModel().clearSelection();
+    public void onLimpiar() {
+        comboBoxFacilitador.setValue(null);
         tbMostrarDatos.getItems().clear();
     }
 
     @FXML
-    void onVolver(ActionEvent event) {
+    public void onVolver(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         SceneChanger.changeScene(stage, "/org/example/proyecto/ViewsFXML/Main.fxml");
+    }
+
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
