@@ -32,7 +32,7 @@ import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
 import static org.example.proyecto.Utilities.SaveTXT.SaveDReport;
 
 
-public class ReportDController { // 00083823 Controller para
+public class ReportDController { // 00083823 Clase que actúa como controlador para la vista del Reporte D
     @FXML
     private ComboBox<String> comboBoxFacilitador; // 00083823 ComboBox para seleccionar el facilitador de tarjeta
 
@@ -46,104 +46,107 @@ public class ReportDController { // 00083823 Controller para
     private Button btnSalir; // 00083823 Botón para Salir de la vista del reporte D
 
     @FXML
-    private TableView<Cliente> tbMostrarDatos;
+    private TableView<Cliente> tbMostrarDatos; // 00083823 TableView para mostrar los datos de los clientes
 
     @FXML
-    private TableColumn<Cliente, Integer> tbidCliente;
+    private TableColumn<Cliente, Integer> tbidCliente; // 00083823 Columna para el ID del cliente
 
     @FXML
-    private TableColumn<Cliente, String> tbNombre;
+    private TableColumn<Cliente, String> tbNombre; // 00083823 Columna para el nombre del cliente
 
     @FXML
-    private TableColumn<Cliente, String> tbApellido;
+    private TableColumn<Cliente, String> tbApellido; // 00083823 Columna para el apellido del cliente
 
     @FXML
-    private TableColumn<Cliente, Integer> tbCantCompras;
+    private TableColumn<Cliente, Integer> tbCantCompras; // 00083823 Columna para la cantidad de compras realizadas por el cliente
 
     @FXML
-    private TableColumn<Cliente, Double> tbTotal;
+    private TableColumn<Cliente, Double> tbTotal; // 00083823 Columna para el total gastado por el cliente
 
     @FXML
-    public void initialize() {
-        comboBoxFacilitador.setItems(FXCollections.observableArrayList("Visa", "MasterCard", "AmericanExpress"));
+    public void initialize() {  //  00083823 Método de inicialización que se ejecuta automáticamente al cargar la vista
 
-        tbidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
-        tbNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        tbApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
-        tbCantCompras.setCellValueFactory(new PropertyValueFactory<>("cantidadCompras"));
-        tbTotal.setCellValueFactory(new PropertyValueFactory<>("totalGastado"));
+        comboBoxFacilitador.setItems(FXCollections.observableArrayList("Visa", "MasterCard", "AmericanExpress"));  // 00083823 Configura las opciones del ComboBox con los facilitadores disponibles
 
-        tbMostrarDatos.setPlaceholder(new Label("No hay datos para mostrar"));
+        // 00083823 Configura las columnas de la TableView para que tomen los datos correctos de la clase Cliente
+        tbidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente")); // 00083823 Asocia la columna con el atributo idCliente de la clase Cliente
+        tbNombre.setCellValueFactory(new PropertyValueFactory<>("nombre")); // 00083823 Asocia la columna con el atributo nombre de la clase Cliente
+        tbApellido.setCellValueFactory(new PropertyValueFactory<>("apellido")); // 00083823 Asocia la columna con el atributo apellido de la clase Cliente
+        tbCantCompras.setCellValueFactory(new PropertyValueFactory<>("cantidadCompras")); // 00083823 Asocia la columna con el atributo cantidadCompras de la clase Cliente
+        tbTotal.setCellValueFactory(new PropertyValueFactory<>("totalGastado")); // 00083823 Asocia la columna con el atributo totalGastado de la clase Cliente
+
+
+        tbMostrarDatos.setPlaceholder(new Label("No hay datos para mostrar")); // 00083823 Configura un mensaje de marcador de posición cuando no hay datos para mostrar en la TableView
     }
 
     @FXML
-    public void onBuscar() {
-        String facilitador = comboBoxFacilitador.getValue();
-        if (facilitador == null || facilitador.isEmpty()) {
-            showAlert("ERROR", "Facilitador no seleccionado", "Por favor, seleccione un facilitador.");
-            return;
+    public void onBuscar() { // 00083823 Método que se ejecuta cuando se presiona el botón Buscar
+        String facilitador = comboBoxFacilitador.getValue(); // 00083823 Obtiene el valor seleccionado del ComboBox
+        if (facilitador == null || facilitador.isEmpty()) { // 00083823  Verifica si no se ha seleccionado ningún facilitador y muestra una alerta en caso afirmativo
+            showAlert("ERROR", "Facilitador no seleccionado", "Por favor, seleccione un facilitador."); // 00083823 Llama al método showAlert para mostrar el mensaje de error
+            return; // 00083823 Sale del método si no se ha seleccionado ningún facilitador
         }
 
-        ObservableList<Cliente> dataList = FXCollections.observableArrayList();
-        try (Connection conn = DriverManager.getConnection(
-                DataBaseCredentials.getInstance().getUrl(),
-                DataBaseCredentials.getInstance().getUsername(),
-                DataBaseCredentials.getInstance().getPassword())) {
+        ObservableList<Cliente> dataList = FXCollections.observableArrayList(); // 00083823 Lista observable para almacenar los datos que se mostrarán en la TableView
+        try (Connection conn = DriverManager.getConnection( // 00083823 Intentar conectarse a la base de datos usando las credenciales almacenadas en DataBaseCredentials
+                DataBaseCredentials.getInstance().getUrl(), // 00083823 URL de la base de datos
+                DataBaseCredentials.getInstance().getUsername(), // 00083823 Nombre de usuario de la base de datos
+                DataBaseCredentials.getInstance().getPassword())) { // 00083823 Contraseña de la base de datos
 
-            try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
-                ps1.executeUpdate();
+            try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00083823 Cambia la base de datos a la especificada en las credenciales
+                ps1.executeUpdate(); // 00083823 Ejecuta la actualización para cambiar la base de datos
             }
-            String query = "SELECT c.idCliente AS 'ID Cliente', c.nombre AS Nombre, c.apellido AS Apellido, " +
-                    "COUNT(t.idTransaccion) AS 'Cantidad de Compras', SUM(t.totalMonto) AS Total " +
-                    "FROM transaccion t " +
-                    "INNER JOIN cliente c ON t.idCliente = c.idCliente " +
-                    "INNER JOIN tarjeta tr ON c.idCliente = tr.idCliente " +
-                    "WHERE tr.facilitador = ? " +
-                    "GROUP BY c.idCliente, c.nombre, c.apellido";
+            String query = "SELECT c.idCliente AS 'ID Cliente', c.nombre AS Nombre, c.apellido AS Apellido, " + // 00083823 Consulta SQL para obtener los datos de los clientes y sus transacciones
+                    "COUNT(t.idTransaccion) AS 'Cantidad de Compras', SUM(t.totalMonto) AS Total " + // 00083823 Consulta SQL para obtener los datos de los clientes y sus transacciones
+                    "FROM transaccion t " + // 00083823 Consulta SQL para obtener los datos de los clientes y sus transacciones
+                    "INNER JOIN cliente c ON t.idCliente = c.idCliente " + // 00083823 Consulta SQL para obtener los datos de los clientes y sus transacciones
+                    "INNER JOIN tarjeta tr ON c.idCliente = tr.idCliente " + // 00083823 Consulta SQL para obtener los datos de los clientes y sus transacciones
+                    "WHERE tr.facilitador = ? " + // 00083823 Consulta SQL para obtener los datos de los clientes y sus transacciones
+                    "GROUP BY c.idCliente, c.nombre, c.apellido"; // 00083823 Consulta SQL para obtener los datos de los clientes y sus transacciones
 
-            PreparedStatement ps2 = conn.prepareStatement(query);
-            ps2.setString(1, facilitador);
-            ResultSet rs = ps2.executeQuery();
+            PreparedStatement ps2 = conn.prepareStatement(query); // 00083823 Prepara la consulta SQL y establece el parámetro del facilitador seleccionado
+            ps2.setString(1, facilitador); // 00083823 Establece el valor del facilitador en la consulta SQL
+            ResultSet rs = ps2.executeQuery(); // 00083823 Ejecuta la consulta SQL y obtiene los resultados
 
-            while (rs.next()) {
-                Cliente cliente = new Cliente(
-                        rs.getInt("ID Cliente"),
-                        rs.getString("Nombre"),
-                        rs.getString("Apellido"),
-                        rs.getInt("Cantidad de Compras"),
-                        rs.getDouble("Total")
+            while (rs.next()) { // 00083823 Itera sobre los resultados de la consulta
+                Cliente cliente = new Cliente( // 00083823 Crea un objeto Cliente con los datos obtenidos de la consulta
+                        rs.getInt("ID Cliente"), // 00083823 Obtiene el ID del cliente
+                        rs.getString("Nombre"), // 00083823 Obtiene el Nombre del cliente
+                        rs.getString("Apellido"), // 00083823 Obtiene el Apellido del cliente
+                        rs.getInt("Cantidad de Compras"), // 00083823 Obtiene la Cantidad de Compras del cliente
+                        rs.getDouble("Total") // 00083823 Obtiene el total gastado por el cliente
                 );
-                dataList.add(cliente);
+                dataList.add(cliente); // 00083823 Añade el objeto Cliente a la lista observable
             }
-            tbMostrarDatos.setItems(dataList);
-                conn.close();
-                SaveDReport(facilitador, dataList);
+            tbMostrarDatos.setItems(dataList); // 00083823 Establece los datos obtenidos en la TableView
+                conn.close(); // 00083823 Cierra la conexión con la base de datos
+                SaveDReport(facilitador, dataList); // 00083823 Guarda el reporte usando el método SaveDReport
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) { // 00083823 Captura cualquier excepción SQL
+            e.printStackTrace(); // 00083823 Imprime el stack trace de la excepción
         }
     }
 
     @FXML
-    public void onLimpiar() {
-        comboBoxFacilitador.setValue(null);
-        tbMostrarDatos.getItems().clear();
+    public void onLimpiar() { // 00083823 Limpia la selección del ComboBox y los datos mostrados en la TableView
+        comboBoxFacilitador.setValue(null); // 00083823 Limpia la selección del ComboBox
+        tbMostrarDatos.getItems().clear(); // 00083823 Limpia los datos mostrados en la TableView
     }
 
     @FXML
-    public void onVolver(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        SceneChanger.changeScene(stage, "/org/example/proyecto/ViewsFXML/Main.fxml");
+    public void onVolver(ActionEvent event) { // 00083823 Método que se ejecuta al presionar el botón "Volver". Este método cambia la escena actual a la vista principal.
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // 00083823 Obtiene la ventana (Stage) actual a partir del evento de acción (event).
+        SceneChanger.changeScene(stage, "/org/example/proyecto/ViewsFXML/Main.fxml"); // 00083823 Cambia la escena actual a la vista principal utilizando el método changeScene de la clase SceneChanger.
     }
 
-    private void showAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
+    private void showAlert(String title, String header, String content) { // 00083823 Método para mostrar una alerta con un mensaje de error
+        Alert alert = new Alert(Alert.AlertType.ERROR); // 00083823 Crea un nuevo cuadro de alerta de tipo ERROR
+        alert.setTitle(title); // 00083823 Establece el título de la alerta
+        alert.setHeaderText(header); // 00083823 Establece el encabezado de la alerta
+        alert.setContentText(content); // 00083823 Establece el contenido del mensaje de la alerta
+        alert.showAndWait(); // 00083823 Muestra la alerta y espera a que el usuario la cierre
     }
 
-    public void onFacilitadores(ActionEvent actionEvent) {
+    public void onFacilitadores(ActionEvent actionEvent) { // 00083823 Implementacion vacía del evecto de seleccion de facilitadores (No afecta en nada)
     }
 }
