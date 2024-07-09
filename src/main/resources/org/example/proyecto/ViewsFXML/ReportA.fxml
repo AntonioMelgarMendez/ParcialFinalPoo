@@ -1,16 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.proyecto.Controllers.MainController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ReportAController">
+    <children>
+        <Button layoutX="311.0" layoutY="117.0" mnemonicParsing="false" onAction="#generateList" text="Generar lista" />
+        <Label layoutX="40.0" layoutY="44.0" text="ID Cliente:">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <TextField fx:id="idCliente" layoutX="120.0" layoutY="42.0" prefHeight="25.0" prefWidth="46.0" />
+        <DatePicker fx:id="fechaInicio" layoutX="120.0" layoutY="81.0" />
+        <DatePicker fx:id="fechaFin" layoutX="120.0" layoutY="117.0" />
+        <Label layoutX="33.0" layoutY="83.0" text="Fecha inicio:">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <Label layoutX="43.0" layoutY="119.0" text="Fecha fin:">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tableView" layoutX="33.0" layoutY="155.0" prefHeight="225.0" prefWidth="548.0">
+            <columns>
+                <TableColumn fx:id="columnIdCliente" prefWidth="75.0" text="ID Cliente" />
+                <TableColumn fx:id="columnIdTransaccion" prefWidth="93.0" text="ID Transaccion" />
+                <TableColumn fx:id="columnFechaCompra" prefWidth="123.0" text="Fecha Compra" />
+                <TableColumn fx:id="columnTotalMonto" prefWidth="99.0" text="Total Monto" />
+                <TableColumn fx:id="columnDescripcion" prefWidth="156.0" text="Descripcion" />
+            </columns>
+        </TableView>
+      <Button layoutX="533.0" layoutY="14.0" mnemonicParsing="false" onAction="#volver" text="volver" />
+      <Button layoutX="311.0" layoutY="81.0" mnemonicParsing="false" onAction="#limpiarCampos" text="limpiar" />
+      <Label layoutX="193.0" layoutY="16.0" text="Lista de compras por Fechas">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

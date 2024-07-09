@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="522.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.TransaccionController">
+    <children>
+        <Label layoutX="136.0" layoutY="23.0" text="Modificación de la tabla transacción">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tableView" layoutX="32.0" layoutY="286.0" prefHeight="209.0" prefWidth="455.0">
+            <columns>
+                <TableColumn fx:id="idTransaccionCol" prefWidth="88.0" text="idTransaccion" />
+                <TableColumn fx:id="idClienteCol" prefWidth="62.0" text="idCliente" />
+                <TableColumn fx:id="fechaCompraCol" prefWidth="90.0" text="FechaCompra" />
+                <TableColumn fx:id="totalMontoCol" prefWidth="96.0" text="TotalMonto" />
+                <TableColumn fx:id="descripcionCol" prefWidth="119.0" text="Descripcion" />
+            </columns>
+        </TableView>
+        <Button layoutX="268.0" layoutY="95.0" mnemonicParsing="false" onAction="#eliminarTransaccion" prefHeight="25.0" prefWidth="161.0" text="Eliminar por Id Transacción" />
+        <Button layoutX="268.0" layoutY="153.0" mnemonicParsing="false" onAction="#modificarTransaccion" text="Modificar por Id Transacción" />
+        <Button layoutX="324.0" layoutY="211.0" mnemonicParsing="false" onAction="#insertarTransaccion" text="Insertar" />
+        <TextField fx:id="idTransaccionFieldInsert" layoutX="121.0" layoutY="74.0" prefHeight="25.0" prefWidth="115.0" />
+        <Label layoutX="22.0" layoutY="77.0" text="Id transacción:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="50.0" layoutY="109.0" text="Id Cliente:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="idClienteField" layoutX="121.0" layoutY="107.0" prefHeight="25.0" prefWidth="115.0" />
+        <Label layoutX="27.0" layoutY="143.0" text="Fecha Compra: ">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <DatePicker fx:id="fechaCompraPickerInsert" layoutX="121.0" layoutY="140.0" prefHeight="25.0" prefWidth="115.0" />
+        <Label layoutX="35.0" layoutY="176.0" text="Total Monto:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="totalMontoField" layoutX="121.0" layoutY="173.0" prefHeight="25.0" prefWidth="115.0" />
+        <Label layoutX="46.0" layoutY="214.0" text="Descripcion:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="descripcionField" layoutX="121.0" layoutY="211.0" prefHeight="25.0" prefWidth="115.0" />
+        <Button layoutX="510.0" layoutY="286.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+        <Button layoutX="510.0" layoutY="319.0" mnemonicParsing="false" onAction="#mostrarTabla" text="Mostrar tabla" />
+        <Button layoutX="607.0" layoutY="472.0" mnemonicParsing="false" onAction="#volver" text="volver" />
+    </children>
+</AnchorPane>

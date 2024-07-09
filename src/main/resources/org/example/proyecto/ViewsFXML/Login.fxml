@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.LoginController">
+   <children>
+      <HBox alignment="CENTER" prefHeight="720.0" prefWidth="1280.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="720.0" prefWidth="605.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="243.0" prefWidth="605.0">
+                     <children>
+                        <ImageView fitHeight="212.0" fitWidth="210.0">
+                           <image>
+                              <Image url="@../Images/bank.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <Label text="Login">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="TOP_CENTER" prefHeight="87.0" prefWidth="605.0">
+                     <children>
+                        <Label prefHeight="51.0" prefWidth="88.0" text="User:">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="userField" prefHeight="55.0" prefWidth="242.0" promptText="root">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="87.0" prefWidth="605.0">
+                     <children>
+                        <Label text="Password:">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                        </Label>
+                        <PasswordField fx:id="passwordField" prefHeight="55.0" prefWidth="242.0" promptText="1234">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </PasswordField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="87.0" prefWidth="605.0">
+                     <children>
+                        <Label text="Port:">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="portField" prefHeight="55.0" prefWidth="242.0" promptText="3306">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="sendButton" mnemonicParsing="false" onAction="#onClickSendButton" text="Send">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="ExitButton" mnemonicParsing="false" onAction="#OnClickExitButton" text="Exit">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

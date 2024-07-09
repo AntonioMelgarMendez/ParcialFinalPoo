@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.proyecto.Controllers.MainController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ReportBController">
+   <children>
+      <Button layoutX="356.0" layoutY="15.0" mnemonicParsing="false" onAction="#Back" prefHeight="17.0" prefWidth="67.0" text="volver">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Label layoutX="126.0" layoutY="15.0" text="Gasto Total del mes ">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="24.0" layoutY="58.0" text="ID Cliente:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="idCliente" layoutX="119.0" layoutY="59.0" prefHeight="25.0" prefWidth="61.0" />
+      <Button layoutX="359.0" layoutY="56.0" mnemonicParsing="false" onAction="#limpiarCampos" prefHeight="31.0" prefWidth="61.0" text="limpiar">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <ChoiceBox fx:id="mesChoiceBox" layoutX="31.0" layoutY="98.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="anoChoiceBox" layoutX="31.0" layoutY="136.0" prefWidth="150.0" />
+      <Label layoutX="210.0" layoutY="119.0" prefHeight="17.0" prefWidth="61.0" text="Total:">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalLabel" layoutX="271.0" layoutY="111.0" prefHeight="50.0" prefWidth="103.0" text="0.00">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Label>
+      <Button layoutX="210.0" layoutY="59.0" mnemonicParsing="false" onAction="#calcularGasto" text="Calcular" />
+   </children>
+</AnchorPane>
