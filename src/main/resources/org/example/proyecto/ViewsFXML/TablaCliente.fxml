@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane  prefHeight="522.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.proyecto.Controllers.ClienteController">
+    <children>
+      <VBox alignment="CENTER" prefHeight="61.0" prefWidth="668.0">
+         <children>
+              <Label text="CRUD de la tabla Cliente">
+                  <font>
+                      <Font size="22.0" />
+                  </font>
+              </Label>
+         </children>
+      </VBox>
+        <TableView fx:id="tableView" layoutX="32.0" layoutY="286.0" prefHeight="209.0" prefWidth="455.0">
+            <columns>
+                <TableColumn fx:id="idClienteCol" prefWidth="88.0" text="IdCliente" />
+                <TableColumn fx:id="NombreCol" prefWidth="62.0" text="Nombre" />
+                <TableColumn fx:id="ApellidoCol" prefWidth="90.0" text="Apellido" />
+                <TableColumn fx:id="DireccionCol" prefWidth="96.0" text="Direccion" />
+                <TableColumn fx:id="TelefonoCol" prefWidth="119.0" text="Telefono" />
+            </columns>
+        </TableView>
+        <Button layoutX="260.0" layoutY="58.0" mnemonicParsing="false" onAction="#deleteClient" prefHeight="25.0" prefWidth="103.0" text="Eliminar por ID" />
+        <Button layoutX="383.0" layoutY="58.0" mnemonicParsing="false" onAction="#updateClient" text="Modificar por ID" />
+        <Button layoutX="135.0" layoutY="58.0" mnemonicParsing="false" onAction="#insertClient" prefHeight="25.0" prefWidth="103.0" text="Insertar cliente" />
+        <TextField fx:id="idCliente" layoutX="124.0" layoutY="104.0" prefHeight="25.0" prefWidth="115.0" />
+        <Label layoutX="66.0" layoutY="107.0" text="IdCliente:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label layoutX="67.0" layoutY="140.0" text="Nombre:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="Nombre" layoutX="124.0" layoutY="137.0" prefHeight="25.0" prefWidth="115.0" />
+        <Label layoutX="67.0" layoutY="173.0" text="Apellido: ">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <Label layoutX="66.0" layoutY="206.0" text="Direccion:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="Direccion" layoutX="124.0" layoutY="203.0" prefHeight="25.0" prefWidth="115.0" />
+        <Label layoutX="68.0" layoutY="244.0" text="Telefono:">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <TextField fx:id="telefono" layoutX="124.0" layoutY="241.0" prefHeight="25.0" prefWidth="115.0" />
+        <Button layoutX="260.0" layoutY="140.0" mnemonicParsing="false" onAction="#limpiarCampos" text="Limpiar" />
+        <Button layoutX="260.0" layoutY="173.0" mnemonicParsing="false" onAction="#mostrartabla" text="Mostrar tabla" />
+        <Button layoutX="260.0" layoutY="102.0" mnemonicParsing="false" onAction="#volver" prefHeight="25.0" prefWidth="55.0" text="Volver" />
+      <TextField fx:id="apellido" layoutX="124.0" layoutY="170.0" prefHeight="25.0" prefWidth="115.0" />
+     
+    </children>
+</AnchorPane>

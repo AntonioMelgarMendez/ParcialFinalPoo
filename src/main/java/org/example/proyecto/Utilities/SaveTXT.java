@@ -16,103 +16,71 @@ import java.util.List;
 import org.example.proyecto.Tables.Cliente;
 
 public class SaveTXT {
-    //00009123 Definimos el nombre de la carpeta
-    private static final String relativePath = "Reportes";
-    //00009123 Funcion para guardar datos del reporte A
-    public static void SaveAReport(String idCliente, LocalDate inicioDate, LocalDate finDate, List<Transaccion> transacciones) {
-        //00009123 Obtenemos el actual path
-        Path projectPath = Paths.get("").toAbsolutePath();
-        //00009123 Le agregamos la carpeta a la direccion actual
-        Path path = projectPath.resolve(relativePath);
-        //00009123 Intentamos crear la carpeta
-        try {
-            //00009123 Sino existe creamos la carpeta
-            Files.createDirectories(path);
-        } catch (IOException e) {
+    private static final String relativePath = "Reportes"; //00009123 Definimos el nombre de la carpeta
+    public static void SaveAReport(String idCliente, LocalDate inicioDate, LocalDate finDate, List<Transaccion> transacciones) { //00009123 Funcion para guardar datos del reporte A
+        Path projectPath = Paths.get("").toAbsolutePath(); //00009123 Obtenemos el actual path
+        Path path = projectPath.resolve(relativePath);//00009123 Le agregamos la carpeta a la direccion actual
+        try {//00009123 Intentamos crear la carpeta
+            Files.createDirectories(path);//00009123 Sino existe creamos la carpeta
+        } catch (IOException e) { //00009123 En caso de error mostramos el mensaje de que no se pudo crear directorio
             System.err.println("Error al crear el directorio: " + e.getMessage());
             return;
         }
-        //00009123 Obtenemos la fecha actual
-        LocalDateTime now = LocalDateTime.now();
-        //00009123 Creamos el formateo para poder formatear las horas para convertir a string
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        //00009123 Formateamos la fecha actual
-        String formattedDateTime = now.format(formatter);
-        //00009123 Definimos el nombre del archivo
-        String fileName = path.resolve("Reporte-A-" + formattedDateTime + ".txt").toString();
-        //00009123 Intentamos escribir datos en el archivo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            //00009123 Escribimos quien hizo la consulta
-            writer.write("Consulta realizada por cliente con ID: " + idCliente);
+        LocalDateTime now = LocalDateTime.now();//00009123 Obtenemos la fecha actual
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");//00009123 Creamos el formateo para poder formatear las horas para convertir a string
+        String formattedDateTime = now.format(formatter);//00009123 Formateamos la fecha actual
+        String fileName = path.resolve("Reporte-A-" + formattedDateTime + ".txt").toString();//00009123 Definimos el nombre del archivo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {//00009123 Intentamos escribir datos en el archivo
+            writer.write("Consulta realizada por cliente con ID: " + idCliente); //00009123 Escribimos quien hizo la consulta
             writer.newLine();
-            //00009123 Escribimos la fecha de inicio
-            writer.write("Fecha de inicio: " + inicioDate);
+            writer.write("Fecha de inicio: " + inicioDate);//00009123 Escribimos la fecha de inicio
             writer.newLine();
-            //00009123 Escribimos la fecha final
-            writer.write("Fecha de fin: " + finDate);
+            writer.write("Fecha de fin: " + finDate);//00009123 Escribimos la fecha final
             writer.newLine();
-            writer.write("Resultados de la consulta:");
+            writer.write("Resultados de la consulta:");//00009123 Escribimos un mensaje para todos los resultados
             writer.newLine();
             writer.write("-----------------------------------------");
             writer.newLine();
-            //00009123 Mostramos los campos
-            writer.write("Id_transaccion\tId_cliente\tFechaCompra\tMonto\tDescripcion");
-            //00009123 Creamos un DateTimeFormatter para formatear la fecha de la transaccion
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            writer.write("Id_transaccion\tId_cliente\tFechaCompra\tMonto\tDescripcion");//00009123 Mostramos los campos
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");//00009123 Creamos un DateTimeFormatter para formatear la fecha de la transaccion
             writer.newLine();
-            //00009123 Recorremos todas las transacciones
-            for (Transaccion transaccion : transacciones) {
-                //00009123 Escribimos todos los datos
-                writer.write(transaccion.getIdTransaccion()+"\t\t");
-                writer.write(transaccion.getIdCliente()+"\t\t");
-                //00009123 Debemos convertir la fecha a un string
-                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter)+"\t");
-                writer.write(Double.toString(transaccion.getTotalMonto())+"\t");
-                writer.write(transaccion.getDescripcion());
+            for (Transaccion transaccion : transacciones) {//00009123 Recorremos todas las transacciones
+                writer.write(transaccion.getIdTransaccion()+"\t\t");//00009123 Escribimos el id de la transaccion
+                writer.write(transaccion.getIdCliente()+"\t\t");//00009123 Escribimos el id cliente
+                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter)+"\t");//00009123 Debemos convertir la fecha a un string
+                writer.write(Double.toString(transaccion.getTotalMonto())+"\t");//00009123 Escribimos el total
+                writer.write(transaccion.getDescripcion());//00009123 Colocamos la descripcion
                 writer.newLine();
             }
-            //00009123 Imprimimos el archivo creado
-            System.out.println("Consulta guardada en: " + fileName);
+            System.out.println("Consulta guardada en: " + fileName);//00009123 Imprimimos el archivo creado
         } catch (IOException e) {
-            //00009123 Imprimimos el error en caso de que no se pudo guardar
-            System.err.println("Error al guardar datos en el archivo: " + e.getMessage());
+            System.err.println("Error al guardar datos en el archivo: " + e.getMessage());//00009123 Imprimimos el error en caso de que no se pudo guardar
         }
     }
-    //00009123 Funcion para guardar en el reporte B
-    public static void SaveBReport(String totalGasto, int idCliente, String anio, String mes) {
-        //00009123 Obtenemos el path actual
-        Path projectPath = Paths.get("").toAbsolutePath();
+    public static void SaveBReport(String totalGasto, int idCliente, String anio, String mes) {//00009123 Funcion para guardar en el reporte B
+        Path projectPath = Paths.get("").toAbsolutePath(); //00009123 Obtenemos el path actual
         Path path = projectPath.resolve(relativePath);
-        //00009123 Intentamos crear el folder
-        try {
+        try {//00009123 Intentamos crear el folder
             Files.createDirectories(path);
-        } catch (IOException e) {
-            //00009123 Terminamos la funcion en caso de que haya un problema
-            return;
+        } catch (IOException e) {//00009123 Terminamos la funcion en caso de que haya un problema
+            return;//00009123 Retornamos
         }
-        //00009123 Formatear la fecha y hora actual para el nombre del archivo
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-        String formattedDateTime = now.format(formatter);
-        //00009123 Le colocamos la direccion para que sea de tipo B
-        String fileName = path.resolve("Reporte-B-" + formattedDateTime + ".txt").toString();
-        //00009123 Intentamos crear el archivo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            //00009123 Colocamos el id del cliente
-            writer.write("ID Cliente: " + idCliente);
+        LocalDateTime now = LocalDateTime.now(); //00009123 Formatear la fecha y hora actual para el nombre del archivo
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");//00009123 Creamos un formatter para la fecha
+        String formattedDateTime = now.format(formatter); //00009123 Asignamos el formateador
+        String fileName = path.resolve("Reporte-B-" + formattedDateTime + ".txt").toString();//00009123 Le colocamos la direccion para que sea de tipo B
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {//00009123 Intentamos crear el archivo
+            writer.write("ID Cliente: " + idCliente);//00009123 Colocamos el id del cliente
             writer.newLine();
-            //00009123 Colocamos el anio y el mes
-            writer.write("Año: " + anio);
+            writer.write("Año: " + anio);//00009123 Colocamos el anio
             writer.newLine();
-            writer.write("Mes: " + mes);
+            writer.write("Mes: " + mes);//00009123 Colocamos el mes
             writer.newLine();
-            //00009123 Guardamos el total del gasto
-            writer.write("Total gasto: " + totalGasto);
+            writer.write("Total gasto: " + totalGasto);//00009123 Guardamos el total del gasto
             writer.newLine();
-            System.out.println("Contenido guardado en: " + fileName);
+            System.out.println("Contenido guardado en: " + fileName);//00009123 Imprimimos mensaje de depuracion
         } catch (IOException e) {
-            //00009123 Imprimimos en caso de que haya un problema
-            System.err.println("Error al guardar datos en el archivo: " + e.getMessage());
+            System.err.println("Error al guardar datos en el archivo: " + e.getMessage()); //00009123 Imprimimos en caso de que haya un problema
         }
     }
 

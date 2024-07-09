@@ -37,5 +37,10 @@ public class MainController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // 00038623 Obtiene la ventana actual desde el evento de acción
         stage.close(); // 00038623 Cierra la ventana actual
     }
+    @FXML
+    private void crud(ActionEvent event) { // 00038623 Define el método para manejar el evento del botón Reporte A
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // 00038623 Obtiene la ventana actual desde el evento de acción
+        SceneChanger.changeScene(stage,"/org/example/proyecto/ViewsFXML/TablaOpciones.fxml"); // 00038623 Cambia la escena a TablaOpciones.fxml
+    }
 }
 
