@@ -335,7 +335,7 @@ public class TarjetaController { // 00018523 Clase que permitira insertar, ver, 
         String cardFacilitador = facilitador.getValue(); // 00018523 Asigna a una variable lo ingresado en el ComboBox de el facilitador
         String cardTypeString = String.valueOf(cardType.getText().charAt(0)); // 00018523 Asigna a una variable el primer caracter de la selección de los RadioButtons (C o D)
 
-        if (flag){
+        if (flag){ // 00018523 Verifica que la bandera siga como verdadera para que no haya errores en la insercion de datos
             try (Connection conn = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())){ // 00018523 Realiza la conexión a la base de datos
                 try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00018523 Cambia a la base de datos específica
                     ps1.executeUpdate(); // 00018523 Ejecuta la actualización para usar la base de datos
@@ -389,65 +389,68 @@ public class TarjetaController { // 00018523 Clase que permitira insertar, ver, 
     }
 
     @FXML
-    public void onDeleteAction(){
-        container.getChildren().clear();
-        HBox dataContainer = new HBox();
-        Label lblCardNumber = new Label("Ingrese el numero de la tarjeta que quiere eliminar: ");
-        TextField tfCardNumber = new TextField();
-        dataContainer.setAlignment(Pos.TOP_CENTER);
-        dataContainer.setPadding(insetsHBox);
+    public void onDeleteAction(){ // 00018523 Método que se ejecutara cuando se presione el boton btnDelete
+        container.getChildren().clear(); // 00018523 Limpia el contenedor principal
+        HBox dataContainer = new HBox(); // 00018523 Crea un contenedor para poner la informacion que el usuario debe de poner
+        Label lblCardNumber = new Label("Ingrese el numero de la tarjeta que quiere eliminar: "); // 00018523 Crea un label para que el usuario sepa que escribir
+        TextField tfCardNumber = new TextField(); // 00018523 Crea un nuevo TextField para que el usuario ingrese el numero de la tarjeta
+        dataContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Asigna un alignment al contenedor de la tarjeta a eliminar
+        dataContainer.setPadding(insetsHBox); // 00018523 Asigna un padding al contenedor de la tarjeta a eliminar
 
-        HBox buttonContainer = new HBox();
-        Button btnClean = new Button("Limpiar datos");
-        Button btnDelete = new Button("Eliminar datos");
-        btnClean.setPadding(insetsHBox);
-        btnDelete.setPadding(insetsHBox);
-        buttonContainer.setAlignment(Pos.TOP_CENTER);
-        HBox.setMargin(btnClean, new Insets(5));
-        HBox.setMargin(btnDelete, new Insets(5));
-        buttonContainer.setPadding(insetsHBox);
+        HBox buttonContainer = new HBox(); // 00018523 Crea un contenedor para poner los botones
+        Button btnClean = new Button("Limpiar datos"); // 00018523 Crea un boton para limpiar datos
+        Button btnDelete = new Button("Eliminar datos"); // 00018523 Crea un boton para eliminar datos
+        btnClean.setPadding(insetsHBox); // 00018523 Le asigna un padding al boton
+        btnDelete.setPadding(insetsHBox); // 00018523 Le asigna un padding al boton
+        buttonContainer.setAlignment(Pos.TOP_CENTER); // 00018523 Asigna el alignment del contenedor para botones
+        HBox.setMargin(btnClean, new Insets(5)); // 00018523 Asigna un margen al boton
+        HBox.setMargin(btnDelete, new Insets(5)); // 00018523 Asigna un margen al boton
+        buttonContainer.setPadding(insetsHBox); // 00018523 Asigna un padding al contenedor de los botones
 
-        btnClean.setOnAction(e -> limpiarDatos(tfCardNumber));
-        btnDelete.setOnAction(e -> deleteData(tfCardNumber));
+        btnClean.setOnAction(e -> limpiarDatos(tfCardNumber)); // 00018523 Se define lo que hara el boton cuando se presione, En este caso llama a una funcion para limpiar datos en la clase CleanData
+        btnDelete.setOnAction(e -> deleteData(tfCardNumber)); // 00018523 Se define lo que hara el boton cuando se presione, En este caso llama a una funcion para eliminar un dato en la base de datos
 
-        dataContainer.getChildren().addAll(lblCardNumber, tfCardNumber);
-        buttonContainer.getChildren().addAll(btnClean, btnDelete);
-        container.getChildren().addAll(dataContainer, buttonContainer);
+        dataContainer.getChildren().addAll(lblCardNumber, tfCardNumber); // 00018523 Agrega al contenedor de la informacion a digitar el Label y TextField
+        buttonContainer.getChildren().addAll(btnClean, btnDelete); // 00018523 Agrega al contenedor de los botones, los botones creados anteriormente
+        container.getChildren().addAll(dataContainer, buttonContainer); // 00018523 Agrega al contenedor principal los contenedores anteriores
     }
 
-    public void deleteData(TextField tfCardNumber){
-        boolean flag = true;
-        if (tfCardNumber.getText().isEmpty()){
-            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el número de la tarjeta de crédito");
-        } else if (tfCardNumber.getText().isEmpty()){
-            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el número de la tarjeta de crédito");
-            flag = false;
+    public void deleteData(TextField tfCardNumber){ // 00018523 Se elimina el dato en la base de datos, en base a la información ingresada anteriormente
+        boolean flag = true; // 00018523 Asigna una bandera para que no haya errores al ingresar datos a la base de datos
+        if (!tfCardNumber.getText().matches("\\d*")){ // 00018523 Verifica que en el textfield solo haya datos númericos
+            AlertsManager.showAlert("ERROR","Información Errónea","Ocupa solo datos numéricos."); // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            tfCardNumber.setText(""); // 00018523 Asigna el TextField a nulo
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
 
-        } else if (tfCardNumber.getText().length() != 16){
-            AlertsManager.showAlert("ERROR","Cantidad de caracteres errónea","Número de la tarjeta tiene que ser de 16");
-            flag = false;
+        } else if (tfCardNumber.getText().isEmpty()){ // 00018523 Verifica si el TextField esta vacío
+            AlertsManager.showAlert("ERROR","Campo Vacío","Digite el número de la tarjeta de crédito");  // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
+
+        } else if (tfCardNumber.getText().length() != 16){ // 00018523 Verifica que la cantidad de caracteres sea de exactamente de 16
+            AlertsManager.showAlert("ERROR","Cantidad de caracteres errónea","Número de la tarjeta tiene que ser de 16"); // 00018523 Muestra una alerta para mostrar al usuario lo que ingreso mal
+            flag = false; // 00018523 Asigna la bandera a falso, para que no se pueda ingresar a la base de datos
         }
 
-        if (flag){
-            try (Connection connection = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())) {
-                try (PreparedStatement ps1 = connection.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) {
-                    ps1.executeUpdate();
+        if (flag){ // 00018523 Verifica que la bandera siga como verdadera para que no haya errores en la insercion de datos
+            try (Connection conn = DriverManager.getConnection(DataBaseCredentials.getInstance().getUrl(), DataBaseCredentials.getInstance().getUsername(), DataBaseCredentials.getInstance().getPassword())){ // 00018523 Realiza la conexión a la base de datos
+                try (PreparedStatement ps1 = conn.prepareStatement("USE " + DataBaseCredentials.getInstance().getDatabase())) { // 00018523 Cambia a la base de datos específica
+                    ps1.executeUpdate(); // 00018523 Ejecuta la actualización para usar la base de datos
                 }
 
-                PreparedStatement ps = connection.prepareStatement("delete from tarjeta where numTarjeta = ?;");
+                PreparedStatement ps = conn.prepareStatement("delete from tarjeta where numTarjeta = ?;"); // 00018523 Hace un query, donde eliminara un dato en base a lo que el usuario escribio
 
-                ps.setLong(1, Long.parseLong(tfCardNumber.getText()));
-                int result = ps.executeUpdate();
+                ps.setLong(1, Long.parseLong(tfCardNumber.getText())); // Asigna al primer ? el valor que el usuario escribio en el TextField
+                int result = ps.executeUpdate(); // 00018523 Ejecuta y guarda en una variable la cantidad de filas afectadas en la ejecucion del query
 
-                if (result == 0){
-                    AlertsManager.showAlert("ERROR","Error al ingresar datos","No se pudo registrar los datos a la base de datos");
-                } else if (result > 0) {
-                    AlertsManager.showAlert("DATOS ELIMINADOS","¡Datos eliminados con éxito!","Los datos fueron eliminados correctamente");
+                if (result == 0){ // 00018523 Si el numero de filas afectadas es cero, hace lo siguiente
+                    AlertsManager.showAlert("ERROR","Error al ingresar datos","No se pudo registrar los datos a la base de datos"); // 00018523 Muestra una alerta al usuario, "No se pudo ingresar los datos"
+                } else if (result > 0) { // 00018523 Si la cantidad de filas afectadas es mayor a cero, hace lo siguiente
+                    AlertsManager.showAlert("DATOS ELIMINADOS","¡Datos eliminados con éxito!","Los datos fueron eliminados correctamente"); // 00018523 Muestra un mensaje al usuario de exito
                 }
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-                AlertsManager.showAlert("ERROR","Error en la base de datos","La base de datos tuvo un error, vuelva a intentarlo");
+            } catch (SQLException e) { // 00018523 Atrapa una excepcion si ha habido un error en la conexion a la base de datos
+                e.printStackTrace(); // 00018523 Imprime en la consola el error
+                AlertsManager.showAlert("ERROR","Error en la base de datos","La base de datos tuvo un error, vuelva a intentarlo"); // 00018523 Muestra al usuario que ha habido un error en la conexion
             }
         }
     }
