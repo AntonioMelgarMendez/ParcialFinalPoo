@@ -1,0 +1,10 @@
+Consulta realizada por cliente con ID: 3
+Resultados de la consulta:
+-----------------------------------------
+
+Tarjetas de Crédito:
+	XXXX XXXX XXXX 0123
+
+Tarjetas de Débito:
+	XXXX XXXX XXXX 5678
+

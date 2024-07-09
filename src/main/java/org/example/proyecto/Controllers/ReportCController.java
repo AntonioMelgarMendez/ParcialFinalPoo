@@ -16,7 +16,6 @@ import org.example.proyecto.Utilities.SceneChanger;
 import java.sql.*;
 
 import static org.example.proyecto.Utilities.CleanData.limpiarDatos;
-import static org.example.proyecto.Utilities.SaveTXT.SaveAReport;
 import static org.example.proyecto.Utilities.SaveTXT.SaveCReport;
 
 public class ReportCController {    // 00018523 Controlador para buscar las tarjetas asociadas a un usuario
