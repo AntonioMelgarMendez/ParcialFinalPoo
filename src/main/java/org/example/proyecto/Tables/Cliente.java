@@ -6,8 +6,7 @@ public class Cliente { // 00083823 Clase que representa a un cliente.
     private String apellido; // 00083823 Atributo que almacena el apellido del cliente.
     private String direccion;// 00009123 Dirreccion del cliente
     private String telefono;// 00009123 Telefono del cliente
-    private int cantidadCompras; // 00083823 Atributo que almacena la cantidad de compras realizadas por el cliente.
-    private double totalGastado; // 00083823 Atributo que almacena el total gastado por el cliente.
+
 
     public Cliente(int idCliente, String nombre, String apellido, String direccion, String telefono) { // 00083823 Constructor que inicializa todos los atributos de la clase Cliente.
         this.idCliente = idCliente; // 00083823 Inicializa el ID del cliente.
@@ -15,16 +14,6 @@ public class Cliente { // 00083823 Clase que representa a un cliente.
         this.apellido = apellido; // 00083823 Inicializa el apellido del cliente.
         this.direccion = direccion;// 00009123 Inicializamos la direccion
         this.telefono = telefono;// 00009123 Inicializamos el numero de telefono
-    }
-
-    public Cliente(int idCliente, String nombre, String apellido, String direccion, String telefono, int cantidadCompras, double totalGastado) { // 00083823 Constructor que inicializa todos los atributos de la clase Cliente.
-        this.idCliente = idCliente; // 00083823 Inicializa el ID del cliente.
-        this.nombre = nombre; // 00083823 Inicializa el nombre del cliente.
-        this.apellido = apellido; // 00083823 Inicializa el apellido del cliente.
-        this.direccion = direccion;// 00009123 Inicializamos la direccion
-        this.telefono = telefono;// 00009123 Inicializamos el numero de telefono
-        this.cantidadCompras = cantidadCompras; // 00083823 Inicializa la cantidad de compras realizadas por el cliente.
-        this.totalGastado = totalGastado; // 00083823 Inicializa el total gastado por el cliente.
     }
 
     public int getIdCliente() { // 00083823 Método getter para obtener el ID del cliente.
@@ -67,20 +56,6 @@ public class Cliente { // 00083823 Clase que representa a un cliente.
         this.telefono = telefono;
     }
   
-    public int getCantidadCompras() { // 00083823 Método getter para obtener la cantidad de compras realizadas por el cliente.
-        return cantidadCompras; // 00083823 Retorna la cantidad de compras del cliente.
-    }
 
-    public void setCantidadCompras(int cantidadCompras) { // 00083823 Método setter para establecer la cantidad de compras realizadas por el cliente.
-        this.cantidadCompras = cantidadCompras; // 00083823 Establece la cantidad de compras con el valor proporcionado.
-    }
-
-    public double getTotalGastado() { // 00083823 Método getter para obtener el total gastado por el cliente.
-        return totalGastado; // 00083823 Retorna el total gastado por el cliente.
-    }
-
-    public void setTotalGastado(double totalGastado) { // 00083823 Método setter para establecer el total gastado por el cliente.
-        this.totalGastado = totalGastado; // 00083823 Establece el total gastado con el valor proporcionado.
-    }
 }
 

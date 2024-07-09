@@ -1,5 +1,6 @@
 package org.example.proyecto.Utilities;
 import org.example.proyecto.Tables.Tarjeta;
+import org.example.proyecto.Tables.TarjetaXTransaccion;
 import org.example.proyecto.Tables.Transaccion;
 
 import java.io.BufferedWriter;
@@ -17,6 +18,7 @@ import org.example.proyecto.Tables.Cliente;
 
 public class SaveTXT {
     private static final String relativePath = "Reportes"; //00009123 Definimos el nombre de la carpeta
+
     public static void SaveAReport(String idCliente, LocalDate inicioDate, LocalDate finDate, List<Transaccion> transacciones) { //00009123 Funcion para guardar datos del reporte A
         Path projectPath = Paths.get("").toAbsolutePath(); //00009123 Obtenemos el actual path
         Path path = projectPath.resolve(relativePath);//00009123 Le agregamos la carpeta a la direccion actual
@@ -45,10 +47,10 @@ public class SaveTXT {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");//00009123 Creamos un DateTimeFormatter para formatear la fecha de la transaccion
             writer.newLine();
             for (Transaccion transaccion : transacciones) {//00009123 Recorremos todas las transacciones
-                writer.write(transaccion.getIdTransaccion()+"\t\t");//00009123 Escribimos el id de la transaccion
-                writer.write(transaccion.getIdCliente()+"\t\t");//00009123 Escribimos el id cliente
-                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter)+"\t");//00009123 Debemos convertir la fecha a un string
-                writer.write(Double.toString(transaccion.getTotalMonto())+"\t");//00009123 Escribimos el total
+                writer.write(transaccion.getIdTransaccion() + "\t\t");//00009123 Escribimos el id de la transaccion
+                writer.write(transaccion.getIdCliente() + "\t\t");//00009123 Escribimos el id cliente
+                writer.write(transaccion.getFechaCompra().toLocalDate().format(dateFormatter) + "\t");//00009123 Debemos convertir la fecha a un string
+                writer.write(Double.toString(transaccion.getTotalMonto()) + "\t");//00009123 Escribimos el total
                 writer.write(transaccion.getDescripcion());//00009123 Colocamos la descripcion
                 writer.newLine();
             }
@@ -57,6 +59,7 @@ public class SaveTXT {
             System.err.println("Error al guardar datos en el archivo: " + e.getMessage());//00009123 Imprimimos el error en caso de que no se pudo guardar
         }
     }
+
     public static void SaveBReport(String totalGasto, int idCliente, String anio, String mes) {//00009123 Funcion para guardar en el reporte B
         Path projectPath = Paths.get("").toAbsolutePath(); //00009123 Obtenemos el path actual
         Path path = projectPath.resolve(relativePath);
@@ -167,47 +170,47 @@ public class SaveTXT {
         }
     }
 
-    public static void SaveDReport(String idCliente, List<Cliente> clientes) { // 00083823 Método estático para guardar el reporte en un archivo de texto
-        Path projectPath = Paths.get("").toAbsolutePath(); // 00083823 Obtiene el path actual
-        Path path = projectPath.resolve(relativePath); // 00083823 Resuelve la ruta completa para el archivo
+    public static void SaveDReport(int idCliente, List<TarjetaXTransaccion> transacciones, String relativePath) {
+        Path projectPath = Paths.get("").toAbsolutePath();
+        Path path = projectPath.resolve(relativePath);
 
-        try { // 00083823 Intentamos crear el directorio donde se guardará el archivo
-            Files.createDirectories(path); // 00083823  Crea el directorio si no existe
-        } catch (IOException e) { // 00083823 Captura cualquier excepción de entrada/salida
-            System.err.println("Error al crear el directorio: " + e.getMessage()); // 00083823 Imprime un mensaje de error
-            return; // 00083823 Sale del método en caso de error
+        try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            System.err.println("Error al crear el directorio: " + e.getMessage());
+            return;
         }
 
-        LocalDateTime now = LocalDateTime.now(); // 00083823 Obtiene la fecha y hora actual
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss"); // 00083823 Define el formato de fecha y hora
-        String formattedDateTime = now.format(formatter); // 00083823 Formatea la fecha y hora actual
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+        String formattedDateTime = now.format(formatter);
 
-        String fileName = path.resolve("Reporte-D-" + formattedDateTime + ".txt").toString(); // 00083823 Define el nombre del archivo incluyendo la fecha y hora formateada
+        String fileName = path.resolve("Reporte-D-" + formattedDateTime + ".txt").toString();
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) { // 00083823 Intentamos crear el archivo y escribir los datos
-            writer.write("Consulta realizada por cliente con facilitador: " + idCliente); // 00083823 Escribe el encabezado del reporte
-            writer.newLine(); // 00083823 Escribe una nueva línea
-            writer.write("Resultados de la consulta:"); // 00083823 Escribe el encabezado del reporte
-            writer.newLine(); // 00083823 Escribe una nueva línea
-            writer.write("-----------------------------------------"); // 00083823 Separación estética
-            writer.newLine(); // 00083823 Escribe una nueva línea
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            writer.write("Consulta realizada por cliente con facilitador: " + idCliente);
+            writer.newLine();
+            writer.write("Resultados de la consulta:");
+            writer.newLine();
+            writer.write("-----------------------------------------");
+            writer.newLine();
 
-            writer.write("ID_Cliente\tNombre\tApellido\tCantidad_Compras\tTotal_Gastado"); // 00083823 Escribe los nombres de las columnas
-            writer.newLine(); // 00083823 Escribe una nueva línea
+            writer.write("ID_Cliente\tid_Transaccion\tfacilitador\tCantidad_Compras\tTotal_Gastado");
+            writer.newLine();
 
-            for (Cliente cliente : clientes) { // 00083823 Recorre todos los clientes y escribe sus datos
-                // 00009123 Escribimos todos los datos del cliente
-                writer.write(cliente.getIdCliente() + "\t"); // 00083823 Escribe el ID del cliente
-                writer.write(cliente.getNombre() + "\t"); // 00083823 Escribe el Nombre del cliente
-                writer.write(cliente.getApellido() + "\t"); // 00083823 Escribe el Apellido del cliente
-                writer.write(cliente.getCantidadCompras() + "\t"); // 00083823 Escribe la Cantidad de Compras del cliente
-                writer.write(cliente.getTotalGastado() + "\t"); // 00083823 Escribe el total gastado por el cliente
-                writer.newLine(); // 00083823 Escribe una nueva línea
+            for (TarjetaXTransaccion transaccion : transacciones) {
+                writer.write(transaccion.getIdCliente() + "\t");
+                writer.write(transaccion.getIdTransaccion() + "\t");
+                writer.write(transaccion.getFacilitador() + "\t");
+                writer.write(transaccion.getCantidadCompras() + "\t");
+                writer.write(transaccion.getTotalMonto() + "\t");
+                writer.newLine();
             }
-            System.out.println("Consulta guardada en: " + fileName); // 00083823 Imprime el mensaje indicando que el archivo ha sido creado
-        } catch (IOException e) { // 00083823 Captura cualquier excepción de entrada/salida
-            System.err.println("Error al guardar datos en el archivo: " + e.getMessage()); // 00083823 Imprimimos el error en caso de que no se pudo guardar
-        }
-    }
 
+            System.out.println("Consulta guardada en: " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error al guardar datos en el archivo: " + e.getMessage());
+        }
+
+    }
 }
