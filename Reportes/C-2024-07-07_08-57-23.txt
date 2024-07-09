@@ -1,0 +1,11 @@
+Consulta realizada por cliente con ID: 1
+Resultados de la consulta:
+-----------------------------------------
+
+Tarjetas de Crédito:
+	XXXX XXXX XXXX 3456
+
+Tarjetas de Débito:
+	XXXX XXXX XXXX 8901
+	XXXX XXXX XXXX 9012
+
