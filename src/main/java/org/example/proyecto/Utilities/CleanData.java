@@ -28,4 +28,25 @@ public class CleanData { // 00018523 Esta clase resume todos los métodos para l
         facilitador.setValue(null); // 00018523 Asigna como valor predeterminado nulo al ComboBox
         tvData.getItems().clear(); // 00018523 Limpia los datos del TableView
     }
+
+    public static void limpiarDatos(TextField textField1, TextField textField2, ComboBox<String> comboBox, RadioButton... rdButtons) { // 00018523 Eliminará los datos de los siguientes contenedores: ComboBox, TableView
+        textField1.setText("");
+        textField2.setText("");
+        comboBox.setValue(null);
+        for (RadioButton rdButton : rdButtons){
+            rdButton.setSelected(false);
+        }
+    }
+
+    public static void limpiarDatos(TextField textField1, ComboBox<String> comboBox, RadioButton... rdButtons) { // 00018523 Eliminará los datos de los siguientes contenedores: ComboBox, TableView
+        textField1.setText("");
+        comboBox.setValue(null);
+        for (RadioButton rdButton : rdButtons){
+            rdButton.setSelected(false);
+        }
+    }
+
+    public static void limpiarDatos(TextField textField1) { // 00018523 Eliminará los datos de los siguientes contenedores: ComboBox, TableView
+        textField1.setText("");
+    }
 }
